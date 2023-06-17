@@ -22,16 +22,20 @@ class DataBaseHandler {
   }
 
   executeStoreProcedure(name, data) {
-    const queryParams = Object.values(data)
-      .map((value) => `'${value}'`)
-      .join(", ");
-    const query = `CALL ${name}(${queryParams})`;
-
-    this.__connection.query(query, (error, results, fields) => {
-      if (error) {
-        console.error('StoreProcedure execution failed: ', error);
-      }
-      console.log('Results: ', results);
+    return new Promise((resolve, reject) => {
+      const queryParams = Object.values(data)
+        .map((value) => `'${value}'`)
+        .join(", ");
+      const query = `CALL ${name}(${queryParams})`;
+  
+      this.__connection.query(query, (error, results, fields) => {
+        if (error) {
+          console.error('StoreProcedure execution failed: ', error);
+          reject(error);
+        } else {
+          resolve(results);
+        }
+      });
     });
   }
 

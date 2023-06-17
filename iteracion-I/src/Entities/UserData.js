@@ -1,4 +1,6 @@
 let UserData = {
+  username: "",
+  password: "",
   id: "",
   name: "",
   surname: "",
