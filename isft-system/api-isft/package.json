@@ -8,8 +8,8 @@
     "start": "nodemon api_index.js"
   },
   "keywords": [],
-  "author": "Kevin Daniel Taylor",
-  "license": "GPLv3",
+  "author": "Kevin Taylor",
+  "license": "MIT",
   "dependencies": {
     "dotenv": "^10.0.0",
     "mysql": "^2.18.1"

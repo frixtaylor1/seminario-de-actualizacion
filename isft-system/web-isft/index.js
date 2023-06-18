@@ -8,7 +8,11 @@ const server = http.createServer((req, res) => {
 
   if (url === '/') {
     filePath = path.join(__dirname, 'project', 'index.html');
-  } else {
+  } 
+  else if (url === '/login') {
+    filePath = path.join(__dirname, 'project', 'login.html');
+  } 
+  else {
     filePath = path.join(__dirname, 'project', url);
   }
 

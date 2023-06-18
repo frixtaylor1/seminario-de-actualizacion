@@ -97,5 +97,4 @@ window.onload = () => {
   makeReq(); 
   let form = new createUserForm();
   document.body.appendChild(form);
-
 }

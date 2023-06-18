@@ -9,8 +9,8 @@
     "dev": "nodemon index.js"
   },
   "keywords": [],
-  "author": "Kevin Daniel Taylor",
-  "license": "GPLv3",
+  "author": "Kevin Taylor",
+  "license": "MIT",
   "dependencies": {
     "mysql": "latest"
   },
