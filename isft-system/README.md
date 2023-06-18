@@ -48,4 +48,8 @@ Este proyecto está bajo la GPLv3. Para más información, consulta el archivo [
 
 ## Autor
 
-Este proyecto fue hecho por __Kevin Daniel Taylor__ en la materia **__Seminario de Actualización__** dirigida por el __Prof. Matias Gastón__
+Autor: **__Kevin Daniel Taylor__** 
+
+Materia: **__Seminario de Actualización__** 
+
+Profesor a cargo: **__Prof. Matias Gastón Santiago__**
