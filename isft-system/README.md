@@ -14,12 +14,13 @@ Debes crear un directorio llamado `db-isft` en el directorio raíz del proyecto.
 
 En el directorio `api-isft`, crea un archivo llamado `.env`. Este archivo contiene la configuración para la conexión a la base de datos. Aquí tienes un ejemplo del contenido del archivo `.env`:
 
+```
 DB_HOST='db'<br>
 DB_PORT=3306<br>
 DB_USER=dbuser<br>
 DB_PASSWORD=123456<br>
 DB_NAME=isft<br>
-
+```
 
 ¡ATENCIÓN! No cambies el valor de `DB_HOST` a otro diferente de 'db', ya que esta variable se utiliza como referencia al contenedor de la base de datos.
 
