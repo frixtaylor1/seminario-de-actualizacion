@@ -1,0 +1,20 @@
+{
+  "name": "api-isft",
+  "version": "1.0.0",
+  "description": "",
+  "main": "api_index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon api_index.js"
+  },
+  "keywords": [],
+  "author": "Kevin Taylor",
+  "license": "MIT",
+  "dependencies": {
+    "dotenv": "^10.0.0",
+    "mysql": "^2.18.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.22"
+  }
+}

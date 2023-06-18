@@ -1,0 +1,20 @@
+{
+  "name": "web-isft",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon index.js",
+    "dev": "nodemon index.js"
+  },
+  "keywords": [],
+  "author": "Kevin Taylor",
+  "license": "MIT",
+  "dependencies": {
+    "mysql": "latest"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.22"
+  }
+}
