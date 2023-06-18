@@ -44,4 +44,4 @@ Si deseas contribuir a este proyecto, siéntete libre de hacerlo. Puedes enviar 
 
 ## Licencia
 
-Este proyecto está bajo la Licencia MIT. Para más información, consulta el archivo [LICENSE](LICENSE).
+Este proyecto está bajo la Licencia MIT. Para más información, consulta el archivo [LICENSE](../LICENSE).
