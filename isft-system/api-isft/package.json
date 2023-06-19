@@ -9,7 +9,7 @@
   },
   "keywords": [],
   "author": "Kevin Taylor",
-  "license": "MIT",
+  "license": "GPLv3",
   "dependencies": {
     "dotenv": "^10.0.0",
     "mysql": "^2.18.1"

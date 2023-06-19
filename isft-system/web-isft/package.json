@@ -10,7 +10,7 @@
   },
   "keywords": [],
   "author": "Kevin Taylor",
-  "license": "MIT",
+  "license": "GPLv3",
   "dependencies": {
     "mysql": "latest"
   },
