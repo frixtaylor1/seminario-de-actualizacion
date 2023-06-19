@@ -1,0 +1,4 @@
+1. Realizar `Especificación` de la API.
+2. Agregar Constantes a la Base de Datos para los Grupos predefinidos.
+3. Realizar la implementación de los demás procedimientos almacenados.
+4. Abstraer el código del servidor de ISF-WEB.
