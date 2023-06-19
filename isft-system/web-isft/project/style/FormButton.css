@@ -1,0 +1,28 @@
+.bttn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 30px;
+  padding: 5px 10px;
+  background-color: #818CF8;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  margin: 10px auto;
+  
+}
+
+.bttn:hover {
+  background-color: #484cb8;
+  box-shadow: 0 0 20px rgba(129, 140, 248, 0.7);
+}
+
+.bttn:active,
+.bttn:focus {
+  background-color: #818CF8;
+  box-shadow: 0 0 30px rgba(129, 140, 248, 0.9);
+  outline: none;
+}

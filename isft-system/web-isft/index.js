@@ -8,11 +8,11 @@ const server = http.createServer((req, res) => {
 
   if (url === '/') {
     filePath = path.join(__dirname, 'project', 'index.html');
-  } 
-  else if (url === '/login') {
+  } else if (url === '/login') {
     filePath = path.join(__dirname, 'project', 'login.html');
-  } 
-  else {
+  } else if (url === '/register') {
+    filePath = path.join(__dirname, 'project', 'register.html');
+  } else {
     filePath = path.join(__dirname, 'project', url);
   }
 
@@ -47,7 +47,7 @@ const server = http.createServer((req, res) => {
   });
 });
 
-const PORT = 80; // Puerto en el que se ejecutará el servidor HTTP
+const PORT = 80;
 server.listen(PORT, () => {
   console.log(`Servidor web Node.js iniciado en el puerto ${PORT}`);
 });

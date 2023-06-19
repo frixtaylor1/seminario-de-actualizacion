@@ -1,0 +1,23 @@
+a {
+    color: #818CF8;
+    text-decoration: none;
+    padding: 5px;
+    font-size: 1rem;
+    font-weight: 700;
+    
+  }
+  
+  a:hover {
+    background-color: #818CF8;
+    color: white;
+    border-radius: 5px;
+  
+    box-shadow: 0 0 10px rgba(129, 140, 248, 0.5);
+  }
+  
+  a:active {
+    background-color: #818CF8 solid;
+    color: white solid;
+    border-radius: 5px solid;
+    box-shadow: 0 0 10px rgba(129, 140, 248, 0.5);
+  }

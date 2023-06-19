@@ -16,7 +16,7 @@ class ClassicInput extends HTMLElement {
       this.appendChild(this.input);
   
       let style = document.createElement('style');
-      style.innerText = `@import './style/input.css';`;
+      style.innerText = `@import './style/Input.css';`;
   
       this.appendChild(style);
     }
@@ -24,4 +24,4 @@ class ClassicInput extends HTMLElement {
   
   customElements.define('x-classicinput', ClassicInput);
 
-  export { ClassicInput };
+export { ClassicInput };
