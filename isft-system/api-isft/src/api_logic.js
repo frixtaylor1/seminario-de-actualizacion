@@ -7,11 +7,6 @@ const dotenv = require('dotenv');
 dotenv.config();
 
 function dbConfig() {
-  console.log(process.env.DB_HOST);
-  console.log(process.env.DB_PORT);
-  console.log(process.env.DB_USER);
-  console.log(process.env.DB_PASSWORD);
-  console.log(process.env.DB_NAME);
   return {
     host: process.env.DB_HOST,
     port: process.env.DB_PORT,
@@ -51,11 +46,23 @@ function CallbackCreateUser(requestData, responseCallback) {
   }
 }
 
+function CallbackSignIn(requestData, responseCallback) {
+  try {
+    (async () => {
+    let message = { 'message': 'good call' }; 
+    responseCallback(200, message);
+    })();
+  } catch(error) {
+    responseCallback(200, { 'message': 'Invalid JSON' });
+  }
+}
+
 function start_api() {
   const api = new Server();
 
   api.get('/greet', ResponseGreet);
   api.post('/createUser', CallbackCreateUser);
+  api.get('/signIn', CallbackSignIn);
 
   api.start(3000);
 }

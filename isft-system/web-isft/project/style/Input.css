@@ -8,7 +8,7 @@
 
 .coolinput label.text {
     font-size: 0.75rem;
-    color: #818CF8;
+    color: #593e8a;
     font-weight: 700;
     position: relative;
     top: 0.5rem;
@@ -17,10 +17,10 @@
     background: #e8e8e8;
     width: fit-content;
     border-radius: 5px;
-    border: 2px #818CF8 solid;
+    border: 2px #593e8a solid;
 }
 label.text:hover {
-    background-color: #818CF8;
+    background-color: #593e8a;
     color: #e8e8e8;
 }
 
@@ -28,7 +28,7 @@ label.text:hover {
 .coolinput input[type=password].input {
     padding: 11px 10px;
     font-size: 0.75rem;
-    border: 2px #818CF8 solid;
+    border: 2px #593e8a solid;
     border-radius: 5px;
     background: #e8e8e8;
 }

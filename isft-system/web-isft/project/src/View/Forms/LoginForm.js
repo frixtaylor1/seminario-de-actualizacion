@@ -36,9 +36,7 @@ class LoginForm extends HTMLElement {
     this.loginButton.onclick = (e) => this.onLoginButton(e);
     this.registerButton.onclick = (e) => this.onRegisterButton(e);
   }
-  async onRegisterButton(event) {
-    
-  }
+
   async onLoginButton(event) {
   /*   let formDataObject =
     {

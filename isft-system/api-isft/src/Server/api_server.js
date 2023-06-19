@@ -20,6 +20,7 @@ class Server {
   }
 
   handleRequest(req, res) {
+    res.setHeader('Access-Control-Allow-Origin', '*');
     const method = req.method;
     const url = req.url;
     const key = method + ' ' + url;

@@ -5,7 +5,6 @@ class Button extends HTMLElement {
     this.classList.add(htmlClass);
     this.innerText = text;
     this.pagePath = pagePath;
-
     if(pagePath != "") {
       this.href = pagePath;
     }

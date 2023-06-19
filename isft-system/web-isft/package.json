@@ -12,6 +12,7 @@
   "author": "Kevin Taylor",
   "license": "GPLv3",
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "mysql": "latest"
   },
   "devDependencies": {

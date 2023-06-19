@@ -4,7 +4,7 @@
   align-items: center;
   margin-top: 30px;
   padding: 5px 10px;
-  background-color: #818CF8;
+  background-color: #593e8a;
   color: white;
   border: none;
   border-radius: 5px;
@@ -16,13 +16,13 @@
 }
 
 .bttn:hover {
-  background-color: #484cb8;
-  box-shadow: 0 0 20px rgba(129, 140, 248, 0.7);
+  background-color: #31185f;
+  box-shadow: 0 0 20px rgba(200, 112, 235, 0.973);
 }
 
 .bttn:active,
 .bttn:focus {
-  background-color: #818CF8;
-  box-shadow: 0 0 30px rgba(129, 140, 248, 0.9);
+  background-color: #593e8a;
+  box-shadow: 0 0 30px rgba(155, 89, 218, 0.9);
   outline: none;
 }
