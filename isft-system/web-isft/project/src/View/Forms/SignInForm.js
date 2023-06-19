@@ -1,7 +1,7 @@
 import { ClassicInput } from "../Inputs/ClassicInput.js";
 import { Button } from "../Buttons/Button.js";
 
-class LoginForm extends HTMLElement {
+class SignInForm extends HTMLElement {
   constructor() {
     super();
     this.classList.add('form-box');
@@ -15,9 +15,6 @@ class LoginForm extends HTMLElement {
 
     this.loginButton = new Button('sign in', 'bttn', './style/FormButton.css'); 
     this.registerButton = new Button('sign up', 'bttn', './style/FormButton.css', '/register');
-
-    this.registerButton.href = '/register'
-
   }
 
   render() {
@@ -33,34 +30,9 @@ class LoginForm extends HTMLElement {
 
   connectedCallback() {
     this.render();
-    this.loginButton.onclick = (e) => this.onLoginButton(e);
-    this.registerButton.onclick = (e) => this.onRegisterButton(e);
-  }
-
-  async onLoginButton(event) {
-  /*   let formDataObject =
-    {
-      'nickname':   this.usernicknameInput.value,
-      'password':   this.passwordInput.value,
-      'name':       this.nameInput.value,
-      'surname':    this.surnameInput.value,
-      'dni':        this.dniInput.value,
-      'gender':     this.genderInput.value,
-      'telephone':  this.telephoneInput.value,
-    };
-
-    let response = await fetch('http://localhost:3036/createUser',
-      {
-        method: 'POST',
-        body: JSON.stringify(formDataObject)
-      });
-
-    response.json().then((r) => {
-      console.log(r);
-    }); */
   }
 }
 
-customElements.define('x-loginform', LoginForm);
+customElements.define('x-signinform', SignInForm);
 
-export { LoginForm };
+export { SignInForm };

@@ -16,11 +16,11 @@ function dbConfig() {
   };
 }
 
-function ResponseGreet(requestData, resopnseCallback) {
+function responseGreet(requestData, resopnseCallback) {
   const message = { message: 'Hello, World!' };
   resopnseCallback(200, message);
 }
-function CallbackCreateUser(requestData, responseCallback) {
+function callbackSignUp(requestData, responseCallback) {
   let userHandler = new UserHandler(new DataBaseHandler((dbConfig())));
   
   try {
@@ -46,7 +46,7 @@ function CallbackCreateUser(requestData, responseCallback) {
   }
 }
 
-function CallbackSignIn(requestData, responseCallback) {
+function callbackSignIn(requestData, responseCallback) {
   try {
     (async () => {
     let message = { 'message': 'good call' }; 
@@ -60,9 +60,9 @@ function CallbackSignIn(requestData, responseCallback) {
 function start_api() {
   const api = new Server();
 
-  api.get('/greet', ResponseGreet);
-  api.post('/createUser', CallbackCreateUser);
-  api.get('/signIn', CallbackSignIn);
+  api.get('/greet', responseGreet);
+  api.post('/signUp', callbackSignUp);
+  api.get('/signIn', callbackSignIn);
 
   api.start(3000);
 }

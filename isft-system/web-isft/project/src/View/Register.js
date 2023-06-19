@@ -1,10 +1,27 @@
-import { UnlogedNavBar } from "./Menus/UnlogedNavBar.js";
+import { UnlogedNavBar } from './Menus/UnlogedNavBar.js';
+import { SignUpForm } from './Forms/SignUpForm.js';
 
-window.onload = () => { 
-  let navBar = new UnlogedNavBar();
-  document.body.appendChild(navBar);
-  document.body.style = `background: #e8e8e8;`;
+import { ApiController } from '../ServerModel/ApiCallController.js';
+import { SignUpController } from '../Controller/SignUpController.js';
+import { SignUpModel } from '../Model/SignUpModel.js';
+
+class Register {
+  constructor() {
+    this.navBar = new UnlogedNavBar();
+    this.form = new SignUpForm();
+    this.signUpController = new SignUpController(this.form, new SignUpModel(new ApiController('http://localhost:3036')) );
+  }
 }
+
+function startApplication() {
+  let register = new Register(); 
+  document.body.appendChild(register.navBar);
+  document.body.appendChild(register.form);
+  document.body.style = `background: #e8e8e8;`;
+
+}
+
+window.onload = startApplication();
 
 /* 
 function makeReq() {

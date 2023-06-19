@@ -1,3 +1,5 @@
+import { Crypto } from "./Crypto.js";
+
 class SignInController {
   constructor(loginFormViewReference, SignInModelReference) {
     this.viewReference = loginFormViewReference;
@@ -7,9 +9,9 @@ class SignInController {
   }
 
   async onLogin() {
-    const password = this.viewReference.passwordInput.input.value;
-    const hashedPassword = password;
-
+    let hasher = new Crypto('SHA-256');
+    const hashedPassword = await hasher.hash(this.viewReference.passwordInput.input.value);
+    
     const userData = {
       'nickname': this.viewReference.usernameInput.input.value,
       'password': hashedPassword

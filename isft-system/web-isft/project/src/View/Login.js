@@ -1,5 +1,5 @@
 import { UnlogedNavBar } from './Menus/UnlogedNavBar.js';
-import { LoginForm } from './Forms/LoginForm.js';
+import { SignInForm } from './Forms/SignInForm.js';
 import { SignInController } from '../Controller/SignInController.js';
 import { SignInModel } from '../Model/SignInModel.js';
 import { ApiController } from '../ServerModel/ApiCallController.js';
@@ -7,7 +7,7 @@ import { ApiController } from '../ServerModel/ApiCallController.js';
 class Login {
   constructor() {
     this.navBar = new UnlogedNavBar();
-    this.form = new LoginForm();
+    this.form = new SignInForm();
     this.signInController = new SignInController(this.form, new SignInModel(new ApiController('http://localhost:3036')) );
   }
 }
