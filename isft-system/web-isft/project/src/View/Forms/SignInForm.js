@@ -31,6 +31,14 @@ class SignInForm extends HTMLElement {
   connectedCallback() {
     this.render();
   }
+
+  getInputUserNameValue() {
+    return this.usernameInput.input.value;
+  }
+
+  getInputPasswordValue() {
+    return this.passwordInput.input.value;
+  }
 }
 
 customElements.define('x-signinform', SignInForm);

@@ -6,7 +6,7 @@ class UnlogedNavBar extends HTMLElement {
       this.itemHome = document.createElement('li'); 
       this.homeButton = document.createElement('a');
       this.homeButton.innerText = 'Home';
-      this.homeButton.href = '/';
+      this.homeButton.href = '/home';
   
       this.itemLogin = document.createElement('li'); 
       this.loginButton = document.createElement('a');

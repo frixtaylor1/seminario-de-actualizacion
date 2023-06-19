@@ -3,6 +3,7 @@ import { SignInForm } from './Forms/SignInForm.js';
 import { SignInController } from '../Controller/SignInController.js';
 import { SignInModel } from '../Model/SignInModel.js';
 import { ApiController } from '../ServerModel/ApiCallController.js';
+import { IsftLoader } from './Loader/IsftLoader.js';
 
 class Login {
   constructor() {

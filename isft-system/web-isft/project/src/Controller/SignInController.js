@@ -5,23 +5,27 @@ class SignInController {
     this.viewReference = loginFormViewReference;
     this.modelReference = SignInModelReference;
 
-    this.viewReference.loginButton.addEventListener( 'click', () => { this.onLogin() } );
+    this.viewReference.loginButton.addEventListener( 'click', () => { this.__onLogin() } );
   }
 
-  async onLogin() {
-    let hasher = new Crypto('SHA-256');
-    const hashedPassword = await hasher.hash(this.viewReference.passwordInput.input.value);
-    
-    const userData = {
-      'nickname': this.viewReference.usernameInput.input.value,
-      'password': hashedPassword
-    };
+  async __onLogin() {
+    if(this.viewReference.getInputUserNameValue() === "" || this.viewReference.getInputPasswordValue() === "") {
+      this.viewReference.getInputUserNameValue()
+    } else {
+      let hasher = new Crypto('SHA-256');
+      const hashedPassword = await hasher.hash(this.viewReference.getInputPasswordValue());
+      
+      const userData = {
+        'nickname': this.viewReference.getInputUserNameValue(),
+        'password': hashedPassword
+      };
 
-    try {
-      const result = await this.modelReference.signIn(userData);
-      this.__callbackApiCall(null, result);
-    } catch (error) {
-      this.__callbackApiCall(error, null);
+      try {
+        const result = await this.modelReference.signIn(userData);
+        this.__callbackApiCall(null, result);
+      } catch (error) {
+        this.__callbackApiCall(error, null);
+      }
     }
   }
 
