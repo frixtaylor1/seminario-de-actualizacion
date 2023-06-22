@@ -8,13 +8,13 @@ class SignUpForm extends HTMLElement {
 
     this.containerForm = document.createElement('div');
 
-    this.usernameInput = new ClassicInput('Username', 'write your username...', 'text');
-    this.passwordInput = new ClassicInput('Password', 'write your password...', 'password');
-    this.nameInput = new ClassicInput('Name', 'write your name...', 'text');
-    this.surnameInput = new ClassicInput('Surname', 'write your surname...', 'text');
-    this.dniInput = new ClassicInput('Dni', 'write your dni...', 'text');
-    this.genderInput = new ClassicInput('Gender', 'write your gender...', 'text');
-    this.telephoneInput = new ClassicInput('Telephone', 'write your telephone...', 'text');
+    this.usernameInput = new ClassicInput('Username', true, 'write your username...', 'text');
+    this.passwordInput = new ClassicInput('Password', true, 'write your password...', 'password');
+    this.nameInput = new ClassicInput('Name', true, 'write your name...', 'text');
+    this.surnameInput = new ClassicInput('Surname', true, 'write your surname...', 'text');
+    this.dniInput = new ClassicInput('Dni', true, 'write your dni...', 'text');
+    this.genderInput = new ClassicInput('Gender', true, 'write your gender...', 'text');
+    this.telephoneInput = new ClassicInput('Telephone', true, 'write your telephone...', 'text');
 
     this.registerButton = new Button('register', 'bttn', './style/FormButton.css');
 
@@ -29,31 +29,31 @@ class SignUpForm extends HTMLElement {
   }
 
   getInputUserNameValue() {
-    return this.usernameInput.input.value;
+    return this.usernameInput.getInputValue();
   }
 
   getInputPasswordValue() {
-    return this.passwordInput.input.value;
+    return this.passwordInput.getInputValue();
   }
 
   getInputNameValue() {
-    return this.nameInput.input.value;
+    return this.nameInput.getInputValue();
   }
 
   getInputSurnameValue() {
-    return this.surnameInput.input.value;
+    return this.surnameInput.getInputValue();
   }
 
   getInputDniValue() {
-    return this.dniInput.input.value;
+    return this.dniInput.getInputValue();
   }
 
   getInputGenderValue() {
-    return this.genderInput.input.value;
+    return this.genderInput.getInputValue();
   }
 
   getInputTelephoneValue() {
-    return this.telephoneInput.input.value;
+    return this.telephoneInput.getInputValue();
   }
 
   render() {

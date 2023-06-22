@@ -6,31 +6,15 @@
     max-width: 240px;
 }
 
-.coolinput label.text {
-    font-size: 0.75rem;
-    color: #593e8a;
-    font-weight: 700;
-    position: relative;
-    top: 0.5rem;
-    margin: 0 0 0 7px;
-    padding: 0 3px;
-    background: #e8e8e8;
-    width: fit-content;
-    border-radius: 5px;
-    border: 2px #593e8a solid;
-}
-label.text:hover {
-    background-color: #593e8a;
-    color: #e8e8e8;
-}
-
 .coolinput input[type=text].input,
 .coolinput input[type=password].input {
     padding: 11px 10px;
-    font-size: 0.75rem;
     border: 2px #593e8a solid;
     border-radius: 5px;
-    background: #e8e8e8;
+    background: transparent;
+    font-size: 0.75rem;
+    font-weight: bold;
+    color: #31185f;
 }
 
 .coolinput input[type=text].input:focus,

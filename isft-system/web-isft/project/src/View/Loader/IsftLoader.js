@@ -1,5 +1,5 @@
 class IsftLoader extends HTMLElement {
-  constructor(path = '/home') {
+  constructor(path = null) {
     super();
     this.path = path;
 
@@ -25,10 +25,11 @@ class IsftLoader extends HTMLElement {
     let style = document.createElement('style');
     style.innerText = `@import './style/IsftLoader.css'`;
     this.appendChild(style);
-
-    setTimeout(() => {
-      this.handleItemClick();
-    }, 2500);
+    if(this.path !== null) {
+      setTimeout(() => {
+        this.handleItemClick();
+      }, 2500);
+    }
   }
 
   handleItemClick(event) {

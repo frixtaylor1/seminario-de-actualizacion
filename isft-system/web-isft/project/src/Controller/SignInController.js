@@ -10,7 +10,6 @@ class SignInController {
 
   async __onLogin() {
     if(this.viewReference.getInputUserNameValue() === "" || this.viewReference.getInputPasswordValue() === "") {
-      this.viewReference.getInputUserNameValue()
     } else {
       let hasher = new Crypto('SHA-256');
       const hashedPassword = await hasher.hash(this.viewReference.getInputPasswordValue());

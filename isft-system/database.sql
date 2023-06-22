@@ -82,7 +82,8 @@ CREATE TABLE `group_has_user` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 INSERT INTO `group_has_user` (`idgroup_has_user`, `group_idgroup`, `user_iduser`) VALUES
-(1,	2,	1);
+(1,	2,	1),
+(2,	2,	2);
 
 DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user` (
@@ -95,7 +96,19 @@ CREATE TABLE `user` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 INSERT INTO `user` (`iduser`, `nickname`, `password`, `isactive`) VALUES
-(1,	'frix',	'123456',	1);
+(1,	'asd',	'688787d8ff144c502c7f5cffaafe2cc588d86079f9de88304c26b0cb99ce91c6',	1),
+(2,	'asdd',	'cc00113f2c36b6d0e501dd832771ce5db7b41c1d77edb22b5fde8baf1c5e449b',	1);
+
+DELIMITER ;;
+
+CREATE TRIGGER `ut_check_user_fields` BEFORE INSERT ON `user` FOR EACH ROW
+BEGIN
+  IF NEW.nickname IS NULL THEN
+    SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'No se permiten valores nulos en los campos';
+  END IF;
+END;;
+
+DELIMITER ;
 
 DROP TABLE IF EXISTS `user_data`;
 CREATE TABLE `user_data` (
@@ -110,7 +123,19 @@ CREATE TABLE `user_data` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 INSERT INTO `user_data` (`iduser_data`, `name`, `surname`, `dni`, `gender`, `telephone`) VALUES
-(1,	'Kevin',	'Taylor',	'40923413',	'male',	'123123213');
+(1,	'asd',	'asd',	'asd',	'asd',	'asd'),
+(2,	'asdd',	'asdd',	'asdd',	'asdd',	'asdd');
+
+DELIMITER ;;
+
+CREATE TRIGGER `ut_check_user_data_fields` BEFORE INSERT ON `user_data` FOR EACH ROW
+BEGIN
+  IF NEW.name IS NULL OR NEW.surname IS NULL OR NEW.dni IS NULL OR NEW.gender IS NULL OR NEW.telephone IS NULL THEN
+    SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'No se permiten valores nulos en los campos';
+  END IF;
+END;;
+
+DELIMITER ;
 
 DROP TABLE IF EXISTS `user_has_user_data`;
 CREATE TABLE `user_has_user_data` (
@@ -125,6 +150,7 @@ CREATE TABLE `user_has_user_data` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 INSERT INTO `user_has_user_data` (`user_data_iduser_data`, `user_iduser`) VALUES
-(1,	1);
+(1,	1),
+(2,	2);
 
--- 2023-06-17 17:46:01
+-- 2023-06-22 18:41:39

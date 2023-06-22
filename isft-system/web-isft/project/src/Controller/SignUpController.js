@@ -11,7 +11,7 @@ class SignUpController {
   async onRegister() {
     let hasher = new Crypto('SHA-256');
     const hashedPassword = await hasher.hash(this.viewReference.getInputPasswordValue());
-
+  
     const userData = {
       'nickname': this.viewReference.getInputUserNameValue(),
       'password': hashedPassword,
@@ -21,13 +21,21 @@ class SignUpController {
       'gender': this.viewReference.getInputGenderValue(),
       'telephone': this.viewReference.getInputTelephoneValue()
     };
-
-    try {
-      const result = await this.modelReference.signUp(userData);
-      this.__callbackApiCall(null, result);
-    } catch (error) {
-      this.__callbackApiCall(error, null);
+  
+    if (this.__thereIsEmptyField(userData)) {
+      this.__callbackApiCall(new Error('Fields cannot be empty'), null);
+    } else {
+      try {
+        const result = await this.modelReference.signUp(userData);
+        this.__callbackApiCall(null, result);
+      } catch (error) {
+        this.__callbackApiCall(error, null);
+      }
     }
+  }
+
+  __thereIsEmptyField(obj) {
+    return Object.values(obj).some(value => value === '');
   }
 
   __callbackApiCall(error, result) {

@@ -22,7 +22,6 @@ function responseGreet(requestData, resopnseCallback) {
 }
 function callbackSignUp(requestData, responseCallback) {
   let userHandler = new UserHandler(new DataBaseHandler((dbConfig())));
-  
   try {
     console.log((requestData));
     let userdata = {

@@ -33,11 +33,11 @@ class SignInForm extends HTMLElement {
   }
 
   getInputUserNameValue() {
-    return this.usernameInput.input.value;
+    return this.usernameInput.getInputValue();
   }
 
   getInputPasswordValue() {
-    return this.passwordInput.input.value;
+    return this.passwordInput.getInputValue();
   }
 }
 

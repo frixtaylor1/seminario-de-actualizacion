@@ -31,7 +31,6 @@ class Server {
         this.handleOptions(res);
       } else {
         let body = '';
-
         req.on('data', function(chunk) {
           body += chunk.toString();
         });
