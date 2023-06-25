@@ -37,6 +37,26 @@ class UserHandler {
     return results;
   }
 
+  async readUserByNickname(data) {
+    let results;
+    let Data = {
+      'nickname': Sanitizer.sanitizeInput(data.nickname),
+    };
+
+    try {
+      await this.dbHandler.connect();
+
+      const storeProcedureName = 'usp_read_user_by_nickname';
+      results = await this.dbHandler.executeStoreProcedure(storeProcedureName, Data);
+
+      await this.dbHandler.close();
+    } catch (error) {
+      console.error('Database Error context -> UserHandler -> readUserByNickname', error);
+      results = error;
+    }
+    return results;
+  }
+
   __validateUserDataCreate(data) {
     return Object.values(data).every(element => isType(element, 'string') && element !== "");
   }

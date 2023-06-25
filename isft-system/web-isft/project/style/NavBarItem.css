@@ -1,4 +1,4 @@
-a {
+.nav-bar-button {
     color: #593e8a;
     text-decoration: none;
     padding: 5px;
@@ -7,14 +7,14 @@ a {
     
   }
   
-  a:hover {
+  .nav-bar-button:hover {
     background-color: #593e8a;
     color: white;
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(210, 129, 248, 0.856);
   }
   
-  a:active {
+  .nav-bar-button:active {
     background: transparent;
     color: white solid;
     border-radius: 5px solid;

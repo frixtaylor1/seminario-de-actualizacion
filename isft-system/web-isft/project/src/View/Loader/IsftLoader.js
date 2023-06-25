@@ -1,7 +1,6 @@
 class IsftLoader extends HTMLElement {
-  constructor(path = null) {
+  constructor() {
     super();
-    this.path = path;
 
     this.container = document.createElement('div');
     this.item1 = document.createElement('div');
@@ -25,18 +24,6 @@ class IsftLoader extends HTMLElement {
     let style = document.createElement('style');
     style.innerText = `@import './style/IsftLoader.css'`;
     this.appendChild(style);
-    if(this.path !== null) {
-      setTimeout(() => {
-        this.handleItemClick();
-      }, 2500);
-    }
-  }
-
-  handleItemClick(event) {
-    const path = this.path;
-    window.location.href = path;
-
-    // Retardo de 2 segundos antes de redirigir
   }
 }
 

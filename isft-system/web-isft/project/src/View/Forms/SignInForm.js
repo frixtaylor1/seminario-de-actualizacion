@@ -14,7 +14,7 @@ class SignInForm extends HTMLElement {
     this.containerForm.appendChild(this.passwordInput);
 
     this.loginButton = new Button('sign in', 'bttn', './style/FormButton.css'); 
-    this.registerButton = new Button('sign up', 'bttn', './style/FormButton.css', '/register');
+    this.registerButton = new Button('sign up', 'bttn', './style/FormButton.css');
   }
 
   render() {
@@ -39,7 +39,7 @@ class SignInForm extends HTMLElement {
   getInputPasswordValue() {
     return this.passwordInput.getInputValue();
   }
-}
+} 
 
 customElements.define('x-signinform', SignInForm);
 

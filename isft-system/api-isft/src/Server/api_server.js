@@ -24,17 +24,18 @@ class Server {
     const method = req.method;
     const url = req.url;
     const key = method + ' ' + url;
-
+  
     const handler = this.routes[key];
     if (handler) {
       if (method === 'OPTIONS') {
         this.handleOptions(res);
       } else {
         let body = '';
+  
         req.on('data', function(chunk) {
           body += chunk.toString();
         });
-
+  
         req.on('end', function() {
           const requestData = body ? JSON.parse(body) : {};
           handler(requestData, function(statusCode, responseData) {

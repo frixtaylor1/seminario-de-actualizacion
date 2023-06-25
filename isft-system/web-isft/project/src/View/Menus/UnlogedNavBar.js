@@ -1,23 +1,28 @@
+import { Button } from "../Buttons/Button.js";
+
 class UnlogedNavBar extends HTMLElement {
     constructor() {
-      super();
+      super();      
       this.classList.add('navbar');
       this.list = document.createElement('ul');
       this.itemHome = document.createElement('li'); 
-      this.homeButton = document.createElement('a');
-      this.homeButton.innerText = 'Home';
-      this.homeButton.href = '/home';
-  
       this.itemLogin = document.createElement('li'); 
-      this.loginButton = document.createElement('a');
-      this.loginButton.innerText = 'Login';
-      this.loginButton.href = '/login'
-  
       this.itemRegister = document.createElement('li'); 
-      this.registerButton = document.createElement('a');
-      this.registerButton.innerText = 'Register';
-      this.registerButton.href = '/register'
 
+      this.homeButton = new Button('Home', 'nav-bar-button');
+      this.loginButton = new Button('Login', 'nav-bar-button');
+      this.registerButton = new Button('Register', 'nav-bar-button');
+    }
+
+    connectedCallback() {
+      this.render();
+    }
+
+    disconnectedCallback() {
+      
+    }
+
+    render() {
       this.itemHome.appendChild(this.homeButton);
       this.itemLogin.appendChild(this.loginButton);
       this.itemRegister.appendChild(this.registerButton);
@@ -25,16 +30,16 @@ class UnlogedNavBar extends HTMLElement {
       this.list.appendChild(this.itemHome);
       this.list.appendChild(this.itemLogin);
       this.list.appendChild(this.itemRegister);
-
+    
       this.appendChild(this.list);
       
       let style = document.createElement('style');
       style.innerText = `@import './style/UnlogedNavBar.css';
                          @import './style/NavBarItem.css';`;
       this.appendChild(style);
-    }
+      }
   }
   
-  customElements.define('x-navbar', UnlogedNavBar);
+customElements.define('x-navbar', UnlogedNavBar);
 
 export { UnlogedNavBar };

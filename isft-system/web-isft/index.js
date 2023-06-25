@@ -7,13 +7,7 @@ const server = http.createServer((req, res) => {
   let filePath;
 
   if (url === '/') {
-    filePath = path.join(__dirname, 'project', 'loader.html');
-  } else if (url === '/home') {
-    filePath = path.join(__dirname, 'project', 'home.html');
-  } else if (url === '/login') {
-    filePath = path.join(__dirname, 'project', 'login.html');
-  } else if (url === '/register') {
-    filePath = path.join(__dirname, 'project', 'register.html');
+    filePath = path.join(__dirname, 'project', 'index.html');
   } else {
     filePath = path.join(__dirname, 'project', url);
   }

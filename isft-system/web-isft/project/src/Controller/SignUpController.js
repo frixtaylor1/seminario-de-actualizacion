@@ -5,10 +5,18 @@ class SignUpController {
     this.viewReference = loginFormViewReference;
     this.modelReference = SignInModelReference;
 
-    this.viewReference.registerButton.addEventListener('click', () => { this.onRegister() });
   }
 
-  async onRegister() {
+  enable() {
+    this.viewReference.registerButton.addEventListener('click', () => { this.onRegisterButtonClick(); });
+    this.viewReference.loginButton.addEventListener('click', () => { this.onLoginButtonClick(); })
+  }
+
+  disable() {
+    this.viewReference.registerButton.onclick = null;
+  }
+
+  async onRegisterButtonClick() {
     let hasher = new Crypto('SHA-256');
     const hashedPassword = await hasher.hash(this.viewReference.getInputPasswordValue());
   

@@ -67,6 +67,10 @@ class SignUpForm extends HTMLElement {
   connectedCallback() {
     this.render();
   }
+
+  disconnectedCallback() {
+    this.registerButton.disconnectedCallback();
+  }
 }
 
 customElements.define('x-signupform', SignUpForm);

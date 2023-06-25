@@ -4,8 +4,20 @@ class SignInController {
   constructor(loginFormViewReference, SignInModelReference) {
     this.viewReference = loginFormViewReference;
     this.modelReference = SignInModelReference;
+  }
 
-    this.viewReference.loginButton.addEventListener( 'click', () => { this.__onLogin() } );
+  enable() {
+    this.viewReference.registerButton.addEventListener('click', () => { this.onRegisterButtonClick(); });
+    this.viewReference.loginButton.addEventListener('click', () => { this.__onLogin(); })
+  }
+
+  disable() {
+    this.viewReference.registerButton.onclick = null;
+    this.viewReference.loginButton.onclick = null;
+  }
+
+  onRegisterButtonClick() {
+    window.dispatchEvent(new CustomEvent('register-button-signIn-event'));
   }
 
   async __onLogin() {

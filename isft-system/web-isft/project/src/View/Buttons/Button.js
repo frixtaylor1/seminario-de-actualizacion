@@ -1,13 +1,9 @@
 class Button extends HTMLElement {
-  constructor(text, htmlClass, cssPath, pagePath = "") {
+  constructor(text, htmlClass, cssPath = '') {
     super();
     this.cssPath = cssPath;
     this.classList.add(htmlClass);
     this.innerText = text;
-    this.pagePath = pagePath;
-    if(pagePath != "") {
-      this.href = pagePath;
-    }
   }
 
   render() {
@@ -18,15 +14,10 @@ class Button extends HTMLElement {
 
   connectedCallback() {
     this.render();
-    if(this.pagePath != "") {
-      this.addEventListener('click', this.handleItemClick.bind(this));
-    }
   }
 
-  handleItemClick(event) {
-    event.preventDefault();
-    const path = this.href;
-    window.location.href = path;
+  disconnectedCallback() {
+    this.onclick = () => { null };
   }
 }
 
