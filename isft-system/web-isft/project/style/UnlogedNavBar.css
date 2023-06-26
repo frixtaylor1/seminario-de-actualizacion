@@ -1,16 +1,16 @@
 .navbar {
   display: flex;
   justify-content: center;
-
-  background: transparent;
+  background: whitesmoke; 
   padding: 10px;
-  box-shadow: 0 2px 0 #593e8a;
+  box-shadow: 2px 2px 2px 2px #593e8a;
   max-width: max-content;
   margin: 0 auto;
+  border: #593e8a;
+  border-radius: 5px;
 }
 
 ul {
-  
   list-style-type: none;
   margin: 0;
   padding: 0;
@@ -18,5 +18,6 @@ ul {
 }
 
 li {
+  margin-left: 10px;
   margin-right: 10px;
 }

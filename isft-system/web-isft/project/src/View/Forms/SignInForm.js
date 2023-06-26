@@ -8,8 +8,8 @@ class SignInForm extends HTMLElement {
 
     this.containerForm = document.createElement('div');
 
-    this.usernameInput = new ClassicInput('Username', 'write your username...', 'text');
-    this.passwordInput = new ClassicInput('Password', 'write your password...', 'password');
+    this.usernameInput = new ClassicInput('Username', true, 'write your username...', 'text');
+    this.passwordInput = new ClassicInput('Password', true, 'write your password...', 'password');
     this.containerForm.appendChild(this.usernameInput);
     this.containerForm.appendChild(this.passwordInput);
 

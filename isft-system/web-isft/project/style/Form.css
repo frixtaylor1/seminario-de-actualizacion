@@ -1,19 +1,19 @@
 .form-box {
-  background: transparent;
+  background: whitesmoke;
   border-radius: 5px;
   padding: 20px;
   display: flex;
   max-width: 240px;
   align-items: center;
   flex-direction: column;
-  color: white;
+  color: wheat;
   border: 2px #593e8a solid;
   position: fixed;
   top: 45%;
   left: 50%;
   transform: translate(-50%, -50%);
   transition: max-width 0.3s ease, padding 0.3s ease;
-  box-shadow: 0 0 10px rgba(228, 129, 248, 0.795);
+  box-shadow: 0 0 15px rgba(228, 129, 248, 0.795);
 }
 
 .form-box:hover {

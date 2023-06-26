@@ -13,10 +13,3 @@
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(210, 129, 248, 0.856);
   }
-  
-  .nav-bar-button:active {
-    background: transparent;
-    color: white solid;
-    border-radius: 5px solid;
-    box-shadow: 0 0 10px rgba(214, 129, 248, 0.822);
-  }

@@ -1,5 +1,4 @@
 const { Sanitizer } = require('../Common/Sanitizer.js');
-const DataBaseHandler = require('../DBHandler/DBHandler.js');
 
 class SignInHandler {
   constructor(dataBaseHandler) {
@@ -7,23 +6,27 @@ class SignInHandler {
   }
 
   async signIn(data) {
-    let results;
-    let Data = { 
-      'nickname': Sanitizer.sanitizeInput(data.nickname),
-      'password': Sanitizer.sanitizeInput(data.password)
-    };
+    let result;
 
     try {
       await this.dbhandler.connect();
       
       const storeProcedureName = 'usp_signin';
-      results = await this.dbhandler.executeStoreProcedure(storeProcedureName, Data);
-      results = results[0];
+      const inputData = {
+        p_nickname: Sanitizer.sanitizeInput(data.nickname),
+        p_password: Sanitizer.sanitizeInput(data.password),
+      };
+      result = await this.dbhandler.executeStoreProcedure(storeProcedureName, inputData);
     } catch(error) {
       console.error('Database Error context -> SignInHanlder -> signIn', error);
-      results = error;
+      return error;
     }
-    return results;
+
+    if(result[0]['length'] === 1) {
+      return { 'validated': true };
+    } else {
+      return { 'validated': false };
+    }
   } 
 }
 
