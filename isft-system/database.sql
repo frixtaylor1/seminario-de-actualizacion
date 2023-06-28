@@ -30,8 +30,25 @@ END;;
 DROP PROCEDURE IF EXISTS `usp_delete_user`;;
 ;;
 
-DROP PROCEDURE IF EXISTS `usp_read_user`;;
-;;
+DROP PROCEDURE IF EXISTS `usp_read_user_by_nickname`;;
+CREATE PROCEDURE `usp_read_user_by_nickname`(IN `p_nickname` varchar(45))
+BEGIN
+  DECLARE v_userid INT;
+
+  SELECT iduser INTO v_userid FROM user WHERE nickname = p_nickname;
+
+  SELECT JSON_OBJECT('name', user_data.name, 'surname', user_data.surname, 'dni', user_data.dni, 'gender', user_data.gender, 'telephone', user_data.telephone)
+  FROM user_data
+  WHERE user_data.iduser_data = v_userid;
+END;;
+
+DROP PROCEDURE IF EXISTS `usp_signin`;;
+CREATE PROCEDURE `usp_signin`(IN `p_nickname` varchar(45), IN `p_password` varchar(255))
+BEGIN
+  SELECT count(*)
+  FROM user
+  WHERE nickname = p_nickname && password = p_password;         
+END;;
 
 DROP PROCEDURE IF EXISTS `usp_update_user`;;
 ;;
@@ -83,7 +100,10 @@ CREATE TABLE `group_has_user` (
 
 INSERT INTO `group_has_user` (`idgroup_has_user`, `group_idgroup`, `user_iduser`) VALUES
 (1,	2,	1),
-(2,	2,	2);
+(2,	2,	2),
+(3,	2,	3),
+(4,	2,	4),
+(5,	2,	5);
 
 DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user` (
@@ -97,7 +117,10 @@ CREATE TABLE `user` (
 
 INSERT INTO `user` (`iduser`, `nickname`, `password`, `isactive`) VALUES
 (1,	'asd',	'688787d8ff144c502c7f5cffaafe2cc588d86079f9de88304c26b0cb99ce91c6',	1),
-(2,	'asdd',	'cc00113f2c36b6d0e501dd832771ce5db7b41c1d77edb22b5fde8baf1c5e449b',	1);
+(2,	'asdd',	'cc00113f2c36b6d0e501dd832771ce5db7b41c1d77edb22b5fde8baf1c5e449b',	1),
+(3,	'asddfg',	'9fb24e3a4f438603360c8a3dfa133062ce9f5bac81a8c746f5501a0f49310fc5',	1),
+(4,	'wegwegewg',	'dbf3c38d71d42b0660235cc4162aa375b5d23bf2b01325c775a1476915287134',	1),
+(5,	'wegewgewgew',	'1e2493c272a4866d20c8beebc4c7c47f542f0666e65bd12812315130d3a49e0d',	1);
 
 DELIMITER ;;
 
@@ -124,7 +147,10 @@ CREATE TABLE `user_data` (
 
 INSERT INTO `user_data` (`iduser_data`, `name`, `surname`, `dni`, `gender`, `telephone`) VALUES
 (1,	'asd',	'asd',	'asd',	'asd',	'asd'),
-(2,	'asdd',	'asdd',	'asdd',	'asdd',	'asdd');
+(2,	'asdd',	'asdd',	'asdd',	'asdd',	'asdd'),
+(3,	'asddfg',	'asddfg',	'asddfg',	'asddfg',	'asddfg'),
+(4,	'gwgwegew',	'wgegwegew',	'gwegwegew',	'wegwegwe',	'gwegweg'),
+(5,	'gwegewg',	'gwegewg',	'gwegewg',	'gwegewg',	'gwegewg');
 
 DELIMITER ;;
 
@@ -151,6 +177,9 @@ CREATE TABLE `user_has_user_data` (
 
 INSERT INTO `user_has_user_data` (`user_data_iduser_data`, `user_iduser`) VALUES
 (1,	1),
-(2,	2);
+(2,	2),
+(3,	3),
+(4,	4),
+(5,	5);
 
--- 2023-06-22 18:41:39
+-- 2023-06-28 19:37:38

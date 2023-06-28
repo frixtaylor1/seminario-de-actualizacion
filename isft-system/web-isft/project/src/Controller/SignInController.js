@@ -1,14 +1,15 @@
 import { Crypto } from "./Crypto.js";
 
 class SignInController {
-  constructor(loginFormViewReference, SignInModelReference) {
-    this.viewReference = loginFormViewReference;
-    this.modelReference = SignInModelReference;
+  constructor(loginFormViewReference, signInModelReference, senssionHandler) {
+    this.viewReference    = loginFormViewReference;
+    this.modelReference   = signInModelReference;
+    this.senssionHandler  = senssionHandler;
   }
 
   enable() {
     this.viewReference.registerButton.addEventListener('click', () => { this.onRegisterButtonClick(); });
-    this.viewReference.loginButton.addEventListener('click', () => { this.__onLogin(); })
+    this.viewReference.loginButton.addEventListener('click', () => { this.__onLogin(); });
   }
 
   disable() {
@@ -33,6 +34,7 @@ class SignInController {
 
       try {
         const result = await this.modelReference.signIn(userData);
+        this.senssionHandler.storeToken(result['token']);
         this.__callbackApiCall(null, result);
       } catch (error) {
         this.__callbackApiCall(error, null);

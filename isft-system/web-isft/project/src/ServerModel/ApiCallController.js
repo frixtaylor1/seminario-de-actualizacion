@@ -7,6 +7,10 @@ class ApiController {
     const fullUrl = this.url + endpoint;
 
     let request = {
+    /* headers: { 
+        'Content-Type': 'Application/json',
+        token: localStorage.getItem('token'),
+      }, */
       method: method,
       body: method !== 'GET' ? JSON.stringify(data) : undefined  // No incluyas el cuerpo en una solicitud GET
     };
