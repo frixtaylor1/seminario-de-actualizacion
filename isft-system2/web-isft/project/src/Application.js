@@ -1,9 +1,9 @@
-import { UnlogedNavBarController } from './Controller/UnlogedNavBarController.js';
-import { IsftLoader } from './View/Loader/IsftLoader.js';
-import { UnlogedNavBar } from './View/Menus/UnlogedNavBar.js';
-import { Register } from './View/Register.js';
-import { Login } from './View/Login.js';
-import { Home } from './View/Home.js';
+import { UnlogedNavBarController }  from './Controller/UnlogedNavBarController.js';
+import           { UnlogedNavBar }  from './View/Menus/UnlogedNavBar.js';
+import              { IsftLoader }  from './View/Loader/IsftLoader.js';
+import                { Register }  from './View/Register.js';
+import                   { Login }  from './View/Login.js';
+import                    { Home }  from './View/Home.js';
 
 
 class Application extends HTMLElement {
@@ -28,10 +28,10 @@ class Application extends HTMLElement {
   }
 
   setCallbacks() {
-    window.addEventListener('home-button-navbar-event', () => { this.onViewChangeHome(); });
-    window.addEventListener('login-button-navbar-event', () => { this.onViewChangeLogin(); });
-    window.addEventListener('register-button-navbar-event', () => { this.onViewChangeRegister(); });
-    window.addEventListener('register-button-signIn-event', () => { this.onViewChangeRegister(); });
+    window.addEventListener('home-button-navbar-event',       () => { this.onViewChangeHome(); });
+    window.addEventListener('login-button-navbar-event',      () => { this.onViewChangeLogin(); });
+    window.addEventListener('register-button-navbar-event',   () => { this.onViewChangeRegister(); });
+    window.addEventListener('register-button-signIn-event',   () => { this.onViewChangeRegister(); });
   }
 
   onViewChangeHome() {

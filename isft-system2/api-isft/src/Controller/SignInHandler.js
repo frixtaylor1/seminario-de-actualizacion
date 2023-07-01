@@ -27,7 +27,7 @@ class SignInHandler {
     } else {
       return { 'validated': false };
     }
-  } 
+  }
 }
 
 module.exports = { SignInHandler };

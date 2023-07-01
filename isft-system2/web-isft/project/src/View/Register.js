@@ -12,17 +12,17 @@ class Register extends HTMLElement {
 
   connectedCallback() {
     this.render();
+    this.enabled();
   }
 
   disconnectedCallback() {
+    this.disabled();
   }
   
   enabled() {
-
   }
   
   disabled() {
-
   }
 
   render() {

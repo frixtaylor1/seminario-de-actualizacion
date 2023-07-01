@@ -1,6 +1,7 @@
-const { SignInHandler } = require('./Controller/SignInHandler.js');
-const { SessionHandler } = require('./Controller/SessionHandler.js');
-const { DataBaseHandler } = require('./DBHandler/DBHandler.js');
+const     { UserHandler } = require('./Controller/UserHandler.js');
+const   { SignInHandler } = require('./Controller/SignInHandler.js');
+const  { SessionHandler } = require('./Controller/SessionHandler.js');
+const { DataBaseHandler } = require('./DataBaseHandler/DataBaseHandler.js');
 
 const dotenv = require('dotenv');
 dotenv.config();
@@ -15,28 +16,28 @@ function dbConfig() {
   };
 }
 
-function callbackSignUp(requestData, responseCallback) {
+function callbackRegister(requestData, responseCallback) {
   try {
+    let results;
     let userHandler = new UserHandler(new DataBaseHandler((dbConfig())));
 
-    let userdata = {
-      'nickname': requestData.nickname,
-      'password': requestData.password,
-      'name': requestData.name,
-      'surname': requestData.surname,
-      'dni': requestData.dni,
-      'gender': requestData.gender,
-      'telephone': requestData.telephone,
+    let userData = {
+      'nickname'  : requestData.nickname,
+      'password'  : requestData.password,
+      'name'      : requestData.name,
+      'surname'   : requestData.surname,
+      'dni'       : requestData.dni,
+      'gender'    : requestData.gender,
+      'telephone' : requestData.telephone,
     };
 
     (async () => {
-      await userHandler.create(userdata);
-      let message = { 'message': 'good call' };
-      responseCallback(200, message);
+      results = await userHandler.create(userData);
+      responseCallback(200, results);
     })();
   } catch (error) {
-    console.error('Error parsing JSON:', error);
-    responseCallback(400, { 'message': 'Invalid JSON' });
+    results = error;
+    responseCallback(200, results);
   }
 }
 
@@ -68,5 +69,7 @@ function callbackSignIn(requestData, responseCallback) {
   }
 }
 
-module.exports = { callbackSignUp };
-module.exports = { callbackSignIn }; 
+module.exports = {
+  callbackRegister,
+  callbackSignIn
+};
