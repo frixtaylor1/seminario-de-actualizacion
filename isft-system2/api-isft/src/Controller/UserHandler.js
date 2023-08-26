@@ -7,7 +7,7 @@ class UserHandler {
   }
 
   async create(data) {
-    let results;
+    let results = {};
     let Data = {
       'nickname'  : Sanitizer.sanitizeInput(data.nickname),
       'password'  : Sanitizer.sanitizeInput(data.password),

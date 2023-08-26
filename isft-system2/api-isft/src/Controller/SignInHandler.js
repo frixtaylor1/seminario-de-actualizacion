@@ -22,7 +22,7 @@ class SignInHandler {
       return error;
     }
 
-    if(result[0]['length'] === 1) {
+    if(result.token[0][0]['count(*)']) {
       return { 'validated': true };
     } else {
       return { 'validated': false };
