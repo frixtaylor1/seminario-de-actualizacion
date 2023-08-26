@@ -41,7 +41,7 @@ function callbackRegister(requestData, responseCallback) {
   }
 }
 
-async function callbackSignIn(requestData, responseCallback) {
+function callbackSignIn(requestData, responseCallback) {
   try {
     let results;
     let message;
@@ -51,16 +51,23 @@ async function callbackSignIn(requestData, responseCallback) {
       'nickname': requestData.nickname,
       'password': requestData.password,
     };
-    results = await signInHanlder.signIn(userData);
-    
-    if (results['validated'] === true) {
-      let sessionHandler = new SessionHandler();
-      message = sessionHandler.token;
-    }    
-    responseCallback(200, { token: message });
 
-    await signInHanlder.dbhandler.close();
+    (async () => {
+      results = await signInHanlder.signIn(userData);
 
+      console.log(results);
+
+      if (results['validated'] === true) {
+        let sessionHandler = new SessionHandler();
+        message = sessionHandler.token;
+        responseCallback(200, { token: message });
+      } else {
+        message = 'Password or Username worng!';
+        responseCallback(400, { error: message });
+      }
+
+      await signInHanlder.dbhandler.close();
+    })();
   } catch (error) {
     results = error;
     responseCallback(200, results);
