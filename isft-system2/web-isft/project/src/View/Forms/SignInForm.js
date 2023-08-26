@@ -1,5 +1,6 @@
 import { ClassicInput } from "../Inputs/ClassicInput.js";
 import { Button } from "../Buttons/Button.js";
+import { MessageLabel } from "../MessageLabel/MessageLabel.js";
 
 class SignInForm extends HTMLElement {
   constructor() {
@@ -13,14 +14,16 @@ class SignInForm extends HTMLElement {
     this.containerForm.appendChild(this.usernameInput);
     this.containerForm.appendChild(this.passwordInput);
 
-    this.loginButton = new Button('sign in', 'bttn', './style/FormButton.css'); 
+    this.loginButton    = new Button('sign in', 'bttn', './style/FormButton.css'); 
     this.registerButton = new Button('sign up', 'bttn', './style/FormButton.css');
+    this.messageLabel   = new MessageLabel();
   }
 
   render() {
     this.containerForm.appendChild(this.loginButton);
     this.containerForm.appendChild(this.registerButton);
-
+    this.containerForm.appendChild(this.messageLabel);
+    
     this.appendChild(this.containerForm);
   
     let style = document.createElement('style');
