@@ -8,9 +8,9 @@ dotenv.config();
 
 function dbConfig() {
   return {
-    host: process.env.DB_HOST,
-    port: process.env.DB_PORT,
-    user: process.env.DB_USER,
+    host    : process.env.DB_HOST,
+    port    : process.env.DB_PORT,
+    user    : process.env.DB_USER,
     password: process.env.DB_PASSWORD,
     database: process.env.DB_NAME
   };
@@ -41,7 +41,7 @@ function callbackRegister(requestData, responseCallback) {
   }
 }
 
-function callbackSignIn(requestData, responseCallback) {
+async function callbackSignIn(requestData, responseCallback) {
   try {
     let results;
     let message;
@@ -51,18 +51,16 @@ function callbackSignIn(requestData, responseCallback) {
       'nickname': requestData.nickname,
       'password': requestData.password,
     };
+    results = await signInHanlder.signIn(userData);
+    
+    if (results['validated'] === true) {
+      let sessionHandler = new SessionHandler();
+      message = sessionHandler.token;
+    }    
+    responseCallback(200, { token: message });
 
-    (async () => {
-      results = await signInHanlder.signIn(userData);
+    await signInHanlder.dbhandler.close();
 
-      if (results['validated']) {
-        let sessionHandler = new SessionHandler();
-        message = sessionHandler.token;
-      }
-      responseCallback(200, { token: message });
-
-      await signInHanlder.dbhandler.close();
-    })();
   } catch (error) {
     results = error;
     responseCallback(200, results);
