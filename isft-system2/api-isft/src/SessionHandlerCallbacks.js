@@ -63,7 +63,7 @@ function callbackSignIn(requestData, responseCallback) {
         responseCallback(200, { token: message });
       } else {
         message = 'Password or Username worng!';
-        responseCallback(400, { error: message });
+        responseCallback(401, { error: message });
       }
 
       await signInHanlder.dbhandler.close();
