@@ -10,6 +10,7 @@ class SignInController {
   enable() {
     this.viewReference.registerButton.addEventListener('click', () => { this.onRegisterButtonClick(); });
     this.viewReference.loginButton.addEventListener('click', () => { this.__onLogin(); });
+    this.viewReference.addEventListener('keydown', () => { this.__keyDownHandler(); });
   }
 
   disable() {
@@ -36,6 +37,11 @@ class SignInController {
         const result = await this.modelReference.signIn(userData);
         this.senssionHandler.storeToken(result['token']);
         this.__callbackApiCall(null, result);
+        if(result.error != undefined && result.error != '') {
+          this.viewReference.messageLabel.setMessage(result.error);
+        } else {
+          this.viewReference.messageLabel.setMessage('You are logged!');
+        }
       } catch (error) {
         this.__callbackApiCall(error, null);
       }
@@ -48,6 +54,10 @@ class SignInController {
     } else {
       console.log(result);
     }
+  }
+
+  __keyDownHandler() {
+    this.viewReference.messageLabel.setMessage('');
   }
 }
 
