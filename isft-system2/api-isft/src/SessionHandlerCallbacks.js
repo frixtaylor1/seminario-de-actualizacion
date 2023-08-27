@@ -59,7 +59,8 @@ function callbackSignIn(requestData, responseCallback) {
 
       if (results['validated'] === true) {
         let sessionHandler = new SessionHandler();
-        message = sessionHandler.token;
+        message = sessionHandler.generateToken(userData.nickname);
+        console.log('comparision of tokens: ' , sessionHandler.compareToken(userData.nickname, message));
         responseCallback(200, { token: message });
       } else {
         message = 'Password or Username worng!';

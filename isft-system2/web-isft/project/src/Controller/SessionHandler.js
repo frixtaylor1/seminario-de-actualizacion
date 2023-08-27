@@ -1,13 +1,15 @@
 class SessionHandler {
   constructor() {
     this.localStorage = window.localStorage;
-    this.token;
   }
 
   storeToken(token) {
-    this.token = token;
-    this.localStorage.setItem('token', this.token);
+    this.localStorage.setItem('token', token);
+  }
+
+  getToken() {
+    return this.token;
   }
 }
 
-export { SessionHandler }
+export { SessionHandler };

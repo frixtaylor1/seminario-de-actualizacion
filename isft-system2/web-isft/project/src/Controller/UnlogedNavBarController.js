@@ -4,9 +4,9 @@ class UnlogedNavBarController {
   }
 
   __setCallbacks() {
-    this.navBar.homeButton.onclick = () => { this.homeButtonEvent(); }; 
-    this.navBar.registerButton.onclick = () => { this.registerButtonEvent(); };
-    this.navBar.loginButton.onclick = () => { this.loginButtonEvent(); };
+    this.navBar.homeButton.onclick      = () => { this.homeButtonEvent(); }; 
+    this.navBar.registerButton.onclick  = () => { this.registerButtonEvent(); };
+    this.navBar.loginButton.onclick     = () => { this.loginButtonEvent(); };
   }
 
   enable() {
@@ -14,9 +14,9 @@ class UnlogedNavBarController {
   }
 
   disable() {
-    this.navBar.homeButton.onclick = null;
-    this.navBar.registerButton.onclick = null;
-    this.navBar.loginButton.onclick = null;
+    this.navBar.homeButton.onclick      = null;
+    this.navBar.registerButton.onclick  = null;
+    this.navBar.loginButton.onclick     = null;
   }
 
   homeButtonEvent() {

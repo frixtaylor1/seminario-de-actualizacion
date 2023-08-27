@@ -1,4 +1,5 @@
 import { Crypto } from "./Crypto.js";
+const __DEBUG__ = true;
 
 class SignInController {
   constructor(loginFormViewReference, signInModelReference, senssionHandler) {
@@ -9,8 +10,8 @@ class SignInController {
 
   enable() {
     this.viewReference.registerButton.addEventListener('click', () => { this.onRegisterButtonClick(); });
-    this.viewReference.loginButton.addEventListener('click', () => { this.__onLogin(); });
-    this.viewReference.addEventListener('keydown', () => { this.__keyDownHandler(); });
+    this.viewReference.loginButton.addEventListener('click',    () => { this.__onLogin(); });
+    this.viewReference.addEventListener('keydown',              () => { this.__keyDownHandler(); });
   }
 
   disable() {
@@ -36,23 +37,21 @@ class SignInController {
       try {
         const result = await this.modelReference.signIn(userData);
         this.senssionHandler.storeToken(result['token']);
-        this.__callbackApiCall(null, result);
         if(result.error != undefined && result.error != '') {
           this.viewReference.messageLabel.setMessage(result.error);
         } else {
           this.viewReference.messageLabel.setMessage('You are logged!');
+          window.dispatchEvent(new CustomEvent('registered-event'));
         }
       } catch (error) {
-        this.__callbackApiCall(error, null);
+        this.__callbackApiCallDebug(error);
       }
     }
   }
 
-  __callbackApiCall(error, result) {
+  __callbackApiCallDebug(error) {
     if (error) {
       console.error("error", error);
-    } else {
-      console.log(result);
     }
   }
 
