@@ -8,7 +8,7 @@ class SessionHandler {
   }
 
   getToken() {
-    return this.token;
+    return this.localStorage.getItem('token');
   }
 }
 

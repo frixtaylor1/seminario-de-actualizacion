@@ -13,8 +13,9 @@ class Login extends HTMLElement {
     this.signInController = new SignInController(
       this.form, 
       new SignInModel(
-        new ApiController('http://localhost:3036')), 
-        new SessionHandler()
+        new ApiController('http://localhost:3036')
+      ), 
+      new SessionHandler()
     );
   }
 
