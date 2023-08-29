@@ -1,3 +1,5 @@
+import { SessionHandler } from "../Controller/SessionHandler.js";
+
 class ApiController {
   constructor(url) {
     this.url = url;
@@ -6,12 +8,20 @@ class ApiController {
   async callApi(endpoint, method, data) {
     const fullUrl = this.url + endpoint;
 
-    let request = {
-      method: method,
-      body: method !== 'GET' ? JSON.stringify(data) : undefined  // No incluyas el cuerpo en una solicitud GET
-    };
-
     try {
+      // Obtener el token de la clase SessionHandler
+      let sessionHandler = new SessionHandler();
+      const token = sessionHandler.getToken(); 
+      
+      let request = {
+        method: method,
+        headers: {
+          'Custom-Token': token,
+          'Content-Type': 'application/json'
+        },
+        body: method !== 'GET' ? JSON.stringify(data) : undefined
+      };
+
       const response = await fetch(fullUrl, request);
       const responseData = await response.json();
 
@@ -23,4 +33,4 @@ class ApiController {
   }
 }
 
-export { ApiController }
+export { ApiController };

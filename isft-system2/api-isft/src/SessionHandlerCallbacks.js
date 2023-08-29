@@ -1,6 +1,6 @@
 const     { UserHandler } = require('./Controller/UserHandler.js');
 const   { SignInHandler } = require('./Controller/SignInHandler.js');
-const  { SessionHandler } = require('./Controller/SessionHandler.js');
+const  { sessionHandler } = require('./Controller/SessionHandler.js');
 const { DataBaseHandler } = require('./DataBaseHandler/DataBaseHandler.js');
 
 const dotenv = require('dotenv');
@@ -58,7 +58,6 @@ function callbackSignIn(requestData, responseCallback) {
       console.log(results);
 
       if (results['validated'] === true) {
-        let sessionHandler = new SessionHandler();
         message = sessionHandler.generateToken(userData.nickname);
         console.log('comparision of tokens: ' , sessionHandler.compareToken(userData.nickname, message));
         responseCallback(200, { token: message });
