@@ -3,23 +3,10 @@ const   { SignInHandler } = require('./Controller/SignInHandler.js');
 const  { sessionHandler } = require('./Controller/SessionHandler.js');
 const { DataBaseHandler } = require('./DataBaseHandler/DataBaseHandler.js');
 
-const dotenv = require('dotenv');
-dotenv.config();
-
-function dbConfig() {
-  return {
-    host    : process.env.DB_HOST,
-    port    : process.env.DB_PORT,
-    user    : process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
-    database: process.env.DB_NAME
-  };
-}
-
 function callbackRegister(requestData, responseCallback) {
   try {
     let results;
-    let userHandler = new UserHandler(new DataBaseHandler((dbConfig())));
+    let userHandler = new UserHandler(new DataBaseHandler());
 
     let userData = {
       'nickname'  : requestData.nickname,
@@ -45,7 +32,7 @@ function callbackSignIn(requestData, responseCallback) {
   try {
     let results;
     let message;
-    let signInHanlder = new SignInHandler(new DataBaseHandler((dbConfig())));
+    let signInHanlder = new SignInHandler(new DataBaseHandler());
 
     let userData = {
       'nickname': requestData.nickname,
