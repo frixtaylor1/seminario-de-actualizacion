@@ -79,11 +79,53 @@ class GroupHandler {
   }
 
   async insertUserInGroup(data) {
+    let results = {};
+    let Data = {
+      'iduser' : Sanitizer.sanitizeInput(data.iduser),
+      'idgroup': Sanitizer.sanitizeInput(data.idgroup)
+    };
 
+    if(this.__validateGroupData(Data)) {
+      try {
+        await this.dbHandler.connect();
+
+        let storeProcedure = 'usp_insert_user_in_group';
+        results = await this.dbHandler.executeStoreProcedure(storeProcedure, Data);
+      
+      } catch(error) {
+        console.error('Database Error context -> GroupHandler -> insertUserInGroup', error);
+        results = error;
+      }
+    } else {
+      results = new Error('Fields are empty or null!');
+    }
+
+    return results;
   }
 
   async deleteUserFromGroup(data) {
+    let results = {};
+    let Data = {
+      'iduser' : Sanitizer.sanitizeInput(data.iduser),
+      'idgroup': Sanitizer.sanitizeInput(data.idgroup)
+    };
 
+    if(this.__validateGroupData(Data)) {
+      try {
+        await this.dbHandler.connect();
+
+        let storeProcedure = 'usp_delete_user_from_group';
+        results = await this.dbHandler.executeStoreProcedure(storeProcedure, Data);
+      
+      } catch(error) {
+        console.error('Database Error context -> GroupHandler -> deleteUserFromGroup', error);
+        results = error;
+      }
+    } else {
+      results = new Error('Fields are empty or null!');
+    }
+    
+    return results;
   }
 
   __validateGroupData(data) {
