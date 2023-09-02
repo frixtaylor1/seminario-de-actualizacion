@@ -1,10 +1,10 @@
 import { Crypto } from "./Crypto.js";
 
 class SignInController {
-  constructor(loginFormViewReference, signInModelReference, senssionHandler) {
+  constructor(loginFormViewReference, signInModelReference, sessionHandler) {
     this.viewReference    = loginFormViewReference;
     this.modelReference   = signInModelReference;
-    this.senssionHandler  = senssionHandler;
+    this.sessionHandler   = sessionHandler;
   }
 
   enable() {
@@ -35,7 +35,8 @@ class SignInController {
 
       try {
         const result = await this.modelReference.signIn(userData);
-        this.senssionHandler.storeToken(result['token']);
+        this.sessionHandler.storeToken(result['token']);
+        
         if(result.error != undefined && result.error != '') {
           this.viewReference.messageLabel.setMessage(result.error);
         } else {

@@ -1,6 +1,7 @@
-import { ApiController } from '../Controller/ApiCallController.js';
+import { ApiController }  from '../Controller/ApiCallController.js';
 import { SessionHandler } from '../Controller/SessionHandler.js';
 import { HomeController } from '../Controller/HomeController.js';
+import { HomeModel }      from '../Model/HomeModel.js';
 
 class Home extends HTMLElement {
   constructor() {
@@ -8,7 +9,7 @@ class Home extends HTMLElement {
 
     this.homeController = new HomeController(
       this, 
-      new LoggedModel(
+      new HomeModel(
         new ApiController('http://localhost:3036')
       ), 
       new SessionHandler()

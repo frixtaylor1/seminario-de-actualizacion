@@ -1,5 +1,5 @@
 const { OwnCache } = require("../OwnCache/OwnCache.js");
-const { crypto }   = require("crypto");
+const crypto = require("crypto");
 
 class SessionHandler {
   constructor() {
