@@ -1,5 +1,5 @@
-const { OwnCache } = require("../OwnCache/OwnCache");
-const crypto= require("crypto");
+const { OwnCache } = require("../OwnCache/OwnCache.js");
+const { crypto }   = require("crypto");
 
 class SessionHandler {
   constructor() {
@@ -20,7 +20,7 @@ class SessionHandler {
   }
 
   getToken(nicknameKey) {
-    return this.cache.getCachedData(nicknameKey);
+    return this.cache.getDataByKey(nicknameKey);
   }
 
   getNicknameByToken(token) {
@@ -28,7 +28,7 @@ class SessionHandler {
   }
 
   __getKeyByValue(token) {
-    const entry = [...this.cache.getCache().entries()].find(([key, val]) => val === token);
+    const entry = [...this.cache.getData().entries()].find(([key, val]) => val === token);
     return entry ? entry[0] : null;
   }
 }

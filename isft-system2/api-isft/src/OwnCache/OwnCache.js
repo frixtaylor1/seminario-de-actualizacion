@@ -7,18 +7,18 @@ class OwnCache {
     this.cache.set(key, value);
   };
   
-  getCachedData(key) {
+  getDataByKey(key) {
     if (this.cache.has(key)) {
       return this.cache.get(key);
     }
     return undefined;
   }
   
-  cacheClear() {
+  clear() {
     this.cache.clear();
   }
 
-  getCache() {
+  getData() {
     return this.cache;
   }
 }
