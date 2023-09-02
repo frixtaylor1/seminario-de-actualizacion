@@ -4,7 +4,6 @@ class HomeController {
     this.modelReference   = homeModelReference;
     this.senssionHandler  = senssionHandler;
   }
-
   enable() {
   }
 
