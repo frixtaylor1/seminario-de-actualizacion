@@ -1,5 +1,4 @@
 import { Crypto } from "./Crypto.js";
-const __DEBUG__ = true;
 
 class SignInController {
   constructor(loginFormViewReference, signInModelReference, senssionHandler) {

@@ -1,4 +1,4 @@
-import { SessionHandler } from "../Controller/SessionHandler.js";
+import { SessionHandler } from "./SessionHandler.js";
 
 class ApiController {
   constructor(url) {

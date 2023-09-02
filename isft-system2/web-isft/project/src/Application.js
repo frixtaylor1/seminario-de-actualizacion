@@ -17,7 +17,6 @@ class Application extends HTMLElement {
   connectedCallback() {
     let loader = new IsftLoader();
     this.appendChild(loader);
-    console.log('Loading!');
 
     setTimeout(() => {
       this.removeChild(loader);
