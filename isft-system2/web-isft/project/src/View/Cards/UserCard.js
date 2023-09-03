@@ -1,4 +1,5 @@
 import { Button } from "../Buttons/Button.js";
+import { ClassicInput } from "../Inputs/ClassicInput.js";
 
 class UserCard extends HTMLElement {
   constructor(cssPath) {
@@ -7,27 +8,32 @@ class UserCard extends HTMLElement {
     this.container = document.createElement('div');
     this.container.classList.add('card');
 
-    this.cardBorderTop = document.createElement('div');
-    this.cardBorderTop.classList.add('card-border-top');
-
     this.userImage = document.createElement('div');
     this.userImage.classList.add('user-img');
 
-    this.userNameTitle = document.createElement('span');
-    this.userNameTitle.classList.add('user-name-title');
-    this.groupTitle = document.createElement('p');
-    this.groupTitle.classList.add('group-title');
+    this.nameTitle = new ClassicInput('Name', true, 'name', 'text');
+    this.nameTitle.setReadonly(true);
 
-    this.changeInformationButton = document.createElement('button');
-    this.changeInformationButton.classList.add('card-button');
+    this.groupTitle = new ClassicInput('Group', true, 'group', 'text');
+    this.groupTitle.setReadonly(true);
+
+    this.changeInformationButton = new Button('Change info', 'bttn', './style/FormButton.css');
   }
 
-  getUserNameTitleReference() {
-    return this.userImage;
+  getnameTitleReference() {
+    return this.nameTitle;
+  }
+
+  setNameTitle(value) {
+    this.nameTitle.setInputValue(value);
   }
 
   getGroupTitleReference() {
     return this.groupTitle;
+  }
+
+  setGroupTitle(value) {
+    this.groupTitle.setInputValue(value);
   }
 
   getChangeInformationButtonReference() {
@@ -43,10 +49,10 @@ class UserCard extends HTMLElement {
   }
   
   render() {
-    this.container.appendChild(this.cardBorderTop);
     this.container.appendChild(this.userImage);
-    this.container.appendChild(this.userNameTitle);
+    this.container.appendChild(this.nameTitle);
     this.container.appendChild(this.groupTitle);
+    this.container.appendChild(this.changeInformationButton);
 
     this.appendChild(this.container);
 

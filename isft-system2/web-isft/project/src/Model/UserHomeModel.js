@@ -1,4 +1,4 @@
-class HomeModel {
+class UserHomeModel {
     constructor(apiController) {
       this.apiController = apiController;
     }
@@ -14,4 +14,4 @@ class HomeModel {
     }
   }
   
-  export { HomeModel };
+  export { UserHomeModel };

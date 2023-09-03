@@ -8,12 +8,12 @@ class SignUpForm extends HTMLElement {
 
     this.containerForm = document.createElement('div');
 
-    this.usernameInput = new ClassicInput('Username', true, 'write your username...', 'text');
-    this.passwordInput = new ClassicInput('Password', true, 'write your password...', 'password');
-    this.nameInput = new ClassicInput('Name', true, 'write your name...', 'text');
-    this.surnameInput = new ClassicInput('Surname', true, 'write your surname...', 'text');
-    this.dniInput = new ClassicInput('Dni', true, 'write your dni...', 'text');
-    this.genderInput = new ClassicInput('Gender', true, 'write your gender...', 'text');
+    this.usernameInput  = new ClassicInput('Username', true, 'write your username...', 'text');
+    this.passwordInput  = new ClassicInput('Password', true, 'write your password...', 'password');
+    this.nameInput      = new ClassicInput('Name', true, 'write your name...', 'text');
+    this.surnameInput   = new ClassicInput('Surname', true, 'write your surname...', 'text');
+    this.dniInput       = new ClassicInput('Dni', true, 'write your dni...', 'text');
+    this.genderInput    = new ClassicInput('Gender', true, 'write your gender...', 'text');
     this.telephoneInput = new ClassicInput('Telephone', true, 'write your telephone...', 'text');
 
     this.registerButton = new Button('register', 'bttn', './style/FormButton.css');
