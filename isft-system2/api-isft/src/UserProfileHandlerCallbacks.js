@@ -16,12 +16,9 @@ async function callbackGetUserInfo(requestData, responseCallback) {
     let parsedResult = results[0][0];
     parsedResult     = JSON.parse(parsedResult.result);
 
-    if (parsedResult.authorized ==='1') {
+    if (parsedResult.authorized === '1') {
       let userHandler = new UserHandler(new DataBaseHandler());
       results = await userHandler.readById(userData);
-
-      console.log(results[0]);
-
       responseCallback(200, results[0]);
     } else {
       responseCallback(401, {'authorized': false, 'message': 'Unauthorized execution!'});

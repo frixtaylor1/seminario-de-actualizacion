@@ -21,6 +21,10 @@ class UserHomeController {
         'path': 'getUserInfo'
       };
       let result = await this.modelReference.getUserInfo(userData);
+      
+      if(result.authorized === false) {
+        return ;
+      }
       this.viewReference.userCard.setNameTitle(result[0].name + ' ' + result[0].surname);
     } catch(error) {
       console.error(error);
