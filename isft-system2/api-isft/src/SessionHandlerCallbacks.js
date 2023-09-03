@@ -20,6 +20,8 @@ function callbackRegister(requestData, responseCallback) {
 
     (async () => {
       results = await userHandler.create(userData);
+      await userHandler.dbhandler.close();
+
       responseCallback(200, results);
     })();
   } catch (error) {
@@ -42,18 +44,16 @@ function callbackSignIn(requestData, responseCallback) {
     (async () => {
       results = await signInHanlder.signIn(userData);
 
-      console.log(results);
+      const parsedResult = JSON.parse(results.result);
+      const validated = parsedResult.validated === '1';
 
-      if (results['validated'] === true) {
-        message = sessionHandler.generateToken(userData.nickname);
-        console.log('comparision of tokens: ' , sessionHandler.compareToken(userData.nickname, message));
-        responseCallback(200, { token: message });
+      if (validated) {
+        let generatedToken = sessionHandler.generateToken(parsedResult.iduser);
+        responseCallback(200, { token: generatedToken, iduser: parsedResult.iduser });
       } else {
         message = 'Password or Username worng!';
         responseCallback(401, { error: message });
       }
-
-      await signInHanlder.dbhandler.close();
     })();
   } catch (error) {
     results = error;

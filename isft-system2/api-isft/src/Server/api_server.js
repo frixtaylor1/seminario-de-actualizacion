@@ -7,7 +7,7 @@ class Server {
     this.headers = {
       'Access-Control-Allow-Origin': '*',
       'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE',
-      'Access-Control-Allow-Headers': 'content-type, custom-token',
+      'Access-Control-Allow-Headers': 'content-type, custom-token, Id',
       'Content-Type': 'application/json'
     };
   }
@@ -75,8 +75,8 @@ class Server {
         return false;
       }
   
-      let nickname = sessionHandler.getNicknameByToken(customToken);
-      if (nickname && sessionHandler.compareToken(nickname, customToken)) {
+      let id = sessionHandler.getidByToken(customToken);
+      if (id && sessionHandler.compareToken(id, customToken)) {
         console.log('Authentication - Successful');
         return true;
       }

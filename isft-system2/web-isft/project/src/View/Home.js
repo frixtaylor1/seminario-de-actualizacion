@@ -2,10 +2,13 @@ import { ApiController }  from '../Controller/ApiCallController.js';
 import { SessionHandler } from '../Controller/SessionHandler.js';
 import { HomeController } from '../Controller/HomeController.js';
 import { HomeModel }      from '../Model/HomeModel.js';
+import { UserCard }       from './Cards/UserCard.js';
 
 class Home extends HTMLElement {
   constructor() {
     super();
+
+    this.userCard = new UserCard('./style/UserCard.css');
 
     this.homeController = new HomeController(
       this, 
@@ -26,14 +29,15 @@ class Home extends HTMLElement {
   }
   
   enabled() {
-    this.HomeController.enabled();
+    this.homeController.enabled();
   }
   
   disabled() {
-    this.HomeController.disabled();
+    this.homeController.disabled();
   }
 
   render() {
+    this.appendChild(this.userCard);
   }
 }
 

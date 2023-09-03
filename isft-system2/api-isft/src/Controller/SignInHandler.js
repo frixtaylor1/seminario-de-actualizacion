@@ -17,15 +17,9 @@ class SignInHandler {
         p_password: Sanitizer.sanitizeInput(data.password),
       };
       result = await this.dbhandler.executeStoreProcedure(storeProcedureName, inputData);
-
-      console.log(result);
+      let parsedResult = result[0][0];
       
-      if(result[0][0]['count(*)']) {
-        return { 'validated': true };
-      } else {
-        return { 'validated': false };
-      }
-
+      return parsedResult;
     } catch(error) {
       console.error('Database Error context -> SignInHanlder -> signIn', error);
       return error;

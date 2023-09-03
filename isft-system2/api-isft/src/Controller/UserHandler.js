@@ -58,6 +58,20 @@ class UserHandler {
     return results;
   }
 
+  async readById(data) {
+    let results;
+    let Data = {
+      'iduser': Sanitizer.sanitizeInput(data.iduser),
+    }
+
+    try {
+
+    } catch(error) {
+
+    } finally {
+      await this.dbHandler.close();
+    }
+  }
   __validateUserDataCreate(data) {
     return Object.values(data).every(element => isType(element, 'string') && element !== "");
   }

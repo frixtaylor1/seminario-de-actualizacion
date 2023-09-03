@@ -11,19 +11,19 @@ class SessionHandler {
     return (cachedToken === token);
   }
 
-  generateToken(nicknameKey) {
+  generateToken(iduser) {
     let token = (String(1e7) + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, (c) =>
       (Number(c) ^ (crypto.randomBytes(1)[0] & (15 >> (Number(c) / 4)))).toString(16)
     );
-    this.cache.setDataToCache(nicknameKey, token);
+    this.cache.setDataToCache(iduser, token);
     return token;
   }
 
-  getToken(nicknameKey) {
-    return this.cache.getDataByKey(nicknameKey);
+  getToken(iduser) {
+    return this.cache.getDataByKey(iduser);
   }
 
-  getNicknameByToken(token) {
+  getidByToken(token) {
     return this.__getKeyByValue(token); 
   }
 

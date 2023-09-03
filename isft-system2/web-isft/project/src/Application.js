@@ -1,9 +1,12 @@
-import { UnlogedNavBarController }  from './Controller/UnlogedNavBarController.js';
-import           { UnlogedNavBar }  from './View/Menus/UnlogedNavBar.js';
-import              { IsftLoader }  from './View/Loader/IsftLoader.js';
-import                { Register }  from './View/Register.js';
-import                   { Login }  from './View/Login.js';
-import                    { Home }  from './View/Home.js';
+import { UnlogedNavBarController } from './Controller/UnlogedNavBarController.js';
+import          { HomeController } from './Controller/HomeController.js';
+import           { ApiController } from './Controller/ApiCallController.js';
+import           { UnlogedNavBar } from './View/Menus/UnlogedNavBar.js';
+import              { IsftLoader } from './View/Loader/IsftLoader.js';
+import               { HomeModel } from './Model/HomeModel.js';
+import                { Register } from './View/Register.js';
+import                   { Login } from './View/Login.js';
+import                    { Home } from './View/Home.js';
 
 
 class Application extends HTMLElement {
@@ -12,6 +15,9 @@ class Application extends HTMLElement {
     this.viewReference;
     this.unlogedNavBar = new UnlogedNavBar();
     this.unlogedNavBarController = new UnlogedNavBarController(this.unlogedNavBar);
+    
+    this.home = new Home();
+    this.homeController = new HomeController(this.home, new HomeModel(new ApiController()));
   }
 
   connectedCallback() {
@@ -31,6 +37,7 @@ class Application extends HTMLElement {
     window.addEventListener('login-button-navbar-event',      () => { this.onViewChangeLogin(); });
     window.addEventListener('register-button-navbar-event',   () => { this.onViewChangeRegister(); });
     window.addEventListener('register-button-signIn-event',   () => { this.onViewChangeRegister(); });
+    window.addEventListener('logged-event',                   () => { this.onViewChangeLoggedHome() })
   }
 
   onViewChangeHome() {
@@ -54,6 +61,15 @@ class Application extends HTMLElement {
       this.removeChild(this.viewReference);
     }
     this.viewReference = new Register();
+    this.appendChild(this.viewReference);
+  }
+
+  onViewChangeLoggedHome() {
+    if (this.viewReference) {
+      this.removeChild(this.viewReference);
+      this.removeChild(this.unlogedNavBar);
+    }
+    this.viewReference = new Home();
     this.appendChild(this.viewReference);
   }
 }

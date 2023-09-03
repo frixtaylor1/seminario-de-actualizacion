@@ -3,12 +3,16 @@ class SessionHandler {
     this.localStorage = window.localStorage;
   }
 
-  storeToken(token) {
+  storeToken(token, iduser) {
     this.localStorage.setItem('token', token);
+    this.localStorage.setItem('iduser', iduser)
   }
 
-  getToken() {
-    return this.localStorage.getItem('token');
+  getTokenAndId() {
+    return { 
+      'token' : this.localStorage.getItem('token'),
+      'iduser': this.localStorage.getItem('iduser')
+    } ;
   }
 }
 
