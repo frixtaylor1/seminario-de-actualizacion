@@ -9,20 +9,20 @@ class ApiController {
     const fullUrl = this.url + endpoint;
 
     try {
-      // Obtener el token de la clase SessionHandler
       let sessionHandler = new SessionHandler();
-      const token = sessionHandler.getToken(); 
+      const tokenAndId = sessionHandler.getTokenAndId(); 
       
       let request = {
         method: method,
         headers: {
-          'Custom-Token': token,
+          'Custom-Token': tokenAndId.token,
+          'Id'          : tokenAndId.id,
           'Content-Type': 'application/json'
         },
         body: method !== 'GET' ? JSON.stringify(data) : undefined
       };
 
-      const response = await fetch(fullUrl, request);
+      const response     = await fetch(fullUrl, request);
       const responseData = await response.json();
 
       return responseData;

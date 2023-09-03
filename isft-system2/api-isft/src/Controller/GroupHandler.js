@@ -18,9 +18,13 @@ class GroupHandler {
 
         let storeProcedure = 'usp_create_group';
         results = await this.dbHandler.executeStoreProcedure(storeProcedure, Data);
+        
       } catch(error) {
         console.error('Database Error context -> GroupHandler -> create', error);
         results = error;
+
+      } finally {
+        await this.dbHandler.close();
       }
     } else {
       results = new Error('Error json input at createGroupData');

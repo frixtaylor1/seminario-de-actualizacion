@@ -35,13 +35,14 @@ class SignInController {
 
       try {
         const result = await this.modelReference.signIn(userData);
-        this.sessionHandler.storeToken(result['token']);
+        console.log(result);
+        this.sessionHandler.storeToken(result['token'], result['iduser']);
         
         if(result.error != undefined && result.error != '') {
           this.viewReference.messageLabel.setMessage(result.error);
         } else {
           this.viewReference.messageLabel.setMessage('You are logged!');
-          window.dispatchEvent(new CustomEvent('registered-event'));
+          window.dispatchEvent(new CustomEvent('logged-event'));
         }
       } catch (error) {
         this.__callbackApiCallDebug(error);
