@@ -35,7 +35,6 @@ class SignInController {
 
       try {
         const result = await this.modelReference.signIn(userData);
-        console.log(result);
         this.sessionHandler.storeToken(result['token'], result['iduser']);
         
         if(result.error != undefined && result.error != '') {

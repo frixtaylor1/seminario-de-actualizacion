@@ -61,16 +61,22 @@ class UserHandler {
   async readById(data) {
     let results;
     let Data = {
-      'iduser': Sanitizer.sanitizeInput(data.iduser),
+      'iduser': data.iduser,
     }
 
     try {
+      this.dbHandler.connect();
+      const storeProcedureName = 'usp_read_user_by_id';
+      results = await this.dbHandler.executeStoreProcedure(storeProcedureName, Data);
 
     } catch(error) {
+      results = error;
 
     } finally {
       await this.dbHandler.close();
     }
+
+    return results;
   }
   __validateUserDataCreate(data) {
     return Object.values(data).every(element => isType(element, 'string') && element !== "");

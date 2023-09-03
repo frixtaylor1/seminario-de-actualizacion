@@ -1,9 +1,10 @@
 import { UnlogedNavBarController } from './Controller/UnlogedNavBarController.js';
-import          { HomeController } from './Controller/HomeController.js';
+import      { UserHomeController } from './Controller/UserHomeController.js';
+import           { UserHomeModel } from './Model/UserHomeModel.js';
 import           { ApiController } from './Controller/ApiCallController.js';
 import           { UnlogedNavBar } from './View/Menus/UnlogedNavBar.js';
 import              { IsftLoader } from './View/Loader/IsftLoader.js';
-import               { HomeModel } from './Model/HomeModel.js';
+import                { UserHome } from './View/UserHome.js';
 import                { Register } from './View/Register.js';
 import                   { Login } from './View/Login.js';
 import                    { Home } from './View/Home.js';
@@ -17,7 +18,7 @@ class Application extends HTMLElement {
     this.unlogedNavBarController = new UnlogedNavBarController(this.unlogedNavBar);
     
     this.home = new Home();
-    this.homeController = new HomeController(this.home, new HomeModel(new ApiController()));
+    this.userHomeController = new UserHomeController(this.home, new UserHomeModel(new ApiController()));
   }
 
   connectedCallback() {
@@ -69,7 +70,7 @@ class Application extends HTMLElement {
       this.removeChild(this.viewReference);
       this.removeChild(this.unlogedNavBar);
     }
-    this.viewReference = new Home();
+    this.viewReference = new UserHome();
     this.appendChild(this.viewReference);
   }
 }

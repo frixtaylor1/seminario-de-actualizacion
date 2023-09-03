@@ -69,6 +69,18 @@ class ClassicInput extends HTMLElement {
   getInputValue() {
     return this.input.input.value;
   }
+
+  setInputValue(value) {
+    this.input.input.value = value;
+  }
+
+  setReadonly(value) {
+    if(value === true) {
+      this.input.input.setAttribute('readonly', 'readonly');
+    } else {
+      this.input.input.removeAttribute('readonly')
+    }
+  }
 }
 
 customElements.define('x-classicinput', ClassicInput);

@@ -1,4 +1,4 @@
-class HomeController {
+class UserHomeController {
   constructor(homeViewReference, homeModelReference, sessionHandlerReference) {
     this.viewReference    = homeViewReference;
     this.modelReference   = homeModelReference;
@@ -21,12 +21,11 @@ class HomeController {
         'path': 'getUserInfo'
       };
       let result = await this.modelReference.getUserInfo(userData);
-      this.viewReference.userCard.getUserNameTitleReference().innerText = result.name;
-      console.log(result);
+      this.viewReference.userCard.setNameTitle(result[0].name + ' ' + result[0].surname);
     } catch(error) {
       console.error(error);
     }
   }
 }
 
-export { HomeController };
+export { UserHomeController };
