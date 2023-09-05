@@ -37,7 +37,7 @@ class Server {
       return;
     }
   
-    if (this.authenticateRequest(key, customToken)) {
+    if (this.authenticaAndRegisterteRequest(url, customToken)) {
       let body = '';
   
       req.on('data', function(chunk) {
@@ -65,8 +65,8 @@ class Server {
     res.end(JSON.stringify(responseData));
   }
 
-  authenticateRequest(method, customToken) {
-    if ((method === 'POST /signIn' || method === 'POST /register')) {
+  authenticaAndRegisterteRequest(path, customToken) {
+    if ((path === '/signIn' || path === '/register')) {
       console.log('Authentication - Allowed without check');
       return true;
     } else {
