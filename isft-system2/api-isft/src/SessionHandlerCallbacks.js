@@ -20,13 +20,17 @@ function callbackRegister(requestData, responseCallback) {
 
     (async () => {
       results = await userHandler.create(userData);
-      await userHandler.dbhandler.close();
 
-      responseCallback(200, results);
+      console.log('RESULTS CREATE USER: ', results);
+
+      if (results) {
+        responseCallback(200, { message: 'User registration successful', user: results });
+      } else {
+        responseCallback(403, { message: 'User registration failed' });
+      }
     })();
   } catch (error) {
-    results = error;
-    responseCallback(200, results);
+    responseCallback(500, { message: 'Internal server error', error: error.message });
   }
 }
 

@@ -16,7 +16,7 @@ class ApiController {
         method: method,
         headers: {
           'Custom-Token': tokenAndId.token,
-          'Id'          : tokenAndId.id,
+          'iduser'      : tokenAndId.iduser,
           'Content-Type': 'application/json'
         },
         body: method !== 'GET' ? JSON.stringify(data) : undefined

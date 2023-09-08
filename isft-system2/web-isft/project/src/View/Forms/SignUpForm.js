@@ -1,5 +1,6 @@
 import { ClassicInput } from "../Inputs/ClassicInput.js";
 import { Button } from "../Buttons/Button.js";
+import { MessageLabel } from "../MessageLabel/MessageLabel.js";
 
 class SignUpForm extends HTMLElement {
   constructor() {
@@ -17,6 +18,7 @@ class SignUpForm extends HTMLElement {
     this.telephoneInput = new ClassicInput('Telephone', true, 'write your telephone...', 'text');
 
     this.registerButton = new Button('register', 'bttn', './style/FormButton.css');
+    this.messageLabel   = new MessageLabel();
 
     this.containerForm.appendChild(this.usernameInput);
     this.containerForm.appendChild(this.passwordInput);
@@ -26,6 +28,7 @@ class SignUpForm extends HTMLElement {
     this.containerForm.appendChild(this.genderInput);
     this.containerForm.appendChild(this.telephoneInput);
     this.containerForm.appendChild(this.registerButton);
+    this.containerForm.appendChild(this.messageLabel);
   }
 
   getInputUserNameValue() {
@@ -54,6 +57,14 @@ class SignUpForm extends HTMLElement {
 
   getInputTelephoneValue() {
     return this.telephoneInput.getInputValue();
+  }
+
+  getMessageLabelReference() {
+    return this.messageLabel.message;
+  }
+
+  setValueMessageLabel(value) {
+    this.messageLabel.setMessage(value);
   }
 
   render() {
