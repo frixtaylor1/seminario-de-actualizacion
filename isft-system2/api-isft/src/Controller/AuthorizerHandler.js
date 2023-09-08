@@ -7,7 +7,7 @@ class AuthorizerHandler {
   async checkUserAuthorization(data) {
     let results = {};
     let Data = {
-      'iduser': data.iduser,
+      'iduser': parseInt(data.iduser),
       'path'  : data.path
     };
 
@@ -17,7 +17,15 @@ class AuthorizerHandler {
       await this.dbHandler.connect();
       let storeProcedure = 'usp_is_user_authorized';
       results = await this.dbHandler.executeStoreProcedure(storeProcedure, Data);
-    
+
+      let parsedResult = results[0][0];
+      parsedResult     = JSON.parse(parsedResult.result);
+
+      if (parsedResult.authorized === '1') {
+        results = { authorized: true, message: 'Authorized' };
+      } else {
+        results = { authorized: false, message: 'Error unauthorized!' };
+      }
     } catch(error) {
       console.error('Database Error context -> GroupHandler -> checkUserAuthorization', error);
       results = error;
