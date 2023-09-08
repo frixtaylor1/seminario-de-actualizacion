@@ -25,8 +25,11 @@ class SignUpController {
     try {
       let result = await this.modelReference.signUp(userData);
       this.__callbackApiCall(null, result);
+      this.viewReference.setValueMessageLabel(result.message); 
+
     } catch (error) {
       this.__callbackApiCall(error, null);
+      this.viewReference.setValueMessageLabel(error.message);
     }
   }
 

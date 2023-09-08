@@ -7,7 +7,7 @@ class UserHandler {
   }
 
   async create(data) {
-    let results = {};
+    let results;
     let Data = {
       'nickname'  : Sanitizer.sanitizeInput(data.nickname),
       'password'  : Sanitizer.sanitizeInput(data.password),
@@ -60,14 +60,11 @@ class UserHandler {
 
   async readById(data) {
     let results;
-    let Data = {
-      'iduser': data.iduser,
-    }
 
     try {
       this.dbHandler.connect();
       const storeProcedureName = 'usp_read_user_by_id';
-      results = await this.dbHandler.executeStoreProcedure(storeProcedureName, Data);
+      results = await this.dbHandler.executeStoreProcedure(storeProcedureName, data);
 
     } catch(error) {
       results = error;
