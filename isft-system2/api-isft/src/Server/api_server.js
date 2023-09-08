@@ -77,6 +77,7 @@ class Server {
 
     req.on('end', function() {
       try {
+
         const requestData = body ? JSON.parse(body) : {};
         handler(requestData, function(statusCode, responseData) {
           this.sendResponse(res, statusCode, responseData);
@@ -101,6 +102,7 @@ class Server {
   authenticateOrRegisterRequest(url, customToken) {
     if (url === '/signIn' || url === '/register') {
       console.log('Authentication or Registration - Allowed call to /signIn; /register || without check');
+
       return true;
     } else {
       if (customToken === undefined) {
