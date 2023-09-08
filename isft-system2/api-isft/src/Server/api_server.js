@@ -48,8 +48,6 @@ class Server {
           path: url
         };
 
-        console.log('IDUSER FOR AUTHORIZER: ', authorizationReqData);
-
         authorizerHandler.checkUserAuthorization(authorizationReqData).then(response => {
           const authorized = response.authorized;
           if (authorized) {

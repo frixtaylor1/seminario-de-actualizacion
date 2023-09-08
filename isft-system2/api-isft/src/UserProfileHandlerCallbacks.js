@@ -12,8 +12,6 @@ async function callbackGetUserInfo(requestData, responseCallback) {
     let userHandler = new UserHandler(new DataBaseHandler());
     results = await userHandler.readById(userData);
 
-    console.log('RESULTS!: ', results);
-
     responseCallback(200, results[0]);
 
   } catch (error) {
