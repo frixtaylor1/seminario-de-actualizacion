@@ -1,17 +1,28 @@
-const http = require('http');
+const http  = require('http');
+const fs    = require('fs');
 
 const { AuthorizerHandler } = require('../Controller/AuthorizerHandler.js');
 const { DataBaseHandler }   = require('../DataBaseHandler/DataBaseHandler.js');
 const { sessionHandler }    = require('../Controller/SessionHandler.js');
+const { parseYAML }         = require('../Common/YMLParser.js');
 
 class Server {
   constructor() {
+    let serverParametersObj;
+    try {
+      const yamlContent = fs.readFileSync('./configuration/parameters.yml', 'utf8');
+      serverParametersObj = parseYAML(yamlContent);
+
+    } catch (error) {
+      console.error('Error reading yml file server parameters:', error);
+    }
+
     this.routes = {};
     this.headers = {
-      'Access-Control-Allow-Origin' : '*',
-      'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE',
-      'Access-Control-Allow-Headers': 'content-type, custom-token, iduser',
-      'Content-Type'                : 'application/json'
+      'Access-Control-Allow-Origin' : serverParametersObj.server.allowed_origin,
+      'Access-Control-Allow-Methods': serverParametersObj.server.methods,
+      'Access-Control-Allow-Headers': serverParametersObj.server.headers,
+      'Content-Type'                : serverParametersObj.server.content_type
     };
   }
 
