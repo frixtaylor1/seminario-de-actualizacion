@@ -1,4 +1,3 @@
-const { AuthorizerHandler } = require('./Controller/AuthorizerHandler.js');
 const { UserHandler } = require('./Controller/UserHandler.js');
 const { DataBaseHandler } = require('./DataBaseHandler/DataBaseHandler.js');
 
