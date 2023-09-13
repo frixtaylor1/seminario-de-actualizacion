@@ -10,19 +10,25 @@ Antes de ejecutar la API, asegúrate de seguir estos pasos de configuración:
 
 Debes crear un directorio llamado `db-isft` en el directorio raíz del proyecto. Este directorio es ignorado por Git y se utiliza para almacenar los archivos y datos relacionados con la base de datos.
 
-### 2. Archivo de configuración `.env`
+### 2. Archivo de configuración `parameters.yml`
 
-En el directorio `api-isft`, crea un archivo llamado `.env`. Este archivo contiene la configuración para la conexión a la base de datos. Aquí tienes un ejemplo del contenido del archivo `.env`:
+En el directorio `api-isft/configuration/`, settea el archivo llamado `parameters.yml`. Este archivo contiene la configuración para la conexión a la base de datos y la configuración de los parámetros del servidor. Aquí tienes un ejemplo del contenido del archivo `parameters.yml`:
 
 ```
-DB_HOST='db'
-DB_PORT=3306
-DB_USER=dbuser
-DB_PASSWORD=123456
-DB_NAME=isft
+server:
+  allowed_origin: *
+  methods: GET, POST, PUT, DELETE
+  headers: content-type, custom-token, iduser
+  content_type: application/json
+database:
+  db_host: db
+  db_port: 3306
+  db_user: frix
+  db_password: 123456
+  db_name: isft
 ```
 
-¡ATENCIÓN! No cambies el valor de `DB_HOST` a otro diferente de 'db', ya que esta variable se utiliza como referencia al contenedor de la base de datos.
+¡ATENCIÓN! No cambies el valor de `database.db_host` a otro diferente de 'db', ya que esta variable se utiliza como referencia al contenedor de la base de datos.
 
 ## Ejecución
 
