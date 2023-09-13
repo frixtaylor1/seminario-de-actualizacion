@@ -1,36 +1,44 @@
 const mysql = require('mysql');
-const dotenv = require('dotenv');
-dotenv.config();
-
-function dbConfig() {
-  return {
-    host    : process.env.DB_HOST,
-    port    : process.env.DB_PORT,
-    user    : process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
-    database: process.env.DB_NAME
-  };
-}
+const fs = require('fs').promises;
+const { parseYAML } = require('../Common/YMLParser.js');
 
 class DataBaseHandler {
-  constructor(dbconfig = dbConfig()) {
-    this.__connection = mysql.createConnection({
-      host    : dbconfig.host, 
-      port    : dbconfig.port,
-      user    : dbconfig.user,
-      password: dbconfig.password,
-      database: dbconfig.database
-    });
+  constructor(configFilePath = './configuration/parameters.yml') {
+    this.configFilePath = configFilePath;
+    this.configData = null;
+    this.__connection = null;
+
+    this.connect = this.connect.bind(this);
+  }
+
+  async loadConfig() {
+    try {
+      const yamlString = await fs.readFile(this.configFilePath, 'utf8');
+      this.configData = await parseYAML(yamlString);
+      
+    } catch (error) {
+      console.error('Error loading config:', error.message);
+    }
   }
 
   connect() {
+    if (!this.configData) {
+      throw new Error('Database configuration not loaded. Call loadConfig() first.');
+    }
+
+    this.__connection = mysql.createConnection({
+      host    : 'db',
+      port    : this.configData.database.db_port,
+      user    : this.configData.database.db_user,
+      password: this.configData.database.db_password,
+      database: this.configData.database.db_name,
+    });
+
     return new Promise((resolve, reject) => {
-      this.__connection.connect((error) => {
-        if (error) {
-          console.error('Error connecting to DataBase!', error);
-          reject(error);
+      this.__connection.connect((err) => {
+        if (err) {
+          reject(err);
         } else {
-          console.log('Connection success!');
           resolve();
         }
       });
@@ -58,17 +66,25 @@ class DataBaseHandler {
 
   close() {
     return new Promise((resolve, reject) => {
-      this.__connection.end((error) => {
-        if (error) {
-          console.error('Error closing DataBase connection!', error);
-          reject(error);
-        } else {
-          console.log('Connection closed!');
-          resolve();
-        }
-      });
+      if (this.__connection) {
+        this.__connection.end((error) => {
+          if (error) {
+            console.error('Error closing DataBase connection!', error);
+            reject(error);
+          } else {
+            console.log('Connection closed!');
+            resolve();
+          }
+        });
+      } else {
+        console.log('No active connection to close.');
+        resolve();
+      }
     });
   }
 }
 
-module.exports = { DataBaseHandler };
+const dataBaseHandler = new DataBaseHandler();
+dataBaseHandler.loadConfig();
+
+module.exports = { dataBaseHandler };

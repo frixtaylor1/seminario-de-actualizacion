@@ -7,7 +7,12 @@ class Register extends HTMLElement {
   constructor() {
     super();
     this.form = new SignUpForm();
-    this.signUpController = new SignUpController(this.form, new SignUpModel(new ApiController('http://localhost:3036')));
+    this.signUpController = new SignUpController(
+      this.form, 
+      new SignUpModel(
+        new ApiController('http://localhost:3036')
+      )
+    );
   }
 
   connectedCallback() {

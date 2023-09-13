@@ -62,7 +62,8 @@ class UserHandler {
     let results;
 
     try {
-      this.dbHandler.connect();
+      await this.dbHandler.connect();
+
       const storeProcedureName = 'usp_read_user_by_id';
       results = await this.dbHandler.executeStoreProcedure(storeProcedureName, data);
 

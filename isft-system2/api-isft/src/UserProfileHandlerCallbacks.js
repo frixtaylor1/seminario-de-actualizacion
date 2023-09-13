@@ -1,5 +1,5 @@
 const { UserHandler } = require('./Controller/UserHandler.js');
-const { DataBaseHandler } = require('./DataBaseHandler/DataBaseHandler.js');
+const { dataBaseHandler } = require('./DataBaseHandler/DataBaseHandler.js');
 
 async function callbackGetUserInfo(requestData, responseCallback) {
   let results;
@@ -8,7 +8,7 @@ async function callbackGetUserInfo(requestData, responseCallback) {
       iduser: requestData.iduser,
     };
 
-    let userHandler = new UserHandler(new DataBaseHandler());
+    let userHandler = new UserHandler(dataBaseHandler);
     results = await userHandler.readById(userData);
 
     responseCallback(200, results[0]);

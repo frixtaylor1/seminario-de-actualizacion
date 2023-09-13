@@ -2,43 +2,47 @@ const http  = require('http');
 const fs    = require('fs');
 
 const { AuthorizerHandler } = require('../Controller/AuthorizerHandler.js');
-const { DataBaseHandler }   = require('../DataBaseHandler/DataBaseHandler.js');
+const { dataBaseHandler }   = require('../DataBaseHandler/DataBaseHandler.js');
 const { sessionHandler }    = require('../Controller/SessionHandler.js');
 const { parseYAML }         = require('../Common/YMLParser.js');
 
 class Server {
-  constructor() {
-    let serverParametersObj;
-    try {
-      const yamlContent = fs.readFileSync('./configuration/parameters.yml', 'utf8');
-      serverParametersObj = parseYAML(yamlContent);
+  constructor(requestHandler) {
+    this.requestHandler = requestHandler;
+  }
 
-    } catch (error) {
-      console.error('Error reading yml file server parameters:', error);
-    }
+  start(port) {
+    const server = http.createServer((req, res) => {
+      this.requestHandler.handleMessages(req, res);
+    });
 
-    this.routes = {};
-    this.headers = {
-      'Access-Control-Allow-Origin' : serverParametersObj.server.allowed_origin,
-      'Access-Control-Allow-Methods': serverParametersObj.server.methods,
-      'Access-Control-Allow-Headers': serverParametersObj.server.headers,
-      'Content-Type'                : serverParametersObj.server.content_type
-    };
+    server.listen(port, () => {
+      console.log('Servidor HTTP iniciado en el puerto ' + port);
+    });
+  
   }
 
   get(path, handler) {
-    this.routes['GET ' + path] = handler;
+    this.requestHandler.routes['GET ' + path] = handler;
   }
 
   post(path, handler) {
-    this.routes['POST ' + path] = handler;
+    this.requestHandler.routes['POST ' + path] = handler;
+  }
+}
+
+class ServerMessagesHandler {
+  constructor() {
+    this.routes = {};
+    this.headers = {};
+    this.__loadServerParameters();
   }
 
-  handleRequest(req, res) {
-    const method      = req.method;
-    const url         = req.url;
+  handleMessages(req, res) {
+    const method = req.method;
+    const url = req.url;
     const customToken = req.headers['custom-token'];
-    const key         = method + ' ' + url;
+    const key = method + ' ' + url;
 
     if (method === 'OPTIONS') {
       this.handleOptions(res);
@@ -53,23 +57,26 @@ class Server {
 
     if (this.authenticateOrRegisterRequest(url, customToken)) {
       if (url !== '/signIn' && url !== '/register') {
-        const authorizerHandler = new AuthorizerHandler(new DataBaseHandler());
+        const authorizerHandler = new AuthorizerHandler(dataBaseHandler);
         const authorizationReqData = {
           iduser: req.headers['iduser'],
-          path: url
+          path: url,
         };
 
-        authorizerHandler.checkUserAuthorization(authorizationReqData).then(response => {
-          const authorized = response.authorized;
-          if (authorized) {
-            this.handleCallable(req, res, handler);
-          } else {
-            this.sendResponse(res, 402, { error: 'Unauthorized error!' });
-          }
-        }).catch(error => {
-          console.error('Error checking authorization:', error);
-          this.sendResponse(res, 500, { error: 'Internal Server Error' });
-        });
+        authorizerHandler
+          .checkUserAuthorization(authorizationReqData)
+          .then((response) => {
+            const authorized = response.authorized;
+            if (authorized) {
+              this.handleCallable(req, res, handler);
+            } else {
+              this.sendResponse(res, 402, { error: 'Unauthorized error!' });
+            }
+          })
+          .catch((error) => {
+            console.error('Error checking authorization:', error);
+            this.sendResponse(res, 500, { error: 'Internal Server Error' });
+          });
       } else {
         this.handleCallable(req, res, handler);
       }
@@ -80,22 +87,21 @@ class Server {
 
   handleCallable(req, res, handler) {
     let body = '';
-    req.on('data', function(chunk) {
+    req.on('data', (chunk) => {
       body += chunk.toString();
     });
 
-    req.on('end', function() {
+    req.on('end', () => {
       try {
-
         const requestData = body ? JSON.parse(body) : {};
-        handler(requestData, function(statusCode, responseData) {
+        handler(requestData, (statusCode, responseData) => {
           this.sendResponse(res, statusCode, responseData);
-        }.bind(this));
+        });
       } catch (error) {
         console.error('Error parsing request data:', error);
         this.sendResponse(res, 400, { error: 'Bad Request' });
       }
-    }.bind(this));
+    });
   }
 
   handleOptions(res) {
@@ -111,7 +117,6 @@ class Server {
   authenticateOrRegisterRequest(url, customToken) {
     if (url === '/signIn' || url === '/register') {
       console.log('Authentication or Registration - Allowed call to /signIn; /register || without check');
-
       return true;
     } else {
       if (customToken === undefined) {
@@ -121,7 +126,7 @@ class Server {
 
       let id = sessionHandler.getidByToken(customToken);
       if (id && sessionHandler.compareToken(id, customToken)) {
-        console.log('Authentication - Successful');
+        console.log('Authentication - Success');
         return true;
       }
 
@@ -130,12 +135,25 @@ class Server {
     }
   }
 
-  start(port) {
-    const server = http.createServer(this.handleRequest.bind(this));
-    server.listen(port, function() {
-      console.log('Servidor HTTP iniciado en el puerto ' + port);
-    });
+  async __loadServerParameters() {
+    try {
+      const yamlContent = fs.readFileSync('./configuration/parameters.yml', 'utf8');
+      const data = await parseYAML(yamlContent);
+      const serverParametersObj = data.server;
+
+      this.headers = {
+        'Access-Control-Allow-Origin': serverParametersObj.allowed_origin,
+        'Access-Control-Allow-Methods': serverParametersObj.methods,
+        'Access-Control-Allow-Headers': serverParametersObj.headers,
+        'Content-Type': serverParametersObj.content_type,
+      };
+    } catch (error) {
+      console.error('Error reading yml file server parameters:', error);
+    }
   }
 }
 
-module.exports = { Server };
+module.exports = {
+  Server,
+  ServerMessagesHandler,
+};

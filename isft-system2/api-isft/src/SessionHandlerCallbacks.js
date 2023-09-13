@@ -1,12 +1,12 @@
 const     { UserHandler } = require('./Controller/UserHandler.js');
 const   { SignInHandler } = require('./Controller/SignInHandler.js');
 const  { sessionHandler } = require('./Controller/SessionHandler.js');
-const { DataBaseHandler } = require('./DataBaseHandler/DataBaseHandler.js');
+const { dataBaseHandler } = require('./DataBaseHandler/DataBaseHandler.js');
 
 function callbackRegister(requestData, responseCallback) {
   try {
     let results;
-    let userHandler = new UserHandler(new DataBaseHandler());
+    let userHandler = new UserHandler(dataBaseHandler);
 
     let userData = {
       'nickname'  : requestData.nickname,
@@ -20,8 +20,6 @@ function callbackRegister(requestData, responseCallback) {
 
     (async () => {
       results = await userHandler.create(userData);
-
-      console.log('RESULTS CREATE USER: ', results);
 
       if (results) {
         responseCallback(200, { message: 'User registration successful', user: results });
@@ -38,7 +36,7 @@ function callbackSignIn(requestData, responseCallback) {
   try {
     let results;
     let message;
-    let signInHanlder = new SignInHandler(new DataBaseHandler());
+    let signInHanlder = new SignInHandler(dataBaseHandler);
 
     let userData = {
       'nickname': requestData.nickname,

@@ -11,10 +11,9 @@ class AuthorizerHandler {
       'path'  : data.path
     };
 
-    console.log(Data);
-
     try {
       await this.dbHandler.connect();
+
       let storeProcedure = 'usp_is_user_authorized';
       results = await this.dbHandler.executeStoreProcedure(storeProcedure, Data);
 

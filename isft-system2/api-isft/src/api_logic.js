@@ -1,11 +1,12 @@
-const { Server } = require('./Server/api_server.js');
+const { Server }                = require('./Server/api_server.js');
+const { ServerMessagesHandler } = require('./Server/api_server.js');
 
 const      { callbackSignIn } = require('./SessionHandlerCallbacks.js');
 const    { callbackRegister } = require('./SessionHandlerCallbacks.js');
 const { callbackGetUserInfo } = require('./UserProfileHandlerCallbacks.js');
 
 function start_api() {  
-  const api = new Server();
+  const api = new Server(new ServerMessagesHandler());
 
   // Login and Register...
   api.post('/signIn',   callbackSignIn);

@@ -15,10 +15,17 @@ class Application extends HTMLElement {
     super();
     this.viewReference;
     this.unlogedNavBar = new UnlogedNavBar();
-    this.unlogedNavBarController = new UnlogedNavBarController(this.unlogedNavBar);
+    this.unlogedNavBarController = new UnlogedNavBarController(
+      this.unlogedNavBar
+    );
     
     this.home = new Home();
-    this.userHomeController = new UserHomeController(this.home, new UserHomeModel(new ApiController()));
+    this.userHomeController = new UserHomeController(
+      this.home, 
+      new UserHomeModel(
+        new ApiController()
+      )
+    );
   }
 
   connectedCallback() {
