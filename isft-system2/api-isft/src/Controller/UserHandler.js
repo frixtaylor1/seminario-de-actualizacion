@@ -1,8 +1,9 @@
-const { Sanitizer } = require("../Common/Sanitizer.js");
-const { isType } = require("../Common/TypeValidate.js");
+const { Sanitizer }       = require("../Common/Sanitizer.js");
+const { isType }          = require("../Common/TypeValidate.js");
+const { dataBaseHandler } = require("../DataBaseHandler/DataBaseHandler.js");
 
 class UserHandler {
-  constructor(dbHandler) {
+  constructor(dbHandler = dataBaseHandler) {
     this.dbHandler = dbHandler;
   }
 
@@ -79,6 +80,29 @@ class UserHandler {
   __validateUserDataCreate(data) {
     return Object.values(data).every(element => isType(element, 'string') && element !== "");
   }
+
+  /**
+   * Obtiene la informacion de usuario cuando se realiza la llamada al endpoint 
+   * `/getUserInfo`
+   * @param json requestData          | contains iduser
+   * @param callable responseCallback | a callback para el response.
+   * 
+   * @return json
+   **/
+  async getInfo(requestData, responseCallback) {
+    let results;
+    let userData = {
+      iduser: requestData.iduser,
+    };
+  
+    let userHandler = new UserHandler(dataBaseHandler);
+    results = await userHandler.readById(userData);
+  
+    responseCallback(200, results[0]);
+  
+    return results;
+  }
+
 }
 
 module.exports = { UserHandler };

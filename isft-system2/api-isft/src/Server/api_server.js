@@ -3,7 +3,7 @@ const fs    = require('fs');
 
 const { AuthorizerHandler } = require('../Controller/AuthorizerHandler.js');
 const { dataBaseHandler }   = require('../DataBaseHandler/DataBaseHandler.js');
-const { sessionHandler }    = require('../Controller/SessionHandler.js');
+const { tokenHandler }      = require('../Controller/TokenHandler.js');
 const { parseYAML }         = require('../Common/YMLParser.js');
 
 class Server {
@@ -124,8 +124,8 @@ class ServerMessagesHandler {
         return false;
       }
 
-      let id = sessionHandler.getidByToken(customToken);
-      if (id && sessionHandler.compareToken(id, customToken)) {
+      let id = tokenHandler.getKeyByToken(customToken);
+      if (id && tokenHandler.compareToken(id, customToken)) {
         console.log('Authentication - Success');
         return true;
       }
