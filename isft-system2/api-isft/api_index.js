@@ -1,3 +1,3 @@
-const { start_api } = require('./src/api_logic.js');
+const { main } = require('./src/EntryPoint.js');
 
-start_api();
+main();

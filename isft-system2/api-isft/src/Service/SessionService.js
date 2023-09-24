@@ -1,8 +1,9 @@
-const { Sanitizer } = require('../Common/Sanitizer.js');
+const { Sanitizer }       = require('../Common/Sanitizer.js');
+const { dataBaseHandler } = require('../DataBaseHandler/DataBaseHandler.js');
 
-class SignInHandler {
-  constructor(dataBaseHandler) {
-    this.dbHandler = dataBaseHandler;
+class SessionService {
+  constructor(dbHandler = dataBaseHandler) {
+    this.dbHandler = dbHandler;
   }
 
   async signIn(data) {
@@ -22,7 +23,7 @@ class SignInHandler {
       return parsedResult;
 
     } catch (error) {
-      console.error('Database Error context -> SignInHandler -> signIn', error);
+      console.error('Database Error context -> SessionService -> signIn', error);
       return error;
 
     } finally {
@@ -31,4 +32,4 @@ class SignInHandler {
   }
 }
 
-module.exports = { SignInHandler };
+module.exports = { SessionService };

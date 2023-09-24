@@ -5,7 +5,7 @@ class SignUpModel {
 
   async signUp(userData, callback) {
     try {
-      const result = await this.apiController.callApi('/register', 'POST', userData);
+      const result = await this.apiController.callApi('/signUp', 'POST', userData);
       if (callback) {
         callback(null, result);
       }

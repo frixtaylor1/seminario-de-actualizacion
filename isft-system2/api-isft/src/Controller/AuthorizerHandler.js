@@ -4,6 +4,14 @@ class AuthorizerHandler {
     this.dbHandler = dbHandler;
   }
 
+  /**
+   * Chequea si un usuario tiene la autorizacion para realizar una determinada tarea
+   * @param json | contains {
+   *    iduser, 
+   *    path
+   * }
+   * @return json
+   **/
   async checkUserAuthorization(data) {
     let results = {};
     let Data = {
