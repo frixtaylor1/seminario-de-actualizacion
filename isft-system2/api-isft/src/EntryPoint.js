@@ -1,5 +1,5 @@
-const { Server }                = require('./Server/api_server.js');
-const { ServerMessagesHandler } = require('./Server/api_server.js');
+const { Server }                = require('./Server/Server.js');
+const { ServerMessagesHandler } = require('./Server/ServerMessageHandler.js');
 const routes                    = require('./Routes/routes.js');
 
 /**

@@ -1,4 +1,3 @@
-const http  = require('http');
 const fs    = require('fs');
 
 const { AuthorizerHandler } = require('../Controller/AuthorizerHandler.js');
@@ -6,43 +5,19 @@ const { dataBaseHandler }   = require('../DataBaseHandler/DataBaseHandler.js');
 const { tokenHandler }      = require('../Controller/TokenHandler.js');
 const { parseYAML }         = require('../Common/YMLParser.js');
 
-class Server {
-  constructor(requestHandler) {
-    this.requestHandler = requestHandler;
-  }
-
-  start(port) {
-    const server = http.createServer((req, res) => {
-      this.requestHandler.handleMessages(req, res);
-    });
-
-    server.listen(port, () => {
-      console.log('Servidor HTTP iniciado en el puerto ' + port);
-    });
-  
-  }
-
-  get(path, handler) {
-    this.requestHandler.routes['GET ' + path] = handler;
-  }
-
-  post(path, handler) {
-    this.requestHandler.routes['POST ' + path] = handler;
-  }
-}
-
 class ServerMessagesHandler {
   constructor() {
-    this.routes = {};
+    this.routes  = {};
     this.headers = {};
+
     this.__loadServerParameters();
   }
 
   handleMessages(req, res) {
-    const method = req.method;
-    const url = req.url;
-    const customToken = req.headers['custom-token'];
-    const key = method + ' ' + url;
+    const method        = req.method;
+    const url           = req.url;
+    const customToken   = req.headers['custom-token'];
+    const key           = method + ' ' + url;
 
     if (method === 'OPTIONS') {
       this.handleOptions(res);
@@ -57,10 +32,10 @@ class ServerMessagesHandler {
 
     if (this.authenticateOrRegisterRequest(url, customToken)) {
       if (url !== '/signIn' && url !== '/register') {
-        const authorizerHandler = new AuthorizerHandler(dataBaseHandler);
-        const authorizationReqData = {
+        const authorizerHandler     = new AuthorizerHandler(dataBaseHandler);
+        const authorizationReqData  = {
           iduser: req.headers['iduser'],
-          path: url,
+          path  : url,
         };
 
         authorizerHandler
@@ -137,15 +112,15 @@ class ServerMessagesHandler {
 
   async __loadServerParameters() {
     try {
-      const yamlContent = fs.readFileSync('./configuration/parameters.yml', 'utf8');
-      const data = await parseYAML(yamlContent);
+      const yamlContent         = fs.readFileSync('./configuration/parameters.yml', 'utf8');
+      const data                = await parseYAML(yamlContent);
       const serverParametersObj = data.server;
 
       this.headers = {
-        'Access-Control-Allow-Origin': serverParametersObj.allowed_origin,
-        'Access-Control-Allow-Methods': serverParametersObj.methods,
-        'Access-Control-Allow-Headers': serverParametersObj.headers,
-        'Content-Type': serverParametersObj.content_type,
+        'Access-Control-Allow-Origin'   : serverParametersObj.allowed_origin,
+        'Access-Control-Allow-Methods'  : serverParametersObj.methods,
+        'Access-Control-Allow-Headers'  : serverParametersObj.headers,
+        'Content-Type'                  : serverParametersObj.content_type,
       };
     } catch (error) {
       console.error('Error reading yml file server parameters:', error);
@@ -153,7 +128,4 @@ class ServerMessagesHandler {
   }
 }
 
-module.exports = {
-  Server,
-  ServerMessagesHandler,
-};
+module.exports = { ServerMessagesHandler };
