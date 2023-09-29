@@ -1,18 +1,22 @@
 const fs = require('fs');
 
-const { AuthorizerHandler } = require('../Controller/AuthorizerHandler.js');
-const { dataBaseHandler } = require('../DataBaseHandler/DataBaseHandler.js');
-const { tokenHandler } = require('../Controller/TokenHandler.js');
 const { parseYAML } = require('../Common/YMLParser.js');
 
 class ServerMessagesHandler {
   constructor() {
-    this.routes = {};
+    this.routes  = {};
     this.headers = {};
 
     this.__loadServerParameters();
   }
 
+  /**
+   * @brief Gestiona los mensajes del Server
+   * 
+   * @param Request req  
+   * @param ServerResponse res
+   * @return void 
+  **/
   handleMessages(req, res) {
     const method  = req.method;
     const url     = req.url;
@@ -23,6 +27,14 @@ class ServerMessagesHandler {
     this.__handleCallable(req, res, handler);
   }
 
+  /**
+   * @brief Gestiona las callbacks
+   * 
+   * @param Request req  
+   * @param ServerResponse res
+   * @param callable handler
+   * @return void
+  **/
   __handleCallable(req, res, handler) {
     let body = '';
     req.on('data', (chunk) => {
@@ -42,16 +54,34 @@ class ServerMessagesHandler {
     });
   }
 
+  /**
+   * @brief Gestiona las options
+   * 
+   * @param ServerResponse res
+   * @return void
+  **/
   __handleOptions(res) {
     res.writeHead(204, this.headers);
     res.end();
   }
 
+  /**
+   * @brief Gestiona las respuestas
+   * 
+   * @param ServerResponse res
+   * @param numeric statusCode
+   * @param json responseData
+   * @return void
+  **/
   __sendResponse(res, statusCode, responseData) {
     res.writeHead(statusCode, this.headers);
     res.end(JSON.stringify(responseData));
   }
 
+  /**
+   * @brief Carga los parametros del servidor
+   * @return void
+  **/
   async __loadServerParameters() {
     try {
       const yamlContent = fs.readFileSync('./configuration/parameters.yml', 'utf8');
@@ -59,10 +89,10 @@ class ServerMessagesHandler {
       const serverParametersObj = data.server;
 
       this.headers = {
-        'Access-Control-Allow-Origin': serverParametersObj.allowed_origin,
+        'Access-Control-Allow-Origin' : serverParametersObj.allowed_origin,
         'Access-Control-Allow-Methods': serverParametersObj.methods,
         'Access-Control-Allow-Headers': serverParametersObj.headers,
-        'Content-Type': serverParametersObj.content_type,
+        'Content-Type'                : serverParametersObj.content_type,
       };
     } catch (error) {
       console.error('Error reading yml file server parameters:', error);

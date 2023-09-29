@@ -1,6 +1,7 @@
-const { AuthorizerHandler } = require('../Controller/AuthorizerHandler.js');
-const { dataBaseHandler } = require('../DataBaseHandler/DataBaseHandler.js');
-const { tokenHandler } = require('../Controller/TokenHandler.js');
+const { ServerMessagesHandler } = require('./ServerMessageHandler');
+const { AuthorizerHandler }     = require('../Controller/AuthorizerHandler.js');
+const { dataBaseHandler }       = require('../DataBaseHandler/DataBaseHandler.js');
+const { tokenHandler }          = require('../Controller/TokenHandler.js');
 
 class ServerMessagesHandlerProxy {
   constructor(realObj = new ServerMessagesHandler()) {
@@ -17,10 +18,10 @@ class ServerMessagesHandlerProxy {
   }
 
   handleMessages(req, res) {
-    const url = req.url;
+    const url         = req.url;
     const customToken = req.headers['custom-token'];
-    const method = req.method;
-    const key = method + ' ' + url;
+    const method      = req.method;
+    const key         = method + ' ' + url;
 
     if (method === 'OPTIONS') {
       this.serverMessageHandler.__handleOptions(res);
@@ -65,11 +66,11 @@ class ServerMessagesHandlerProxy {
   }
 
   __authorize(req, res, handler) {
-    const url = req.url;
-    const authorizerHandler = new AuthorizerHandler(dataBaseHandler);
-    const authorizationReqData = {
+    const url                   = req.url;
+    const authorizerHandler     = new AuthorizerHandler(dataBaseHandler);
+    const authorizationReqData  = {
       iduser: req.headers['iduser'],
-      path: url,
+      path  : url,
     };
 
     authorizerHandler
