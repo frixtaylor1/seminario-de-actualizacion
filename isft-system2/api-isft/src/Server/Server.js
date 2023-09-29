@@ -1,9 +1,9 @@
 const http  = require('http');
 
-const { ServerMessagesHandler } = require('./ServerMessageHandler.js');
+const { ServerMessagesHandlerProxy } = require('./ServerMessageHandler.js');
 
 class Server {
-  constructor(serverMessageHandler = new ServerMessagesHandler()) {
+  constructor(serverMessageHandler = new ServerMessagesHandlerProxy()) {
     this.serverMessageHandler = serverMessageHandler;
   }
 
@@ -19,15 +19,14 @@ class Server {
   }
 
   get(path, handler) {
-    this.serverMessageHandler.routes['GET ' + path] = handler;
+    this.serverMessageHandler.setHandlerToPathGET(path, handler);
   }
 
   post(path, handler) {
-    this.serverMessageHandler.routes['POST ' + path] = handler;
+    this.serverMessageHandler.setHandlerToPathPOST(path, handler);
   }
 }
 
 module.exports = {
-  Server,
-  ServerMessagesHandler,
+  Server
 };
