@@ -8,15 +8,36 @@ class ServerMessagesHandlerProxy {
     this.serverMessageHandler = realObj;
 
   }
-
+  
+  /**
+   * @brief Settea un handler a una respectiva ruta
+   * 
+   * @param string path  
+   * @param callable handler
+   * @return void 
+  **/
   setHandlerToPathPOST(path, handler) {
     this.serverMessageHandler.routes['POST ' + path] = handler;
   }
 
+  /**
+   * @brief Settea un handler a una respectiva ruta
+   * 
+   * @param string path  
+   * @param callable handler
+   * @return void 
+  **/
   setHandlerToPathGET(path, handler) {
     this.serverMessageHandler.routes['GET ' + path] = handler;
   }
 
+  /**
+   * @brief Gestiona los mensajes del Server
+   * 
+   * @param Request req  
+   * @param ServerResponse res
+   * @return void 
+  **/
   handleMessages(req, res) {
     const url         = req.url;
     const customToken = req.headers['custom-token'];
