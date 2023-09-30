@@ -14,12 +14,12 @@ class Application extends HTMLElement {
   constructor() {
     super();
     this.viewReference;
-    this.unlogedNavBar = new UnlogedNavBar();
+    this.unlogedNavBar           = new UnlogedNavBar();
     this.unlogedNavBarController = new UnlogedNavBarController(
       this.unlogedNavBar
     );
     
-    this.home = new Home();
+    this.home               = new Home();
     this.userHomeController = new UserHomeController(
       this.home, 
       new UserHomeModel(
@@ -45,7 +45,7 @@ class Application extends HTMLElement {
     window.addEventListener('login-button-navbar-event',      () => { this.onViewChangeLogin(); });
     window.addEventListener('register-button-navbar-event',   () => { this.onViewChangeRegister(); });
     window.addEventListener('register-button-signIn-event',   () => { this.onViewChangeRegister(); });
-    window.addEventListener('logged-event',                   () => { this.onViewChangeLoggedHome() })
+    window.addEventListener('logged-event',                   () => { this.onViewChangeLoggedHome(); });
   }
 
   onViewChangeHome() {

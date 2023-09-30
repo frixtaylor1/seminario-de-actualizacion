@@ -6,7 +6,6 @@ const { tokenHandler }          = require('../Controller/TokenHandler.js');
 class ServerMessagesHandlerProxy {
   constructor(realObj = new ServerMessagesHandler()) {
     this.serverMessageHandler = realObj;
-
   }
   
   /**
@@ -17,7 +16,7 @@ class ServerMessagesHandlerProxy {
    * @return void 
   **/
   setHandlerToPathPOST(path, handler) {
-    this.serverMessageHandler.routes['POST ' + path] = handler;
+    this.serverMessageHandler.setHandlerToPathPOST(path, handler);
   }
 
   /**
@@ -28,7 +27,7 @@ class ServerMessagesHandlerProxy {
    * @return void 
   **/
   setHandlerToPathGET(path, handler) {
-    this.serverMessageHandler.routes['GET ' + path] = handler;
+    this.serverMessageHandler.setHandlerToPathGET(path, handler);
   }
 
   /**
@@ -51,7 +50,7 @@ class ServerMessagesHandlerProxy {
 
     const handler = this.serverMessageHandler.routes[key];
     if (!handler) {
-      this.serverMessageHandler.sendResponse(res, 404, { error: 'Endpoint not found' });
+      this.serverMessageHandler.__sendResponse(res, 404, { error: 'Endpoint not found' });
       return;
     }
 
@@ -99,6 +98,10 @@ class ServerMessagesHandlerProxy {
       .then((response) => {
         const authorized = response.authorized;
         if (authorized) {
+          /**
+          * Genero un Nuevo Token...
+          **/
+          res.token = tokenHandler.generateToken(authorizationReqData.iduser); 
           this.serverMessageHandler.__handleCallable(req, res, handler);
         } else {
           this.serverMessageHandler.__sendResponse(res, 402, { error: 'Unauthorized error!' });

@@ -25,7 +25,10 @@ class UserHomeController {
       if(result.authorized === false) {
         return ;
       }
-      this.viewReference.userCard.setNameTitle(result[0].name + ' ' + result[0].surname);
+
+      result = result.data[0];
+
+      this.viewReference.userCard.setNameTitle(result.name + ' ' + result.surname);
     } catch(error) {
       console.error(error);
     }

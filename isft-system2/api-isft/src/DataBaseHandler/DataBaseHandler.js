@@ -5,16 +5,15 @@ const { parseYAML } = require('../Common/YMLParser.js');
 class DataBaseHandler {
   constructor(configFilePath = './configuration/parameters.yml') {
     this.configFilePath = configFilePath;
-    this.configData = null;
-    this.__connection = null;
-
-    this.connect = this.connect.bind(this);
+    this.configData     = null;
+    this.__connection   = null;
+    this.connect        = this.connect.bind(this);
   }
 
   async loadConfig() {
     try {
-      const yamlString = await fs.readFile(this.configFilePath, 'utf8');
-      this.configData = await parseYAML(yamlString);
+      const yamlString  = await fs.readFile(this.configFilePath, 'utf8');
+      this.configData   = await parseYAML(yamlString);
       
     } catch (error) {
       console.error('Error loading config:', error.message);

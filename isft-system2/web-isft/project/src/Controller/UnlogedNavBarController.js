@@ -1,12 +1,12 @@
 class UnlogedNavBarController {
-  constructor(navBarReference) {
-    this.navBar = navBarReference;
+  constructor(viewReference) {
+    this.viewReference = viewReference;
   }
 
   __setCallbacks() {
-    this.navBar.homeButton.onclick      = () => { this.homeButtonEvent(); }; 
-    this.navBar.registerButton.onclick  = () => { this.registerButtonEvent(); };
-    this.navBar.loginButton.onclick     = () => { this.loginButtonEvent(); };
+    this.viewReference.homeButton.onclick      = () => { this.homeButtonEvent(); }; 
+    this.viewReference.registerButton.onclick  = () => { this.registerButtonEvent(); };
+    this.viewReference.loginButton.onclick     = () => { this.loginButtonEvent(); };
   }
 
   enable() {
@@ -14,9 +14,9 @@ class UnlogedNavBarController {
   }
 
   disable() {
-    this.navBar.homeButton.onclick      = null;
-    this.navBar.registerButton.onclick  = null;
-    this.navBar.loginButton.onclick     = null;
+    this.viewReference.homeButton.onclick      = null;
+    this.viewReference.registerButton.onclick  = null;
+    this.viewReference.loginButton.onclick     = null;
   }
 
   homeButtonEvent() {
@@ -30,8 +30,6 @@ class UnlogedNavBarController {
   loginButtonEvent() {
     window.dispatchEvent(new CustomEvent('login-button-navbar-event'));
   }
-
 }
-
 
 export { UnlogedNavBarController }

@@ -23,7 +23,11 @@ class ApiController {
       };
 
       const response     = await fetch(fullUrl, request);
-      const responseData = await response.json();
+      let responseData   = await response.json();
+
+      if (responseData.token) {
+        sessionHandler.storeToken(responseData.token, tokenAndId.iduser);
+      }
 
       return responseData;
     } catch (error) {

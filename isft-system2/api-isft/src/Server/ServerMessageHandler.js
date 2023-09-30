@@ -1,6 +1,7 @@
 const fs = require('fs');
 
 const { parseYAML } = require('../Common/YMLParser.js');
+const { tokenHandler } = require('../Controller/TokenHandler.js');
 
 class ServerMessagesHandler {
   constructor() {
@@ -28,6 +29,28 @@ class ServerMessagesHandler {
   }
 
   /**
+   * @brief Settea un handler a una respectiva ruta
+   * 
+   * @param string path  
+   * @param callable handler
+   * @return void 
+  **/
+  setHandlerToPathPOST(path, handler) {
+    this.routes['POST ' + path] = handler;
+  }
+
+  /**
+   * @brief Settea un handler a una respectiva ruta
+   * 
+   * @param string path  
+   * @param callable handler
+   * @return void 
+  **/
+  setHandlerToPathGET(path, handler) {
+    this.routes['GET ' + path] = handler;
+  }
+
+  /**
    * @brief Gestiona las callbacks
    * 
    * @param Request req  
@@ -45,6 +68,13 @@ class ServerMessagesHandler {
       try {
         const requestData = body ? JSON.parse(body) : {};
         handler(requestData, (statusCode, responseData) => {
+          if (res.token) {
+            const data = responseData; 
+            responseData = {
+              data,
+              'token': res.token
+            };
+          }
           this.__sendResponse(res, statusCode, responseData);
         });
       } catch (error) {
