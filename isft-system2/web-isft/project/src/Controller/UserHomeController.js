@@ -26,7 +26,7 @@ class UserHomeController {
         return ;
       }
 
-      result = result.data[0];
+      result = result.data;
 
       this.viewReference.userCard.setNameTitle(result.name + ' ' + result.surname);
     } catch(error) {
