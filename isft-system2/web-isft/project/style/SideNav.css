@@ -1,0 +1,29 @@
+.sidenav-bttn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 30px;
+    padding: 5px 10px;
+    background-color: #593e8a;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    margin: 10px auto;
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+  
+  .sidenav-bttn:hover {
+    background-color: #31185f;
+    box-shadow: 0 0 20px rgba(200, 112, 235, 0.973);
+  }
+  
+  .sidenav-bttn:active,
+  .sidenav-bttn:focus {
+    background-color: #593e8a;
+    box-shadow: 0 0 30px rgba(155, 89, 218, 0.9);
+    outline: none;
+  }
