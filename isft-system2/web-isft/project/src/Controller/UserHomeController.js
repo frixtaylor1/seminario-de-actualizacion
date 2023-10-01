@@ -1,16 +1,14 @@
+import { UserHome } from "../View/Scenes/UserHome.js";
+
 class UserHomeController {
-  constructor(homeViewReference, homeModelReference, sessionHandlerReference) {
+  constructor(homeViewReference = new UserHome(), homeModelReference, sessionHandlerReference) {
     this.viewReference    = homeViewReference;
     this.modelReference   = homeModelReference;
     this.sessionHandler   = sessionHandlerReference;
-
   }
 
   enabled() {
     this.__onLoadHome();
-  }
-
-  disabled() {
   }
 
   async __onLoadHome() {
@@ -28,7 +26,7 @@ class UserHomeController {
 
       result = result.data;
 
-      this.viewReference.userCard.setNameTitle(result.name + ' ' + result.surname);
+      this.viewReference.sideNav.userCard.setNameTitle(result.name + ' ' + result.surname);
     } catch(error) {
       console.error(error);
     }

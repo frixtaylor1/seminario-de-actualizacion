@@ -1,8 +1,8 @@
-import { SignInForm }       from './Forms/SignInForm.js';
-import { SignInModel }      from '../Model/SignInModel.js';
-import { ApiController }    from '../Controller/ApiCallController.js';
-import { SessionHandler }   from '../Controller/SessionHandler.js';
-import { SignInController } from '../Controller/SignInController.js';
+import { SignInForm }       from '../Forms/SignInForm.js';
+import { SignInModel }      from '../../Model/SignInModel.js';
+import { ApiController }    from '../../Controller/ApiCallController.js';
+import { SessionHandler }   from '../../Controller/SessionHandler.js';
+import { SignInController } from '../../Controller/SignInController.js';
 
 class Login extends HTMLElement {
   constructor() {

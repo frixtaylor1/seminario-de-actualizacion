@@ -4,10 +4,10 @@ import           { UserHomeModel } from './Model/UserHomeModel.js';
 import           { ApiController } from './Controller/ApiCallController.js';
 import           { UnlogedNavBar } from './View/Menus/UnlogedNavBar.js';
 import              { IsftLoader } from './View/Loader/IsftLoader.js';
-import                { UserHome } from './View/UserHome.js';
-import                { Register } from './View/Register.js';
-import                   { Login } from './View/Login.js';
-import                    { Home } from './View/Home.js';
+import                { UserHome } from './View/Scenes/UserHome.js';
+import                { Register } from './View/Scenes/Register.js';
+import                   { Login } from './View/Scenes/Login.js';
+import                    { Home } from './View/Scenes/Home.js';
 
 
 class Application extends HTMLElement {

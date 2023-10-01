@@ -1,7 +1,7 @@
-import { SignUpForm }       from './Forms/SignUpForm.js';
-import { ApiController }    from '../Controller/ApiCallController.js';
-import { SignUpController } from '../Controller/SignUpController.js';
-import { SignUpModel }      from '../Model/SignUpModel.js';
+import { SignUpForm }       from '../Forms/SignUpForm.js';
+import { ApiController }    from '../../Controller/ApiCallController.js';
+import { SignUpController } from '../../Controller/SignUpController.js';
+import { SignUpModel }      from '../../Model/SignUpModel.js';
 
 class Register extends HTMLElement {
   constructor() {
