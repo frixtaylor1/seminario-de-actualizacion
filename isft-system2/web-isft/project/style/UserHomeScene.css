@@ -1,6 +1,6 @@
 .sidenav {
     height: 100%;
-    max-width: fit-content;
+    width: 15%;
     position: fixed;
     z-index: 1;
     top: 0;
@@ -10,26 +10,17 @@
     border: 2px #593e8a solid;
     overflow-x: hidden;
     transition: 0.5s;
-    padding-top: 60px;
-    filter: blur(1px);
+    padding-top: 10px;
 }
 
-.sidenav:hover {
-    max-width: 17em;
-    transition: max-width 0.3s ease, padding 0.3s ease;
-    filter: blur(0);
+.sidenav-title {
+    color: #593e8a;
+    text-align: center;
+    font-weight: bold;
+    font-family: "FuenteVistosa", 'Segoe UI';
 }
 
-.sidenav a {
-    padding: 8px 8px 8px 32px;
-    text-decoration: none;
-    font-size: 25px;
-    color: wheat;
+.card {
     display: block;
-    transition: 0.3s;
-    margin-left: 2em;
-}
-
-.sidenav a:hover {
-    color: #f1f1f1;
+    margin-left: 15%;
 }

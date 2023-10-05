@@ -26,7 +26,8 @@ class UserHomeController {
 
       result = result.data;
 
-      this.viewReference.sideNav.userCard.setNameTitle(result.name + ' ' + result.surname);
+      this.viewReference.userCard.setNameTitle(result.name + ' ' + result.surname);
+      this.viewReference.userCard.setGroupTitle(result.group_name);
     } catch(error) {
       console.error(error);
     }
