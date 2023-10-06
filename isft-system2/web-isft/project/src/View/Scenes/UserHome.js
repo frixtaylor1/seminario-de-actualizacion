@@ -1,13 +1,14 @@
+import { SideNav }            from '../SideNav/SideNav.js';
+import { UserCard }           from "../Cards/UserCard.js";
+import { BaseScene }          from './BaseScene.js';
 import { UserHomeModel }      from '../../Model/UserHomeModel.js';
 import { createElement }      from '../Utils/Utility.js';
 import { ApiController }      from '../../Controller/ApiCallController.js';
 import { SessionHandler }     from '../../Controller/SessionHandler.js';
-import { UserHomeController } from '../../Controller/UserHomeController.js';
 import { SideNavController }  from '../../Controller/SideNavController.js';
-import { SideNav }            from '../SideNav/SideNav.js';
-import { UserCard }           from "../Cards/UserCard.js";
+import { UserHomeController } from '../../Controller/UserHomeController.js';
 
-class UserHome extends HTMLElement {
+class UserHome extends BaseScene {
   constructor() {
     super();
     this.userCard = new UserCard('./style/UserCard.css');
@@ -45,8 +46,11 @@ class UserHome extends HTMLElement {
   }
 
   render() {
-    this.appendChild(this.sideNav);
-    this.appendChild(this.userCard);
+    this.asideContainer.appendChild(this.sideNav);
+    this.sectionContainer.appendChild(this.userCard);
+
+    this.appendChild(this.asideContainer);
+    this.appendChild(this.sectionContainer);
 
     let style = createElement('style');
     style.innerText = `@import './style/UserHomeScene.css'`;
