@@ -1,0 +1,65 @@
+/* Modal Window */
+.modal-window {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: fit-content;
+    max-width: 90%;
+    background: whitesmoke;
+    border-radius: 5px;
+    border: 2px #593e8a solid;
+    padding: 20px;
+    box-shadow: 0 0 15px rgba(228, 129, 248, 0.795);
+    text-align: center;
+}
+
+.modal-window-title {
+    color: #593e8a;
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+}
+
+.modal-window-message {
+    color: #593e8a;
+    font-size: 1rem;
+    margin-bottom: 20px;
+}
+
+/* Buttons */
+.modal-accept-bttn, .modal-decline-bttn {
+    display: inline-block;
+    padding: 10px 20px;
+    margin: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    font-size: 1rem;
+}
+
+.modal-accept-bttn {
+    background-color: #3d9c75;
+    color: white;
+}
+
+.modal-decline-bttn {
+    background-color: #cc4027;
+    color: white;
+}
+
+.modal-accept-bttn:hover {
+    background-color: #12573a;
+    box-shadow: 0 0 20px rgba(112, 124, 235, 0.973);
+}
+
+.modal-decline-bttn:hover {
+    background-color: #a0250f;
+    box-shadow: 0 0 20px rgba(235, 120, 112, 0.973);
+}
+
+.modal-accept-bttn:active, .modal-decline-bttn:active {
+    background-color: rgb(37, 134, 126);
+    box-shadow: 0 0 30px rgba(89, 199, 218, 0.9);
+    outline: none;
+}

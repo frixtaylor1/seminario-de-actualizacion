@@ -5,7 +5,7 @@ const { UserHandler }     = require('./UserHandler.js');
 
 class SessionHandler {
   constructor(dbHandler = dataBaseHandler) {
-    this.dbHandler      = dbHandler;
+    this.dbHandler = dbHandler;
   }
 
   /**
@@ -56,7 +56,7 @@ class SessionHandler {
   async signUp(requestData, responseCallback) {
 
     let results;
-    let userHandler = new UserHandler(this.dbHandler);
+    let userHandler = new UserHandler();
   
     let userData = {
       'nickname'  : requestData.nickname,
