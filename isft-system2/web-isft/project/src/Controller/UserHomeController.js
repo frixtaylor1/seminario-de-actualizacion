@@ -9,6 +9,7 @@ class UserHomeController {
 
   enabled() {
     this.__onLoadHome();
+    this.__setCallbacks();
   }
 
   async __onLoadHome() {
@@ -31,6 +32,17 @@ class UserHomeController {
     } catch(error) {
       console.error(error);
     }
+  }
+
+  __setCallbacks() {
+    this.viewReference.asideContainer.addEventListener('user-info-clicked', () => { 
+      this.viewReference.sectionContainer.appendChild(this.viewReference.userCard); 
+    });
+    this.viewReference.asideContainer.addEventListener('home-clicked', () => { 
+      if (this.viewReference.userCard) {
+        this.viewReference.sectionContainer.removeChild(this.viewReference.userCard);
+      }
+    });
   }
 }
 

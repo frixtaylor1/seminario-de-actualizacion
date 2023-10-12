@@ -16,7 +16,7 @@ class UserHome extends BaseScene {
     this.userHomeController = new UserHomeController(
       this, 
       new UserHomeModel(
-        new ApiController('http://localhost:3036')
+        new ApiController('http://127.0.0.1:3036')
       ), 
       new SessionHandler()
     );
@@ -47,7 +47,6 @@ class UserHome extends BaseScene {
 
   render() {
     this.asideContainer.appendChild(this.sideNav);
-    this.sectionContainer.appendChild(this.userCard);
 
     this.appendChild(this.asideContainer);
     this.appendChild(this.sectionContainer);

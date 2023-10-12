@@ -5,7 +5,7 @@ class ApiController {
     this.url = url;
   }
 
-  async callApi(endpoint, method, data) {
+  async callApi(endpoint, method, data = null) {
     const fullUrl = this.url + endpoint;
 
     try {

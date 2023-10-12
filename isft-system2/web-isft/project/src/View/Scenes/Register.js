@@ -10,7 +10,7 @@ class Register extends HTMLElement {
     this.signUpController = new SignUpController(
       this.form, 
       new SignUpModel(
-        new ApiController('http://localhost:3036')
+        new ApiController('http://127.0.0.1:3036')
       )
     );
   }
