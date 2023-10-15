@@ -41,6 +41,10 @@ class UserHome extends BaseScene {
   
   enabled() {
     this.userHomeController.enabled();
+    this.sectionContainer.addEventListener('user-chat-clicked', (event) => { 
+      console.log('User Clicked', event.detail);
+      this.modalWind
+    });
   }
   
   disabled() {
@@ -49,7 +53,6 @@ class UserHome extends BaseScene {
 
   render() {
     this.asideContainer.appendChild(this.sideNav);
-    this.sectionContainer.appendChild(this.chat);
     this.appendChild(this.asideContainer);
     this.appendChild(this.sectionContainer);
 

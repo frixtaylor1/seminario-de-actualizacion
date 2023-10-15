@@ -35,13 +35,25 @@ class UserHomeController {
   }
 
   __setCallbacks() {
+    this.viewReference.asideContainer.addEventListener('home-clicked', () => {
+      this.__removeSectionChildren();
+    });
     this.viewReference.asideContainer.addEventListener('user-info-clicked', () => { 
+      this.__removeSectionChildren();
+
       this.viewReference.sectionContainer.appendChild(this.viewReference.userCard); 
     });
-    this.viewReference.asideContainer.addEventListener('home-clicked', () => { 
-      if (this.viewReference.userCard) {
-        this.viewReference.sectionContainer.removeChild(this.viewReference.userCard);
-      }
+    this.viewReference.asideContainer.addEventListener('chat-clicked', () => {
+      this.__removeSectionChildren();
+
+      this.viewReference.sectionContainer.appendChild(this.viewReference.chat);
+    });
+  }
+
+  __removeSectionChildren() {
+    let childNodes = Array.from(this.viewReference.sectionContainer.children);
+    childNodes.forEach(element => {
+      this.viewReference.sectionContainer.removeChild(element);
     });
   }
 }

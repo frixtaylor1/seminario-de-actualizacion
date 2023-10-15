@@ -11,6 +11,7 @@ class SideNavController {
   __setCallbacks() {
     this.viewReference.userInfo.addEventListener('click', () => { this.__dispatchClickedEventToUserInfo(); });
     this.viewReference.userHome.addEventListener('click', () => { this.__dispatchClickedEventToUserHome(); });
+    this.viewReference.chat.addEventListener('click',     () => { this.__dispatchClickedEventToChat(); });
   }
 
   __dispatchClickedEventToUserInfo() {
@@ -19,6 +20,10 @@ class SideNavController {
 
   __dispatchClickedEventToUserHome() {
     this.viewReference.parentElement.dispatchEvent(new CustomEvent('home-clicked'));
+  }
+
+  __dispatchClickedEventToChat() {
+    this.viewReference.parentElement.dispatchEvent(new CustomEvent('chat-clicked')); 
   }
 }
 
