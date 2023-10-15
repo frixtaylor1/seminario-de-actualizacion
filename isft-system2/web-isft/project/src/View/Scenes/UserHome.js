@@ -33,6 +33,7 @@ class UserHome extends BaseScene {
   connectedCallback() {
     this.enabled();
     this.render();
+
   }
 
   disconnectedCallback() {
@@ -43,7 +44,15 @@ class UserHome extends BaseScene {
     this.userHomeController.enabled();
     this.sectionContainer.addEventListener('user-chat-clicked', (event) => { 
       console.log('User Clicked', event.detail);
-      this.modalWind
+      this.appendChild(this.chat.modalWindow);
+    });
+    this.addEventListener('accepted-modal-window-event', () => { 
+      this.removeChild(this.chat.modalWindow);
+      console.log('asefawaefwe'); 
+    });
+    this.addEventListener('declined-modal-window-event', () => { 
+      this.removeChild(this.chat.modalWindow);
+      console.log('declined!');
     });
   }
   

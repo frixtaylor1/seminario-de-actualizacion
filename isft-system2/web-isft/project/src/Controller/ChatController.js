@@ -6,7 +6,6 @@ class ChatController {
   constructor(viewReference = new Chat(), modelReference = new ChatModel()) {
     this.viewReference        = viewReference;
     this.modelReference       = modelReference;
-    this.userNicknameClicked  = undefined; 
 
     this.__setCallbacks();
   }
@@ -20,13 +19,14 @@ class ChatController {
   }
 
   __setCallbacks() {
-    this.__onLoad();
+    this.__onLoad();  
   }
 
   __userClicked(nickname) {
     this.viewReference.parentElement.dispatchEvent(
       new CustomEvent('user-chat-clicked', { detail: { 'targetNickname': nickname } })
     );
+    this.viewReference.modalWindow.setMessage(`Propose a chat with ${nickname}`);
   }
 
   async __onLoad() {

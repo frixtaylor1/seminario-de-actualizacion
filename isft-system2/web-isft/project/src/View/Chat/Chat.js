@@ -16,6 +16,7 @@ class Chat extends HTMLElement {
     this.chat         = createElement('div', { class: 'chat' });
 
     this.modalWindow  = new ModalWindow();
+    this.modalWindow.setModalTitle('Do you want to propose a chat?');
 
     this.controller = new ChatController(
       this, 

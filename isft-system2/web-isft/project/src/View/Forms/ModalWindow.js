@@ -8,8 +8,8 @@ class ModalWindow extends HTMLElement {
 
     this.modalTitle     = createElement('h2', { class: 'modal-window-title' });
     this.message        = createElement('p', { class: 'modal-window-message' });
-    this.declineButton  = new Button('Decline', 'modal-decline-bttn'); 
-    this.acceptButton   = new Button('Accept',  'modal-accept-bttn');
+    this.declinedButton = new Button('Decline', 'modal-decline-bttn'); 
+    this.acceptedButton = new Button('Accept',  'modal-accept-bttn');
   }
 
   setModalTitle(title) {
@@ -29,29 +29,29 @@ class ModalWindow extends HTMLElement {
     this.__unSetCallbacks();
   }
 
-  __acceptCallback() {
+  __acceptedCallback() {
     this.parentElement.dispatchEvent(new CustomEvent('accepted-modal-window-event'));
   }
 
-  __declineCallback() {
-    this.parentElement.dispatchEvent(new CustomEvent('decline-modal-window-event'));
+  __declinedCallback() {
+    this.parentElement.dispatchEvent(new CustomEvent('declined-modal-window-event'));
   }
 
   __setCallbacks() {
-    this.acceptButton.addEventListener('click',   () => { this.__acceptCallback(); });
-    this.declineButton.addEventListener('click',  () => { this.__declineCallback(); });
+    this.acceptedButton.addEventListener('click',   () => { this.__acceptedCallback(); });
+    this.declinedButton.addEventListener('click',  () => { this.__declinedCallback(); });
   }
 
   __unSetCallbacks() {
-    this.acceptButton.addEventListener('click',   null);
-    this.declineButton.addEventListener('click',  null);
+    this.acceptedButton.addEventListener('click',   null);
+    this.declinedButton.addEventListener('click',  null);
   }
 
   render() {
     this.appendChild(this.modalTitle);
     this.appendChild(this.message);
-    this.appendChild(this.declineButton);
-    this.appendChild(this.acceptButton);
+    this.appendChild(this.declinedButton);
+    this.appendChild(this.acceptedButton);
 
     let style = createElement('style');
     style.innerText = `@import "./style/ModalWindow.css"`;
