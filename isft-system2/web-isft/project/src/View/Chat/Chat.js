@@ -1,5 +1,5 @@
-import { createElement }  from "../Utils/Utility";
-import { ApiController }  from "../../Controller/ApiCallController";
+import { createElement }  from "../Utils/Utility.js";
+import { ApiController }  from "../../Controller/ApiCallController.js";
 import { ModalWindow }    from "../Forms/ModalWindow.js";
 
 class ChatModel {
@@ -9,11 +9,13 @@ class ChatModel {
 
   async getUserList(callback = null) {
     try {
+      
       const result = await this.apiController.callApi('/getUserList', 'POST');
       if (callback) {
         callback(null, result);
       }
       return result;
+
     } catch (error) {
       console.error(error);
       if (callback) {
@@ -130,10 +132,11 @@ class ChatController {
     );
   }
 
-  __onLoad() {
-    let userList = this.modelReference.getUserList();
+  async __onLoad() {
+    let userList = await this.modelReference.getUserList();
+    console.log(userList.data);
 
-    userList.forEach(element => {
+    userList.data.forEach(element => {
       let user = createElement('li', { class: 'user' });
       user.textContent = element.nickname;
       user.addEventListener('click', () => { this.__userClicked(element.nickname) });
@@ -183,115 +186,3 @@ class Chat extends HTMLElement {
 customElements.define('x-chat', Chat);
 
 export { Chat };
-
-/* 
-<!DOCTYPE html>
-<html>
-<head>
-    <style>
-        /* Estilos generales
-        body, html {
-          height: 100%;
-          margin: 0;
-      }
-
-      /* Contenedor principal del chat
-      #chat-container {
-          display: flex;
-          height: 100%;
-      }
-
-      /* Estilos para el panel de usuarios
-      #user-panel {
-          width: 20%;
-          background: #f2f2f2;
-          overflow-y: auto;
-      }
-
-      #user-list {
-          list-style: none;
-          padding: 0;
-      }
-
-      .user {
-          padding: 10px;
-          cursor: pointer;
-          border-bottom: 1px solid #ddd;
-      }
-
-      .user:hover {
-          background: #ddd;
-      }
-
-      /* Estilos para el área de chat
-      #chat-panel {
-          width: 80%;
-          background: #ffffff;
-          display: flex;
-          flex-direction: column;
-      }
-
-      #chat {
-          flex: 1;
-          overflow-y: auto;
-          padding: 20px;
-          display: flex;
-          flex-direction: column;
-      }
-
-      .message {
-          margin: 10px;
-          padding: 10px;
-          border-radius: 5px;
-          max-width: 70%;
-      }
-
-      .message.sender {
-          align-self: flex-end;
-          background-color: #593e8a;
-          color: wheat;
-      }
-
-      .message.receiver {
-          align-self: flex-start;
-          background-color: #f2f2f2;
-      }
-
-      /* Estilos para el cuadro de entrada de mensajes
-      #message-input {
-          padding: 10px;
-          border: none;
-          border-top: 1px solid #ddd;
-          width: 100%;
-      }
-  </style>
-</head>
-<body>
-  <div id="chat-container">
-      <div id="user-panel">
-          <ul id="user-list">
-              <li class="user">Usuario 1</li>
-              <li class="user">Usuario 2</li>
-              <li class="user">Usuario 3</li>
-              <li class="user">Usuario 4</li>
-          </ul>
-      </div>
-      <div id="chat-panel">
-          <div id="chat">
-              <div class="message sender">
-                  Hola, ¿cómo estás?
-              </div>
-              <div class="message receiver">
-                  ¡Hola! Estoy bien, ¿y tú?
-              </div>
-              <div class="message sender">
-                  Estoy bien, gracias.
-              </div>
-          </div>
-          <input type="text" id="message-input" placeholder="Escribe un mensaje..." />
-      </div>
-  </div>
-</body>
-</html>
-
- */

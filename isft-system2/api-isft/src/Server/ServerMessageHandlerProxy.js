@@ -1,7 +1,7 @@
 const { ServerMessagesHandler } = require('./ServerMessageHandler');
-const { AuthorizerHandler }     = require('../Controller/AuthorizerHandler.js');
+const { AuthorizerHandler }     = require('../Handler/AuthorizerHandler.js');
 const { dataBaseHandler }       = require('../DataBaseHandler/DataBaseHandler.js');
-const { tokenHandler }          = require('../Controller/TokenHandler.js');
+const { tokenHandler }          = require('../Handler/TokenHandler.js');
 
 class ServerMessagesHandlerProxy {
   constructor(realObj = new ServerMessagesHandler()) {

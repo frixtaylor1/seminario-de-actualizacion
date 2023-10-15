@@ -1,3 +1,4 @@
+import { Chat }               from '../Chat/Chat.js';
 import { SideNav }            from '../SideNav/SideNav.js';
 import { UserCard }           from "../Cards/UserCard.js";
 import { BaseScene }          from './BaseScene.js';
@@ -12,6 +13,7 @@ class UserHome extends BaseScene {
   constructor() {
     super();
     this.userCard = new UserCard('./style/UserCard.css');
+    this.chat     = new Chat();
 
     this.userHomeController = new UserHomeController(
       this, 
@@ -47,7 +49,7 @@ class UserHome extends BaseScene {
 
   render() {
     this.asideContainer.appendChild(this.sideNav);
-
+    this.sectionContainer.appendChild(this.chat);
     this.appendChild(this.asideContainer);
     this.appendChild(this.sectionContainer);
 

@@ -1,7 +1,6 @@
 const fs = require('fs');
 
 const { parseYAML } = require('../Common/YMLParser.js');
-const { tokenHandler } = require('../Controller/TokenHandler.js');
 
 class ServerMessagesHandler {
   constructor() {

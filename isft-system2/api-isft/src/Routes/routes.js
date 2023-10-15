@@ -1,7 +1,6 @@
 // routes.js
-const { SessionHandler }  = require('../Controller/SessionHandler.js');
-const { UserHandler }     = require('../Controller/UserHandler.js');
-
+const { SessionHandler }  = require('../Handler/SessionHandler.js');
+const { UserHandler }     = require('../Handler/UserHandler.js');
 
 /**
  * Asigna los endpoint y sus respectivas callbacks
@@ -16,7 +15,10 @@ module.exports = function routes(api) {
   api.post('/signUp', sessionHandler.signUp);
 
   // getUserInfo...
-  api.post('/getUserInfo', userHandler.getInfo);
+  api.post('/getUserInfo', userHandler.getUserInfo);
+
+  // getUserList...
+  api.post('/getUserList', userHandler.getUserList);
 
   // Test goodcall api...
   api.get('/greet', greet);

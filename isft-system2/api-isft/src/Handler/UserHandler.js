@@ -1,10 +1,11 @@
-const { Sanitizer }       = require("../Common/Sanitizer.js");
 const { isType }          = require("../Common/TypeValidate.js");
+const { Sanitizer }       = require("../Common/Sanitizer.js");
+const { UserService }     = require("../Service/UserService.js");
 const { dataBaseHandler } = require("../DataBaseHandler/DataBaseHandler.js");
 
 class UserHandler {
   constructor(dbHandler = dataBaseHandler) {
-    this.dbHandler = dbHandler;
+    this.dbHandler    = dbHandler;
   }
 
   async create(data) {
@@ -59,50 +60,53 @@ class UserHandler {
     return results;
   }
 
-  async readById(data) {
-    let results;
+  /**
+   * Obtiene la informacion de usuario cuando se realiza la llamada al endpoint 
+   * @APIDOC `/getUserInfo`
+   * @param {json} requestData          | contains iduser
+   * @param {callable} responseCallback | a callback para el response.
+   * 
+   * @return json
+   **/
+  async getUserInfo(requestData, responseCallback) {
+    let results = {};
 
-    try {
-      await this.dbHandler.connect();
+    let data = {
+      iduser: requestData.iduser,
+    };
 
-      const storeProcedureName = 'usp_read_user_by_id';
-      results = await this.dbHandler.executeStoreProcedure(storeProcedureName, data);
+    const userService = new UserService();
 
-    } catch(error) {
-      results = error;
-
-    } finally {
-      await this.dbHandler.close();
-    }
-
+    results = await userService.getUserInfo(data)
+    responseCallback(results.status, results.results);
+    
     return results;
-  }
-  __validateUserDataCreate(data) {
-    return Object.values(data).every(element => isType(element, 'string') && element !== "");
   }
 
   /**
    * Obtiene la informacion de usuario cuando se realiza la llamada al endpoint 
-   * `/getUserInfo`
-   * @param json requestData          | contains iduser
-   * @param callable responseCallback | a callback para el response.
+   * @APIDOC `/getUserList`
+   * @param {json} requestData          | contains iduser
+   * @param {callable} responseCallback | a callback para el response.
    * 
    * @return json
    **/
-  async getInfo(requestData, responseCallback) {
-    let results;
-    let userData = {
-      iduser: requestData.iduser,
-    };
-  
-    let userHandler = new UserHandler(dataBaseHandler);
-    results = await userHandler.readById(userData);
-  
-    responseCallback(200, results[0]);
-  
+  async getUserList(requestData, responseCallback) {
+    let results = {};
+
+    const userService = new UserService();
+
+    results = await userService.getUserList();
+    responseCallback(results.status, results.results);
+
+    console.log('RESULTS >>>', results.results);
+
     return results;
   }
 
+  __validateUserDataCreate(data) {
+    return Object.values(data).every(element => isType(element, 'string') && element !== "");
+  }
 }
 
 module.exports = { UserHandler };
