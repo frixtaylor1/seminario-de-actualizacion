@@ -9,12 +9,19 @@ class SessionHandler {
   }
 
   /**
-   * Inicia session de usuario cuando se llama al endpoint `/signIn`
-   * @param json requestData | contains {
+   * @APIDOC `/signIn`
+   *
+   * @brief Inicia session de usuario cuando se llama al endpoint `/signIn`
+   * 
+   * @method HTTP:POST
+   * 
+   * @param {JSON} requestData | contains {
    *    nickname,
    *    password
    * } 
-   * @param callable responseCallback
+   * @param {Callable} responseCallback
+   * 
+   * @returns void
    **/
   async signIn(requestData, responseCallback) {
     let results;
@@ -41,8 +48,13 @@ class SessionHandler {
   }
 
   /**
-   * Crea una cuenta de usuario cuando se llama al endpoint `/signUp`
-   * @param json requestData | contains {
+   * @APIDOC `/signUp`
+   * 
+   * @brief Crea una cuenta de usuario cuando se llama al endpoint `/signUp`
+   * 
+   * @method HTTP:POST
+   *
+   * @param {JSON} requestData | contains {
    *    nickname, 
    *    password, 
    *    name,
@@ -51,7 +63,9 @@ class SessionHandler {
    *    gender, 
    *    telephone
    *  }
-   * @param callable responseCallback
+   * @param {Callable} responseCallback
+   * 
+   * @returns void
    **/
   async signUp(requestData, responseCallback) {
 

@@ -1,3 +1,4 @@
+import { ApiController } from "../Controller/ApiCallController.js";
 
 class ChatModel {
   constructor(apiController = new ApiController('http://127.0.0.1:3036')) {
@@ -22,9 +23,10 @@ class ChatModel {
     }
   }
 
-  async propose(targetNickname) {
+  async propose(targetUserId, callback = null) {
     let data = {
-      'targetUser': targetNickname,
+      originUserId: localStorage.getItem('iduser'),
+      targetUserId: targetUserId,
     };
 
     try {

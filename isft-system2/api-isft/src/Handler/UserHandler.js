@@ -61,8 +61,12 @@ class UserHandler {
   }
 
   /**
-   * Obtiene la informacion de usuario cuando se realiza la llamada al endpoint 
-   * @APIDOC `/getUserInfo`
+   * @APIDOC `/getUserInfo` 
+   *
+   * @brief Obtiene la informacion de usuario cuando se realiza la llamada al endpoint 
+   * 
+   * @method HTTP:POST
+   *
    * @param {json} requestData          | contains iduser
    * @param {callable} responseCallback | a callback para el response.
    * 
@@ -84,8 +88,12 @@ class UserHandler {
   }
 
   /**
-   * Obtiene la informacion de usuario cuando se realiza la llamada al endpoint 
    * @APIDOC `/getUserList`
+   * 
+   * @brief Obtiene la informacion de usuario cuando se realiza la llamada al endpoint
+   * 
+   * @method HTTP:POST
+   * 
    * @param {json} requestData          | contains iduser
    * @param {callable} responseCallback | a callback para el response.
    * 
@@ -98,8 +106,6 @@ class UserHandler {
 
     results = await userService.getUserList();
     responseCallback(results.status, results.results);
-
-    console.log('RESULTS >>>', results.results);
 
     return results;
   }

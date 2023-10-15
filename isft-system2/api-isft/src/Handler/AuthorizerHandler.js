@@ -5,12 +5,13 @@ class AuthorizerHandler {
   }
 
   /**
-   * Chequea si un usuario tiene la autorizacion para realizar una determinada tarea
-   * @param json | contains {
+   * @brief Chequea si un usuario tiene la autorizacion para realizar una determinada tarea
+   * 
+   * @param {JSON} data | contains {
    *    iduser, 
    *    path
    * }
-   * @return json
+   * @returns {JSON}
    **/
   async checkUserAuthorization(data) {
     let results = {};

@@ -1,24 +1,41 @@
-// routes.js
 const { SessionHandler }  = require('../Handler/SessionHandler.js');
 const { UserHandler }     = require('../Handler/UserHandler.js');
+const { ChatHandler }     = require('../Handler/ChatHandler.js');
 
 /**
- * Asigna los endpoint y sus respectivas callbacks
- * @param Server api 
+ * @brief Asigna los endpoint y sus respectivas callbacks
+ * 
+ * @param {Server} api 
  **/
 module.exports = function routes(api) {
-  const sessionHandler  = new SessionHandler();
-  const userHandler     = new UserHandler();
+  const sessionHandler = new SessionHandler();
+  const userHandler = new UserHandler();
+  const chatHandler = new ChatHandler();
 
-  // Login and Register...
+  /**
+   * @APIDOC `/signIn` 
+  */
   api.post('/signIn', sessionHandler.signIn);
+
+  /**
+   * @APIDOC `/signUp` 
+  */
   api.post('/signUp', sessionHandler.signUp);
 
-  // getUserInfo...
+  /**
+   * @APIDOC `/getUserInfo` 
+  */
   api.post('/getUserInfo', userHandler.getUserInfo);
 
-  // getUserList...
+  /**
+   * @APIDOC `/getUserList` 
+  */
   api.post('/getUserList', userHandler.getUserList);
+
+  /**
+   * @APIDOC `/propose` 
+  */
+  api.post('/propose', chatHandler.propose);
 
   // Test goodcall api...
   api.get('/greet', greet);

@@ -1,5 +1,5 @@
-import { Button } from "../Buttons/Button.js";
-import { createElement } from "../Utils/Utility.js";
+import { Button }         from "../Buttons/Button.js";
+import { createElement }  from "../Utils/Utility.js";
 
 class ModalWindow extends HTMLElement {
   constructor() {
@@ -7,7 +7,7 @@ class ModalWindow extends HTMLElement {
     this.classList.add('modal-window');
 
     this.modalTitle     = createElement('h2', { class: 'modal-window-title' });
-    this.message        = createElement('p', { class: 'modal-window-message' });
+    this.message        = createElement('p',  { class: 'modal-window-message' });
     this.declinedButton = new Button('Decline', 'modal-decline-bttn'); 
     this.acceptedButton = new Button('Accept',  'modal-accept-bttn');
   }
@@ -38,12 +38,12 @@ class ModalWindow extends HTMLElement {
   }
 
   __setCallbacks() {
-    this.acceptedButton.addEventListener('click',   () => { this.__acceptedCallback(); });
-    this.declinedButton.addEventListener('click',  () => { this.__declinedCallback(); });
+    this.acceptedButton.addEventListener('click', () => { this.__acceptedCallback(); });
+    this.declinedButton.addEventListener('click', () => { this.__declinedCallback(); });
   }
 
   __unSetCallbacks() {
-    this.acceptedButton.addEventListener('click',   null);
+    this.acceptedButton.addEventListener('click',  null);
     this.declinedButton.addEventListener('click',  null);
   }
 

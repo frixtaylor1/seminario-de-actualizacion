@@ -6,12 +6,14 @@ class ChatController {
   constructor(viewReference = new Chat(), modelReference = new ChatModel()) {
     this.viewReference        = viewReference;
     this.modelReference       = modelReference;
+    this.idTargetUser         = undefined;
+    this.clickedUserNickname  = undefined;
 
     this.__setCallbacks();
   }
 
-  __propose() {
-    this.modelReference.propose();
+  __propose(targetUserId) {
+    this.modelReference.propose(targetUserId);
   }
 
   __askForMessages() {
@@ -19,24 +21,32 @@ class ChatController {
   }
 
   __setCallbacks() {
-    this.__onLoad();  
+    this.__onLoad();
+    this.viewReference.addEventListener('accepted-modal-window-event', () => {
+      this.__propose(this.idTargetUser);
+    });
   }
 
-  __userClicked(nickname) {
+  __userClicked(nickname, idTargetUser) {
     this.viewReference.parentElement.dispatchEvent(
-      new CustomEvent('user-chat-clicked', { detail: { 'targetNickname': nickname } })
+      new CustomEvent('user-chat-clicked', { 
+        detail: { 
+          'targetNickname'  : nickname, 
+          'idTargetUser'    : idTargetUser,
+        } 
+      })
     );
     this.viewReference.modalWindow.setMessage(`Propose a chat with ${nickname}`);
+    this.clickedUserNickname = nickname;
+    this.idTargetUser        = idTargetUser;
   }
 
   async __onLoad() {
     let userList = await this.modelReference.getUserList();
-    console.log(userList.data);
-
     userList.data.forEach(element => {
       let user = createElement('li', { class: 'user' });
       user.textContent = element.nickname;
-      user.addEventListener('click', () => { this.__userClicked(element.nickname) });
+      user.addEventListener('click', () => { this.__userClicked(element.nickname, element.iduser) });
       this.viewReference.userList.appendChild(user);
     });
   }

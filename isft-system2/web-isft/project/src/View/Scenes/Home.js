@@ -22,7 +22,7 @@ class Home extends HTMLElement {
     this.appendChild(this.modalWindow);
   
     this.addEventListener('accepted-modal-window-event', () => { this.removeChild(this.modalWindow); });
-    this.addEventListener('decline-modal-window-event', () => { this.removeChild(this.modalWindow); });
+    this.addEventListener('declined-modal-window-event', () => { this.removeChild(this.modalWindow); });
   }
 
   disabled() {
