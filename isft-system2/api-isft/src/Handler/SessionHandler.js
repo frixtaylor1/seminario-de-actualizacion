@@ -90,6 +90,34 @@ class SessionHandler {
       responseCallback(403, { message: 'User registration failed' });
     }
   }
+
+  /**
+   * @APIDOC `/logOut`
+   * 
+   * @brief Cierra la sesion `/logOut`
+   * 
+   * @method HTTP:POST
+   *
+   * @param {JSON} requestData
+   * @param {Callable} responseCallback
+   * 
+   * @returns {JSON}
+   **/
+  async logOut(requestData, responseCallback) {
+    let results;
+    let userHandler = new UserHandler();
+
+    try {
+      results = await userHandler.update(requestData);
+     
+      responseCallback(200, results); 
+
+    } catch (error) {
+      console.error(error);
+      responseCallback(400, error);
+    }
+    return results;
+  }
 }
 
 module.exports = { SessionHandler };

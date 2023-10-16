@@ -39,6 +39,38 @@ class UserHandler {
     return results;
   }
 
+  async update(data) {
+    let results = {};
+    let userData = {
+      iduser: Sanitizer.sanitizeInput(data.iduser),
+    };
+
+    const userService = new UserService();
+    try {
+
+      await this.dbHandler.connect();
+
+      let user = await userService.getUserInfo(userData);
+
+      user.name       = data.name;
+      user.surname    = data.surname;
+      user.dni        = data.dni;
+      user.gender     = data.gender;
+      user.telephone  = data.telephone;
+      user.status     = data.status;
+
+      const storeProcedure = 'usp_update_user';
+      results = await this.dbHandler.executeStoreProcedure(storeProcedure, user);
+      
+      await this.dbHandler.close();
+    } catch (error) {
+      console.error(error);
+      results = error;
+    }
+
+    return results;
+  }
+
   async readUserByNickname(data) {
     let results;
     let Data = {
@@ -97,7 +129,7 @@ class UserHandler {
    * @param {json} requestData          | contains iduser
    * @param {callable} responseCallback | a callback para el response.
    * 
-   * @return json
+   * @returns {JSON}
    **/
   async getUserList(requestData, responseCallback) {
     let results = {};

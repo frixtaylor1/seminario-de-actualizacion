@@ -55,8 +55,7 @@ class ChatModel {
       if (callback) {
         callback(null, result);
       }
-
-      return result.data.result;
+      return result.data;
     } catch (error) {
       console.error(error);
       if (callback) {
