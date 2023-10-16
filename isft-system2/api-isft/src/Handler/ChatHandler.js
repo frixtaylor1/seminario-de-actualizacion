@@ -38,21 +38,21 @@ class ChatHandler {
    * 
    * @return void
    */
-  async askForProposal(requestData, responseCallback) {
-    let results = new Array();
+  askForProposal(requestData, responseCallback) {
+    let proposals = new Array();
 
     const userOriginId = requestData.originUserId;
 
     let idx = 0;
     proposalHandler.listOfProposal.forEach(proposal => {
       if (proposal['targetIdUser'] == userOriginId) {
-        results.push(idx);
+        proposals.push(idx);
       }
       idx++;
     });
-
-    console.log('RESULTS >>>', results);
-    responseCallback(200, { idProposal: results });
+    
+    console.log('RESULTS >>>', );
+    responseCallback(200, {'proposals': proposals});
   }
 };
 

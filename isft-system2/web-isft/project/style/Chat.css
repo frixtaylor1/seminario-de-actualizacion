@@ -34,10 +34,15 @@
 }
 
 .chat-panel {
-    width: 80%;
+    width: 99.9%;
+    height: 99.9%;
+    margin-left: 14.8%;
     background: #ffffff;
     display: flex;
     flex-direction: column;
+border: 2px #593e8a solid;
+    position: fixed;
+    top: 0;
 }
 
 .chat {
@@ -69,6 +74,9 @@
 .message-input {
     padding: 10px;
     border: none;
+margin-left: 2px;
+    margin-right: 2px;
     border-top: 1px solid #ddd;
-    width: 100%;
+    width: 98%;
+height: 20px;
 }

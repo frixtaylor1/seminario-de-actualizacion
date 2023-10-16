@@ -1,4 +1,5 @@
 import { SessionHandler } from "./SessionHandler.js";
+let sessionHandler = new SessionHandler();
 
 class ApiController {
   constructor(url) {
@@ -9,7 +10,6 @@ class ApiController {
     const fullUrl = this.url + endpoint;
 
     try {
-      let sessionHandler = new SessionHandler();
       const tokenAndId = sessionHandler.getTokenAndId(); 
       
       let request = {

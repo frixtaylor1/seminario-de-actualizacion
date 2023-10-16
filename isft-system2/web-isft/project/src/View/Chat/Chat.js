@@ -1,7 +1,6 @@
 import { ChatController } from "../../Controller/ChatController.js";
 import { createElement }  from "../Utils/Utility.js";
 import { ApiController }  from "../../Controller/ApiCallController.js";
-import { ModalWindow }    from "../Forms/ModalWindow.js";
 import { ChatModel }      from "../../Model/ChatModel.js";
 
 class Chat extends HTMLElement {
@@ -9,14 +8,15 @@ class Chat extends HTMLElement {
     super();
     this.classList.add('chat-component');
 
-    this.userPanel    = createElement('div', { class: 'user-panel' });
-    this.userList     = createElement('ul',  { class: 'user-list' });
+    this.modalWindow  = undefined;
 
-    this.chatPanel    = createElement('div', { class: 'chat-panel' });
-    this.chat         = createElement('div', { class: 'chat' });
+    this.userPanel    = createElement('div',    { class: 'user-panel' });
+    this.userList     = createElement('ul',     { class: 'user-list' });
 
-    this.modalWindow  = new ModalWindow();
-    this.modalWindow.setModalTitle('Do you want to propose a chat?');
+    this.chatPanel    = createElement('div',    { class: 'chat-panel' });
+    this.chat         = createElement('div',    { class: 'chat' });
+
+    this.input        = createElement('input',  { class: 'message-input', type: 'text', placeholder: 'Escribe un mensaje...' }); 
 
     this.controller = new ChatController(
       this, 
@@ -36,7 +36,10 @@ class Chat extends HTMLElement {
 
   render() {
     this.userPanel.appendChild(this.userList);
+    this.chatPanel.appendChild(this.chat);
+    this.chatPanel.appendChild(this.input);
     this.appendChild(this.userPanel);
+    this.appendChild(this.chatPanel);
   
     let style = createElement('style');
     style.innerText = `@import "./style/Chat.css"`;

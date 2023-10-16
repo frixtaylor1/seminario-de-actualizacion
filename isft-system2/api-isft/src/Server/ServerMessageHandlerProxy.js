@@ -80,7 +80,7 @@ class ServerMessagesHandlerProxy {
         return true;
       }
 
-      console.log('Authentication - Failed');
+      console.log('Authentication - Failed : url: ', url, ' CustomToken: ', customToken);
       return false;
     }
   }

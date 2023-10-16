@@ -12,7 +12,7 @@ class ChatModel {
       if (callback) {
         callback(null, result);
       }
-      return result;
+      return result.data[0];
 
     } catch (error) {
       console.error(error);
@@ -25,7 +25,7 @@ class ChatModel {
 
   async propose(targetUserId, callback = null) {
     let data = {
-      originUserId: localStorage.getItem('iduser'),
+      originUserId: parseInt(localStorage.getItem('iduser')),
       targetUserId: targetUserId,
     };
 
@@ -44,17 +44,18 @@ class ChatModel {
     }
   }
   
-  async askForProposal(callback = null) {
+  async getProposals(callback = null) {
     let data = {
       originUserId: localStorage.getItem('iduser'),
     };
 
     try {
       const result = await this.apiController.callApi('/askForProposal', 'POST', data);
-      
+
       if (callback) {
         callback(null, result);
       }
+
       return result;
     } catch (error) {
       console.error(error);

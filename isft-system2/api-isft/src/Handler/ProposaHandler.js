@@ -1,26 +1,31 @@
 class ProposalHandler {
   constructor() {
-    this.listOfProposal = new Array();
+    this.listOfProposal = [];
   }
 
   addAProposal(originIdUser, targetIdUser) {
     if (this.__validateProposal(originIdUser, targetIdUser)) {
       this.listOfProposal.push({
-        'originIdUser': originIdUser,
-        'targetIdUser': targetIdUser
+        originIdUser: originIdUser,
+        targetIdUser: targetIdUser
       });
     }
   }
 
   __validateProposal(originIdUser, targetIdUser) {
-    let proposalData = {
-      'originIdUser': originIdUser,
-      'targetIdUser': targetIdUser
-    }
-    let selected = proposalHandler.listOfProposal.find((proposal) => proposal === proposalData);
-    return (selected === undefined ? true : false); 
+    const proposalData = {
+      originIdUser: originIdUser,
+      targetIdUser: targetIdUser
+    };
+    
+    const selected = this.listOfProposal.find((proposal) => (
+      proposal.originIdUser === proposalData.originIdUser &&
+      proposal.targetIdUser === proposalData.targetIdUser
+    ));
+
+    return !selected;
   }
-};
+}
 
 const proposalHandler = new ProposalHandler();
 

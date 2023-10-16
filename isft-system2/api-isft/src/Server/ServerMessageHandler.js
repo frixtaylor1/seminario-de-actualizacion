@@ -70,7 +70,7 @@ class ServerMessagesHandler {
           if (res.token) {
             const data = responseData; 
             responseData = {
-              'data': data[0],
+              'data': data,
               'token': res.token
             };
           }
