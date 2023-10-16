@@ -37,7 +37,14 @@ module.exports = function routes(api) {
   */
   api.post('/propose', chatHandler.propose);
 
-  // Test goodcall api...
+  /**
+   * @APIDOC `/askForProposal` 
+  */
+  api.post('/askForProposal', chatHandler.askForProposal);
+
+  /**
+   * @APIDOC `/greet` 
+  */
   api.get('/greet', greet);
 };
 

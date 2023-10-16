@@ -13,7 +13,12 @@ class ChatController {
   }
 
   __propose(targetUserId) {
-    this.modelReference.propose(targetUserId);
+    let results = this.modelReference.propose(targetUserId);
+    console.log(results);
+  }
+
+  __askForProposal() {
+    this.modelReference.askForProposal();
   }
 
   __askForMessages() {
@@ -24,6 +29,9 @@ class ChatController {
     this.__onLoad();
     this.viewReference.addEventListener('accepted-modal-window-event', () => {
       this.__propose(this.idTargetUser);
+    });
+    document.addEventListener('click', () => { 
+      this.__askForProposal(); 
     });
   }
 

@@ -43,6 +43,27 @@ class ChatModel {
       throw error;
     }
   }
+  
+  async askForProposal(callback = null) {
+    let data = {
+      originUserId: localStorage.getItem('iduser'),
+    };
+
+    try {
+      const result = await this.apiController.callApi('/askForProposal', 'POST', data);
+      
+      if (callback) {
+        callback(null, result);
+      }
+      return result;
+    } catch (error) {
+      console.error(error);
+      if (callback) {
+        callback(error, null);
+      }
+      throw error;
+    }
+  }
 
   async askForMessage(chatId) {
     let data = {
