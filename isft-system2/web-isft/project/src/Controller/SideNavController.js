@@ -23,7 +23,7 @@ class SideNavController {
   }
 
   __dispatchClickedEventToChat() {
-    this.viewReference.parentElement.dispatchEvent(new CustomEvent('chat-clicked')); 
+    document.dispatchEvent(new CustomEvent('chat-clicked')); 
   }
 }
 

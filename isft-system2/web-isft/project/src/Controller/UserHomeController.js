@@ -41,7 +41,7 @@ class UserHomeController {
 
       this.viewReference.sectionContainer.appendChild(this.viewReference.userCard); 
     });
-    this.viewReference.asideContainer.addEventListener('chat-clicked', () => {
+    document.addEventListener('chat-clicked', () => {
       this.__removeSectionChildren();
 
       this.viewReference.sectionContainer.appendChild(this.viewReference.chat);
