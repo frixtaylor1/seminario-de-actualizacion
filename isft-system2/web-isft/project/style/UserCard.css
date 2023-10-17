@@ -11,8 +11,10 @@
     border: 2px #593e8a solid;
     transition: max-width 0.3s ease, padding 0.3s ease;
     box-shadow: 0 0 15px rgba(228, 129, 248, 0.795);
-    margin-left: 10px;
+    margin-left: 0;
     margin-right: 10px;
+    position: absolute;
+    top: 8%;
 }
 
 .user-img {

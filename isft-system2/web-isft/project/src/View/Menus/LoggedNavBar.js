@@ -4,10 +4,9 @@ class LoggedNavBar extends HTMLElement {
     constructor() {
       super();      
       this.classList.add('navbar');
-      this.list = document.createElement('ul');
-      this.itemHome = document.createElement('li'); 
-
-      this.homeButton = new Button('Home', 'nav-bar-button');
+      this.list     = document.createElement('nav-bar-ul');
+      this.logout   = new Button('Logout', 'nav-bar-button');
+      this.isftLogo = new Button('ISFT N° 151', 'logo');
     }
 
     connectedCallback() {
@@ -19,15 +18,12 @@ class LoggedNavBar extends HTMLElement {
     }
 
     render() {
-      this.itemHome.appendChild(this.homeButton);
-
-      this.list.appendChild(this.itemHome);
-    
+      this.list.appendChild(this.logout);
+      this.appendChild(this.isftLogo);
       this.appendChild(this.list);
       
       let style = document.createElement('style');
-      style.innerText = `@import './style/LoggedNavBar.css';
-                         @import './style/NavBarItem.css';`;
+      style.innerText = `@import './style/LoggedNavBar.css';`;
       this.appendChild(style);
       }
   }

@@ -2,6 +2,7 @@ import { Chat }               from '../Chat/Chat.js';
 import { SideNav }            from '../SideNav/SideNav.js';
 import { UserCard }           from "../Cards/UserCard.js";
 import { BaseScene }          from './BaseScene.js';
+import { LoggedNavBar }       from '../Menus/LoggedNavBar.js';
 import { UserHomeModel }      from '../../Model/UserHomeModel.js';
 import { createElement }      from '../Utils/Utility.js';
 import { ApiController }      from '../../Controller/ApiCallController.js';
@@ -14,6 +15,7 @@ class UserHome extends BaseScene {
     super();
     this.userCard = new UserCard('./style/UserCard.css');
     this.chat     = new Chat();
+    this.navBar   = new LoggedNavBar();
 
     this.userHomeController = new UserHomeController(
       this, 
@@ -58,7 +60,9 @@ class UserHome extends BaseScene {
   }
 
   render() {
+    this.headerContainer.appendChild(this.navBar);
     this.asideContainer.appendChild(this.sideNav);
+    this.appendChild(this.headerContainer);
     this.appendChild(this.asideContainer);
     this.appendChild(this.sectionContainer);
 
