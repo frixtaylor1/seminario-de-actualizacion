@@ -65,7 +65,7 @@ class ServerMessagesHandlerProxy {
   }
 
   __authenticateOrRegisterRequest(url, customToken) {
-    if (url === '/signIn' || url === '/register') {
+    if (url === '/signIn' || url === '/signUp' || url === '/logOut') {
       console.log('Authentication or Registration - Allowed call to /signIn; /register || without check');
       return true;
     } else {
@@ -104,7 +104,7 @@ class ServerMessagesHandlerProxy {
           res.token = tokenHandler.generateToken(authorizationReqData.iduser); 
           this.serverMessageHandler.__handleCallable(req, res, handler);
         } else {
-          this.serverMessageHandler.__sendResponse(res, 402, { error: 'Unauthorized error!' });
+          this.serverMessageHandler.__sendResponse(res, 401, { error: 'Unauthorized error!' });
         }
       })
       .catch((error) => {

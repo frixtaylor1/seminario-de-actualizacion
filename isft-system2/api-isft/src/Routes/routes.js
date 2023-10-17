@@ -8,9 +8,9 @@ const { ChatHandler }     = require('../Handler/ChatHandler.js');
  * @param {Server} api 
  **/
 module.exports = function routes(api) {
-  const sessionHandler = new SessionHandler();
-  const userHandler = new UserHandler();
-  const chatHandler = new ChatHandler();
+  const sessionHandler  = new SessionHandler();
+  const userHandler     = new UserHandler();
+  const chatHandler     = new ChatHandler();
 
   /**
    * @APIDOC `/signIn` 
@@ -21,6 +21,11 @@ module.exports = function routes(api) {
    * @APIDOC `/signUp` 
   */
   api.post('/signUp', sessionHandler.signUp);
+  
+  /**
+   * @APIDOC `/logOut` 
+  */
+  api.post('/logOut', sessionHandler.logOut);
 
   /**
    * @APIDOC `/getUserInfo` 

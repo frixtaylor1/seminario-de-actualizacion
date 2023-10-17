@@ -2,6 +2,7 @@ const { dataBaseHandler } = require('../DataBaseHandler/DataBaseHandler.js');
 const { SessionService }  = require('../Service/SessionService.js');
 const { tokenHandler }    = require('./TokenHandler.js');
 const { UserHandler }     = require('./UserHandler.js');
+const { Sanitizer }       = require('../Common/Sanitizer.js');
 
 class SessionHandler {
   constructor(dbHandler = dataBaseHandler) {
@@ -28,8 +29,8 @@ class SessionHandler {
     let message;
 
     let userData = {
-      'nickname': requestData.nickname,
-      'password': requestData.password,
+      'nickname': Sanitizer.sanitizeInput(requestData.nickname),
+      'password': Sanitizer.sanitizeInput(requestData.password),
     };
 
     const sessionService = new SessionService();
@@ -98,25 +99,26 @@ class SessionHandler {
    * 
    * @method HTTP:POST
    *
-   * @param {JSON} requestData
+   * @param {JSON} requestData | contains { iduser }
    * @param {Callable} responseCallback
    * 
    * @returns {JSON}
    **/
   async logOut(requestData, responseCallback) {
     let results;
-    let userHandler = new UserHandler();
 
-    try {
-      results = await userHandler.update(requestData);
-     
-      responseCallback(200, results); 
+    let userData = {
+      'iduser': Sanitizer.sanitizeInput(requestData.iduser),
+    };
+    const sessionService = new SessionService();
 
-    } catch (error) {
-      console.error(error);
-      responseCallback(400, error);
+    results = await sessionService.logOut(userData);
+
+    if (results.status) {
+      responseCallback(results.status, { message: results.message });
+    } else {
+      responseCallback(results.status, { error: results.error });
     }
-    return results;
   }
 }
 

@@ -7,7 +7,6 @@ class ChatModel {
 
   async getUserList(callback = null) {
     try {
-
       const result = await this.apiController.callApi('/getUserList', 'POST');
       if (callback) {
         callback(null, result);

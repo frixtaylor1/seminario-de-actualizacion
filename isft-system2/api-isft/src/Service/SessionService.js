@@ -30,6 +30,26 @@ class SessionService {
       await this.dbHandler.close();
     }
   }
+
+  async logOut(data) {
+    let results;
+
+    try {
+      await this.dbHandler.connect();
+
+      results = await this.dbHandler.executeStoreProcedure('usp_logout', data);
+
+      if (results) {
+        results = { status: 200, message: 'logged-out' };
+      }
+      await this.dbHandler.close();
+      
+    } catch (error) {
+      console.error(error);
+      results = { status: 400, error: error };
+    }
+    return results;
+  }
 }
 
 module.exports = { SessionService };
