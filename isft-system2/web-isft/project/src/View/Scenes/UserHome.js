@@ -44,7 +44,7 @@ class UserHome extends BaseScene {
   
   enabled() {
     this.userHomeController.enabled();
-    document.addEventListener('user-chat-clicked', (event) => { 
+    this.chat.addEventListener('user-chat-clicked', (event) => { 
       this.chat.appendChild(this.chat.modalWindow);
     });
     this.chat.addEventListener('accepted-modal-window-event', () => {

@@ -49,7 +49,7 @@ class ChatController {
   
   __userClicked(nickname, idTargetUser) {
     this.viewReference.modalWindow = new ModalWindow();
-    this.viewReference.parentElement.dispatchEvent(
+    this.viewReference.dispatchEvent(
       new CustomEvent('user-chat-clicked', {
         detail: {
           'targetNickname': nickname,
@@ -66,9 +66,8 @@ class ChatController {
   async __onLoad() {
     let userList = await this.modelReference.getUserList();
     userList.forEach(element => {
-      let container = createElement('div', { class: 'user-container' });
-      let user = createElement('li', { class: 'user' });
-      let ledState = createElement('div', { class: `led-state ${element.nickname}` });
+      let user      = createElement('li',   { class: 'user' });
+      let ledState  = createElement('div',  { class: `led-state ${element.nickname}` });
 
       if (element.status === 'active') {
         ledState.style.backgroundColor = 'green';
@@ -76,12 +75,11 @@ class ChatController {
         ledState.style.backgroundColor = 'red';
       }
       user.textContent = element.nickname;
-      container.addEventListener('click', () => { this.__userClicked(element.nickname, element.iduser) });
+      user.addEventListener('click', () => { this.__userClicked(element.nickname, element.iduser) });
       ledState.classList.add()
-      container.appendChild(ledState);
-      container.appendChild(user);
+      user.appendChild(ledState);
 
-      this.viewReference.userList.appendChild(container);
+      this.viewReference.userList.appendChild(user);
     });
   }
 }
