@@ -56,10 +56,24 @@ class ChatController {
   async __onLoad() {
     let userList = await this.modelReference.getUserList();
     userList.forEach(element => {
-      let user = createElement('li', { class: 'user' });
+      let container = createElement('div', { class: 'user-container' });
+      let user      = createElement('li',  { class: 'user' });
+      let ledState  = createElement('div', { class: `led-state ${element.nickname}` });
+      
+      if (element.status === 'active') {
+        ledState.style.backgroundColor = 'green';
+      } else {
+        ledState.style.backgroundColor = 'red';
+      }
+
+      
       user.textContent = element.nickname;
-      user.addEventListener('click', () => { this.__userClicked(element.nickname, element.iduser) });
-      this.viewReference.userList.appendChild(user);
+      container.addEventListener('click', () => { this.__userClicked(element.nickname, element.iduser) });
+      ledState.classList.add()
+      container.appendChild(ledState);
+      container.appendChild(user);
+
+      this.viewReference.userList.appendChild(container);
     });
   }
 }

@@ -12,7 +12,8 @@
     width: 14%;
     height: 90.9%;
     background: #f5f5f5;
-    border: 2px #593e8a solid;
+    border: 1px solid #593e8a;
+    box-shadow: 2px 2px 2px 2px #593e8a;
     top: 8%;
     position: fixed;
 }
@@ -33,6 +34,13 @@
     background: #ddd;
 }
 
+.led-state {
+    border-radius: 3px;
+    height: 15px;
+    width: 15px;
+    background-color: green;
+}
+
 .chat-panel {
     width: 68%;
     height: 90.9%;
@@ -40,7 +48,8 @@
     background: #ffffff;
     display: flex;
     flex-direction: column;
-    border: 2px #593e8a solid;
+    border: 1px solid #593e8a;
+    box-shadow: 2px 2px 2px 2px #593e8a;
     position: fixed;
     top: 8%;
 }
