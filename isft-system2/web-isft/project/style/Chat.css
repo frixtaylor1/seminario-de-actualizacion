@@ -24,7 +24,7 @@
 }
 
 .user {
-    padding: 10px;
+    padding: 0;
     cursor: pointer;
     border-bottom: 1px solid #ddd;
     color: #593e8a;
@@ -39,6 +39,15 @@
     height: 15px;
     width: 15px;
     background-color: green;
+    display: inline-block;
+    margin-right: 5px;
+    margin-left: 5px;
+}
+
+.user-name-panel {
+    margin-top: 8px;
+    margin-bottom: 6px;
+    display: inline-block;
 }
 
 .chat-panel {

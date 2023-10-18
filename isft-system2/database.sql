@@ -13,13 +13,13 @@ USE `isft`;
 DELIMITER ;;
 
 DROP PROCEDURE IF EXISTS `usp_create_group`;;
-CREATE DEFINER=`frix`@`%` PROCEDURE `usp_create_group`(IN `p_name` varchar(45))
+CREATE PROCEDURE `usp_create_group`(IN `p_name` varchar(45))
 BEGIN 
    INSERT INTO `group` (name) VALUES (p_name);
 END;;
 
 DROP PROCEDURE IF EXISTS `usp_create_user`;;
-CREATE DEFINER=`frix`@`%` PROCEDURE `usp_create_user`(IN `p_nickname` varchar(45), IN `p_password` varchar(255), IN `p_name` varchar(45), IN `p_surname` varchar(45), IN `p_dni` varchar(45), IN `p_gender` varchar(45), IN `p_telephone` varchar(45))
+CREATE PROCEDURE `usp_create_user`(IN `p_nickname` varchar(45), IN `p_password` varchar(255), IN `p_name` varchar(45), IN `p_surname` varchar(45), IN `p_dni` varchar(45), IN `p_gender` varchar(45), IN `p_telephone` varchar(45))
 BEGIN
   DECLARE v_user_id INT;
   DECLARE v_user_data_id INT;
@@ -69,8 +69,12 @@ BEGIN
   SELECT JSON_OBJECT('status', v_result_code, 'message', v_result_message) AS result;
 END;;
 
+DROP PROCEDURE IF EXISTS `usp_get_user_list`;;
+CREATE PROCEDURE `usp_get_user_list`()
+SELECT user.iduser, user.nickname, user.status FROM user;;
+
 DROP PROCEDURE IF EXISTS `usp_insert_user_in_group`;;
-CREATE DEFINER=`frix`@`%` PROCEDURE `usp_insert_user_in_group`(IN `p_idgroup` int, IN `p_iduser` int)
+CREATE PROCEDURE `usp_insert_user_in_group`(IN `p_idgroup` int, IN `p_iduser` int)
 BEGIN
   DECLARE v_group_has_user_id INT;
   
@@ -84,7 +88,7 @@ BEGIN
 END;;
 
 DROP PROCEDURE IF EXISTS `usp_is_user_authorized`;;
-CREATE DEFINER=`frix`@`%` PROCEDURE `usp_is_user_authorized`(IN `p_iduser` tinyint, IN `p_path` varchar(45))
+CREATE PROCEDURE `usp_is_user_authorized`(IN `p_iduser` tinyint, IN `p_path` varchar(45))
 BEGIN
     DECLARE v_authorized BOOLEAN;
 
@@ -100,31 +104,29 @@ BEGIN
     SELECT JSON_OBJECT('authorized', v_authorized) AS result;
 END;;
 
+DROP PROCEDURE IF EXISTS `usp_logout`;;
+CREATE PROCEDURE `usp_logout`(IN `p_iduser` int)
+UPDATE user
+  SET user.status= 'off'
+WHERE user.iduser = p_iduser;;
+
 DROP PROCEDURE IF EXISTS `usp_read_group_by_id`;;
-CREATE DEFINER=`frix`@`%` PROCEDURE `usp_read_group_by_id`(IN `p_groupid` int(11))
+CREATE PROCEDURE `usp_read_group_by_id`(IN `p_groupid` int(11))
 SELECT * 
 FROM `group`
 INNER JOIN group_has_user ON `group`.idgroup = group_has_user.group_idgroup
 WHERE `group`.idgroup = p_groupid;;
 
 DROP PROCEDURE IF EXISTS `usp_read_user_by_id`;;
-CREATE DEFINER=`frix`@`%` PROCEDURE `usp_read_user_by_id`(IN `p_id` tinyint(11))
-SELECT * FROM user_data WHERE user_data.iduser_data = p_id;;
-
-DROP PROCEDURE IF EXISTS `usp_read_user_by_nickname`;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `usp_read_user_by_nickname`(IN `p_nickname` varchar(45))
-BEGIN
-  DECLARE v_userid INT;
-
-  SELECT iduser INTO v_userid FROM user WHERE nickname = p_nickname;
-
-  SELECT JSON_OBJECT('name', user_data.name, 'surname', user_data.surname, 'dni', user_data.dni, 'gender', user_data.gender, 'telephone', user_data.telephone)
-  FROM user_data
-  WHERE user_data.iduser_data = v_userid;
-END;;
+CREATE PROCEDURE `usp_read_user_by_id`(IN `p_id` int(11))
+SELECT `group`.`name` as group_name, `user_data`.*
+  FROM `group_has_user`
+  INNER JOIN `group`     ON `group_has_user`.`group_idgroup` = `group`.`idgroup`
+  INNER JOIN `user_data` ON `group_has_user`.`user_iduser`    = `user_data`.`iduser_data`
+  WHERE `user_data`.`iduser_data` = p_id;;
 
 DROP PROCEDURE IF EXISTS `usp_signin`;;
-CREATE DEFINER=`frix`@`%` PROCEDURE `usp_signin`(IN `p_nickname` varchar(45), IN `p_password` varchar(255))
+CREATE PROCEDURE `usp_signin`(IN `p_nickname` varchar(45), IN `p_password` varchar(255))
 BEGIN
     DECLARE v_iduser INT;
     DECLARE v_validated BOOLEAN;
@@ -133,12 +135,17 @@ BEGIN
     FROM user
     WHERE user.nickname = p_nickname;
 
-    -- Construye el JSON de respuesta
+    IF v_validated THEN
+        UPDATE user
+        SET user.status = 'active'
+        WHERE user.iduser = v_iduser;
+    END IF;
+
     SELECT JSON_OBJECT('validated', v_validated, 'iduser', CASE WHEN v_validated THEN v_iduser ELSE NULL END) AS result;
 END;;
 
 DROP PROCEDURE IF EXISTS `usp_update_group_by_id`;;
-CREATE DEFINER=`frix`@`%` PROCEDURE `usp_update_group_by_id`(IN `p_groupid` tinyint, IN `p_name` varchar(45))
+CREATE PROCEDURE `usp_update_group_by_id`(IN `p_groupid` tinyint, IN `p_name` varchar(45))
 BEGIN 
   UPDATE `group`
     SET `group`.name = p_name
@@ -156,7 +163,11 @@ CREATE TABLE `access` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 INSERT INTO `access` (`idaccess`, `path`, `name`) VALUES
-(1,	'/getUserInfo',	'get user information');
+(1,	'/getUserInfo',	'get user information'),
+(2,	'/getUserList',	'get name of all users'),
+(3,	'/propose',	'propose a chat'),
+(4,	'/askForProposal',	'ask for a proposal of chat'),
+(5,	'/logOut',	'cierra la session de usuario');
 
 DROP TABLE IF EXISTS `group`;
 CREATE TABLE `group` (
@@ -182,7 +193,15 @@ CREATE TABLE `group_has_access` (
 
 INSERT INTO `group_has_access` (`group_idgroup`, `access_idaccess`) VALUES
 (3,	1),
-(2,	1);
+(2,	1),
+(2,	2),
+(3,	2),
+(2,	3),
+(3,	3),
+(2,	4),
+(3,	4),
+(2,	5),
+(3,	5);
 
 DROP TABLE IF EXISTS `group_has_user`;
 CREATE TABLE `group_has_user` (
@@ -198,7 +217,9 @@ CREATE TABLE `group_has_user` (
 
 INSERT INTO `group_has_user` (`idgroup_has_user`, `group_idgroup`, `user_iduser`) VALUES
 (1,	3,	1),
-(2,	2,	2);
+(2,	2,	2),
+(3,	2,	3),
+(4,	2,	4);
 
 DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user` (
@@ -206,13 +227,16 @@ CREATE TABLE `user` (
   `nickname` varchar(45) NOT NULL,
   `password` varchar(255) NOT NULL,
   `isactive` tinyint(4) DEFAULT NULL,
+  `status` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`iduser`),
   UNIQUE KEY `nickname` (`nickname`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
-INSERT INTO `user` (`iduser`, `nickname`, `password`, `isactive`) VALUES
-(1,	'dev',	'123456',	1),
-(2,	'frixtaylor',	'84fc991dc6609d3b8216eb98ee11853c9f0af857f80f822e953e6e1baf20d064',	1);
+INSERT INTO `user` (`iduser`, `nickname`, `password`, `isactive`, `status`) VALUES
+(1,	'dev',	'123456',	1,	NULL),
+(2,	'frixtaylor',	'84fc991dc6609d3b8216eb98ee11853c9f0af857f80f822e953e6e1baf20d064',	1,	'off'),
+(3,	'asd123',	'54d5cb2d332dbdb4850293caae4559ce88b65163f1ea5d4e4b3ac49d772ded14',	1,	NULL),
+(4,	'devs',	'8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92',	1,	'off');
 
 DELIMITER ;;
 
@@ -239,7 +263,9 @@ CREATE TABLE `user_data` (
 
 INSERT INTO `user_data` (`iduser_data`, `name`, `surname`, `dni`, `gender`, `telephone`) VALUES
 (1,	'kev',	'Tay',	'123123',	'Male',	'123123'),
-(2,	'Kevin',	'Taylor',	'40932413',	'Male',	'2233399843');
+(2,	'Kevin',	'Taylor',	'40932413',	'Male',	'2233399843'),
+(3,	'asd123',	'asd123',	'asd123',	'asd123',	'asd123'),
+(4,	'asd',	'asd',	'asdasdasdasdasd',	'asd',	'asd');
 
 DELIMITER ;;
 
@@ -266,6 +292,8 @@ CREATE TABLE `user_has_user_data` (
 
 INSERT INTO `user_has_user_data` (`user_data_iduser_data`, `user_iduser`) VALUES
 (1,	1),
-(2,	2);
+(2,	2),
+(3,	3),
+(4,	4);
 
--- 2023-09-08 20:21:07
+-- 2023-10-18 18:39:06

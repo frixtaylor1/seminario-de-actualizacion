@@ -1,5 +1,6 @@
 const { dataBaseHandler } = require('../DataBaseHandler/DataBaseHandler.js');
 const { proposalHandler } = require('./ProposaHandler.js');
+const { Sanitizer }       = require('../Common/Sanitizer.js');
 
 class ChatHandler {
   constructor(dbHandler = dataBaseHandler) {
@@ -53,6 +54,24 @@ class ChatHandler {
     
     console.log('RESULTS >>>', );
     responseCallback(200, {'proposals': proposals});
+  }
+
+  /**
+   * @APIDOC `/confirmChat`
+   * 
+   * @brief Pregunta por proposiciones de chat para un usuario...
+   *
+   * @method HTTP:POST
+   * 
+   * @param {JSON} requestData | contains { userOriginId }
+   * @param {Callable} responseCallback
+   * 
+   * @return void
+   */
+  async confirmChat(requestData, responseCallback) {
+    let proposalData = {
+      'idProposal': Sanitizer.sanitizeInput(requestData.idProposal),
+    };
   }
 };
 

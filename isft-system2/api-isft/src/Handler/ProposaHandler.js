@@ -3,11 +3,12 @@ class ProposalHandler {
     this.listOfProposal = [];
   }
 
-  addAProposal(originIdUser, targetIdUser) {
+  addAProposal(originIdUser, targetIdUser, status = 'waitToResponse') {
     if (this.__validateProposal(originIdUser, targetIdUser)) {
       this.listOfProposal.push({
         originIdUser: originIdUser,
-        targetIdUser: targetIdUser
+        targetIdUser: targetIdUser,
+        status: status,
       });
     }
   }
