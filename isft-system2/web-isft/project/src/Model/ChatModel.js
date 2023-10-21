@@ -1,4 +1,5 @@
 import { ApiController } from "../Controller/ApiCallController.js";
+import { Crypto }        from "../Controller/Crypto.js";
 
 class ChatModel {
   constructor(apiController = new ApiController('http://127.0.0.1:3036')) {
@@ -11,7 +12,10 @@ class ChatModel {
       if (callback) {
         callback(null, result);
       }
-      return result.data[0];
+
+      if (result.data) {
+        return result.data[0];
+      }
 
     } catch (error) {
       console.error(error);
@@ -20,6 +24,14 @@ class ChatModel {
       }
       throw error;
     }
+  }
+
+  async sendMessage(messageData) {
+    let crypto = new Crypto();
+
+    let result = await this.apiController.callApi('/sendMessage', 'POST', messageData);
+
+    console.log(result);
   }
 
   async propose(targetUserId, callback = null) {
@@ -54,7 +66,8 @@ class ChatModel {
       if (callback) {
         callback(null, result);
       }
-      return result.data;
+
+      return result;
     } catch (error) {
       console.error(error);
       if (callback) {

@@ -12,11 +12,19 @@ class Chat extends HTMLElement {
 
     this.userPanel    = createElement('div',    { class: 'user-panel' });
     this.userList     = createElement('ul',     { class: 'user-list' });
-
+    
     this.chatPanel    = createElement('div',    { class: 'chat-panel' });
     this.chat         = createElement('div',    { class: 'chat' });
 
-    this.input        = createElement('input',  { class: 'message-input', type: 'text', placeholder: 'Escribe un mensaje...' }); 
+    this.input        = createElement('input',  { 
+      class       : 'message-input', 
+      type        : 'text', 
+      placeholder : 'Escribe un mensaje...' 
+    }); 
+
+    this.button       = createElement('button', { class:'bttn-message' });
+    this.button.innerText = 'send';
+
 
     this.controller = new ChatController(
       this, 
@@ -38,8 +46,8 @@ class Chat extends HTMLElement {
     this.userPanel.appendChild(this.userList);
     this.chatPanel.appendChild(this.chat);
     this.chatPanel.appendChild(this.input);
+    this.chatPanel.appendChild(this.button);
     this.appendChild(this.userPanel);
-    this.appendChild(this.chatPanel);
   
     let style = createElement('style');
     style.innerText = `@import "./style/Chat.css"`;

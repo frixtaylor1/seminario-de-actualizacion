@@ -92,10 +92,30 @@
 .message-input {
     padding: 10px;
     border: none;
-    margin-left: 2px;
-    margin-right: 2px;
+    margin-right: 10px;
     border-top: 1px solid #ddd;
-    width: 95%;
     height: 20px;
+    outline: none;
+}
+
+.bttn-message {
+    padding: 5px 10px;
+    background-color: #593e8a;
+    color: white;
+    border: none;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.bttn-message:hover {
+    background-color: #31185f;
+    box-shadow: 0 0 20px rgba(200, 112, 235, 0.973);
+}
+
+.bttn-message:active,
+.bttn-message:focus {
+    background-color: #593e8a;
+    box-shadow: 0 0 30px rgba(155, 89, 218, 0.9);
     outline: none;
 }

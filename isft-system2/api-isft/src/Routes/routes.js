@@ -48,9 +48,15 @@ module.exports = function routes(api) {
   api.post('/askForProposal', chatHandler.askForProposal);
 
   /**
+   * @APIDOC `/sendMessage` 
+  */
+  api.post('/sendMessage', chatHandler.sendMessage);
+  
+  /**
    * @APIDOC `/greet` 
   */
   api.get('/greet', greet);
+
 };
 
 function greet(req, resCallback) {

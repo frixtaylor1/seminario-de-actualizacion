@@ -1,6 +1,7 @@
 const { dataBaseHandler } = require('../DataBaseHandler/DataBaseHandler.js');
 const { proposalHandler } = require('./ProposaHandler.js');
 const { Sanitizer }       = require('../Common/Sanitizer.js');
+const { chatStorage }     = require('./ChatStorage.js');
 
 class ChatHandler {
   constructor(dbHandler = dataBaseHandler) {
@@ -47,13 +48,72 @@ class ChatHandler {
     let idx = 0;
     proposalHandler.listOfProposal.forEach(proposal => {
       if (proposal['targetIdUser'] == userOriginId) {
-        proposals.push(idx);
+        proposals.push({
+          'idProposal'  : idx,
+          'idOriginUser': proposal['originIdUser'],
+          'status'      : proposal['status'], 
+        });
       }
       idx++;
     });
     
-    console.log('RESULTS >>>', );
     responseCallback(200, {'proposals': proposals});
+  }
+
+  /**
+   * @APIDOC `/sendMessage`
+   * 
+   * @brief Envia un mensaje a un usuario...
+   *
+   * @method HTTP:POST
+   * 
+   * @param {JSON} requestData | contains { userOriginId, userTargetId, body, state }
+   * @param {Callable} responseCallback
+   * 
+   * @return void
+   */
+  async sendMessage(requestData, responseCallback) {
+
+    try {
+      let messageData = {
+        'chatid'  : requestData.chatid,
+        'originId': requestData.originId,
+        'targetId': requestData.targetId,
+        'body'    : requestData.body,
+        'state'   : requestData.state,
+      }
+
+      chatStorage.storeChatMessages(requestData.chatid, messageData);
+
+      responseCallback(200, { 
+        message     : 'Message Sended ok!', 
+        messageState: 'sended',
+        messageData
+      });
+
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  /**
+   * @APIDOC `/getMessages`
+   * 
+   * @brief obtiene los mensajes de un chat a un usuario...
+   *
+   * @method HTTP:POST
+   * 
+   * @param {JSON} requestData | contains { idChat }
+   * @param {Callable} responseCallback
+   * 
+   * @return void
+   */
+  getMessages(requestData, responseCallback) {
+    let chatid = requestData.chatid;
+    
+    let chatMessages = chatStorage.getChatMessages(chatid);
+
+    responseCallback(200, { chatMessages });
   }
 
   /**
@@ -73,6 +133,19 @@ class ChatHandler {
       'idProposal': Sanitizer.sanitizeInput(requestData.idProposal),
     };
   }
+
+  /**
+   * @APIDOC `/askForMessages`
+   * 
+   * @brief Pregunta por proposiciones de chat para un usuario...
+   *
+   * @method HTTP:POST
+   * 
+   * @param {JSON} requestData | contains { userOriginId }
+   * @param {Callable} responseCallback
+   * 
+   * @return void
+   */
 };
 
 module.exports = { ChatHandler };
