@@ -2,14 +2,17 @@ import { Button }         from "../Buttons/Button.js";
 import { createElement }  from "../Utils/Utility.js";
 
 class ModalWindow extends HTMLElement {
-  constructor() {
+  constructor(acceptEventName, declineEventName) {
     super();
     this.classList.add('modal-window');
 
-    this.modalTitle     = createElement('h2', { class: 'modal-window-title' });
-    this.message        = createElement('p',  { class: 'modal-window-message' });
-    this.declinedButton = new Button('Decline', 'modal-decline-bttn'); 
-    this.acceptedButton = new Button('Accept',  'modal-accept-bttn');
+    this.modalTitle       = createElement('h2', { class: 'modal-window-title' });
+    this.message          = createElement('p',  { class: 'modal-window-message' });
+    this.declinedButton   = new Button('Decline', 'modal-decline-bttn'); 
+    this.acceptedButton   = new Button('Accept',  'modal-accept-bttn');
+
+    this.setAcceptEventName(acceptEventName);
+    this.setDeclineEventName(declineEventName);
   }
 
   setModalTitle(title) {
@@ -18,6 +21,14 @@ class ModalWindow extends HTMLElement {
 
   setMessage(message) {
     this.message.textContent = message;
+  }
+
+  setAcceptEventName(acceptEventName) {
+    this.acceptEventName = acceptEventName;
+  }
+
+  setDeclineEventName(declineEventName) {
+    this.declineEventName = declineEventName;
   }
 
   connectedCallback() {
@@ -30,11 +41,11 @@ class ModalWindow extends HTMLElement {
   }
 
   __acceptedCallback() {
-    this.parentElement.dispatchEvent(new CustomEvent('accepted-modal-window-event'));
+    this.parentElement.dispatchEvent(new CustomEvent(this.acceptEventName));
   }
 
   __declinedCallback() {
-    this.parentElement.dispatchEvent(new CustomEvent('declined-modal-window-event'));
+    this.parentElement.dispatchEvent(new CustomEvent(this.declineEventName));
   }
 
   __setCallbacks() {

@@ -119,3 +119,24 @@
     box-shadow: 0 0 30px rgba(155, 89, 218, 0.9);
     outline: none;
 }
+
+.notification-proposal-chat-added {
+    background-color: #593e8a;
+    color: #fff;
+    animation: changeColor 2s linear infinite;
+  }
+  
+  @keyframes changeColor {
+    0% {
+      background-color: #ffffff;
+      color: #593e8a;
+    }
+    50% {
+      background-color: #593e8a;
+      color: #ffff;
+    }
+    100% {
+      background-color: #271dbb;
+      color: #ffff;
+    }
+  }

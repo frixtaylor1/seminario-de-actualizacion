@@ -105,6 +105,7 @@ class SessionHandler {
    * @returns {JSON}
    **/
   async logOut(requestData, responseCallback) {
+
     let results;
 
     let userData = {
@@ -112,6 +113,7 @@ class SessionHandler {
     };
     const sessionService = new SessionService();
 
+    tokenHandler.removeToken(userData.iduser);
     results = await sessionService.logOut(userData);
 
     if (results.status) {

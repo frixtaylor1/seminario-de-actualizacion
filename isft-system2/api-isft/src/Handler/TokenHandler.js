@@ -7,10 +7,12 @@ class TokenHandler {
   }
 
   /**
-   * Compara un token devolviendo true si coinciden
+   * @brief Compara un token devolviendo true si coinciden
    *
-   * @param any key
-   * @param string token 
+   * @param {any} key
+   * @param {string} token
+   * 
+   * @returns {boolean} 
    **/
   compareToken(key, token) {
     let cachedToken = this.getToken(key);
@@ -18,9 +20,11 @@ class TokenHandler {
   }
   
   /**
-   * Retorna un uuid y lo almacena
-   * @param numeric iduser
-   * @return string
+   * @brief Retorna un uuid y lo almacena
+   * 
+   * @param {numeric} iduser
+   * 
+   * @returns {string}
    **/
   generateToken(iduser) {
     let token = crypto.randomUUID();
@@ -29,23 +33,39 @@ class TokenHandler {
   }
 
   /**
-   * Obtiene un token por su key
+   * @brief Obtiene un token por su key
    *
-   * @param any key
-   * @param string token 
+   * @param {any} key
+   * @param {string} token 
+   * 
+   * @returns {string}
    **/
   getToken(key) {
     return this.cache.getDataByKey(key);
   }
 
   /**
-   * Obtiene un key por su token
+   * @brief Obtiene un key por su token
    *
-   * @param string token
-   * @param any key 
+   * @param {string} token
+   * @param {any} key 
+   * 
+   * @returns {any}
    **/
   getKeyByToken(token) {
     return this.__getKeyByValue(token); 
+  }
+
+  /**
+   * @brief Elimina un token por su key
+   *
+   * @param {any} key
+   *
+   * @returns {void}
+   *
+   **/
+  removeToken(idUser) {
+    this.cache.cache.delete(idUser);
   }
 
   __getKeyByValue(token) {

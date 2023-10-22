@@ -16,45 +16,51 @@ class ChatController {
     let results = await this.modelReference.propose(targetUserId);
     console.log(results.data);
   }
-
   async __askForProposal() {
-    let results     = await this.modelReference.getProposals();
-    let childNodes  = Array.from(this.viewReference.userList.children);
-
-    results.data.proposals.forEach(proposal => {
-      childNodes.forEach(userChat => {
-        if (proposal) {
-          if (proposal.idOriginUser === userChat.value) {
-            document.dispatchEvent( new CustomEvent('new-proposal-chat'), { 
+    try {
+      const results = await this.modelReference.getProposals();
+      const userList = this.viewReference.userList;
+      const proposals = results.data.proposals;
+  
+      for (const proposal of proposals) {
+        const idOriginUser = proposal.idOriginUser;
+  
+        for (const userChat of userList.children) {
+          if (idOriginUser === userChat.value) {
+            const event = new CustomEvent('new-proposal-chat', {
               detail: {
-                idOriginUser: proposal.idOriginUser,
+                idOriginUser: idOriginUser,
                 idProposal  : proposal.idProposal,
-              }
-            }); 
+              },
+            });
+            document.dispatchEvent(event);
           }
         }
-      });      
-    });
-    console.log(results.data);
+      }
+  
+      console.log(results.data);
+    } catch (error) {
+      console.error("Error fetching proposals:", error);
+    }
   }
 
   __settingNotificationOfProposal() {
     document.addEventListener('new-proposal-chat', (event) => {
-      let childNodes = Array.from(this.viewReference.userList.children);
-      childNodes.forEach(userChat => {
-        if (userChat.value === event.idOriginUser) {
-          userChat.style.backgroundColor = 'grey';
-        }
-      });
+      console.log('IDORIGIN USER>', event.detail.idOriginUser)
+      let classElement = `iduser-${event.detail.idOriginUser}`;
+      let userChatLi = document.getElementsByClassName(classElement)[0];
+      if (!userChatLi.classList.contains('revised')) {
+        userChatLi.classList.add('notification-proposal-chat-added');
+      }
     });
   }
-
+  
   __askForMessages() {
     this.modelReference.askForMessage();
   }
 
   __setCallbacks() {
-    this.viewReference.addEventListener('accepted-modal-window-event', () => {
+    this.viewReference.addEventListener('accept-send-proposal', () => {
       this.__propose(this.idTargetUser);
     });
         
@@ -65,8 +71,8 @@ class ChatController {
       this.__askForProposal();
     }, 15000);
 
-    this.viewReference.addEventListener('accepted-modal-window-event', () => {
-      this.__chatProposed();
+    this.viewReference.addEventListener('accept-send-proposal', () => {
+      this.__displayChatPanel();
     });
 
     document.addEventListener('chat-clicked', () => {
@@ -77,32 +83,92 @@ class ChatController {
     this.__sendMessage();
 
     this.__settingNotificationOfProposal();
+
+    document.addEventListener('response-proposal-chat', (event) => {
+      console.log('RESPONSE-PROPOSAL-CHAT', event.detail);
+    })
   }
   __reloadChat() {
     let childNodes = Array.from(this.viewReference.userList.children);
     childNodes.forEach(element => {
       this.viewReference.userList.removeChild(element);
     });
+
+    this.viewReference.addEventListener('user-chat-clicked', (event) => { 
+      this.viewReference.appendChild(this.viewReference.modalWindow);
+    });
+    
+    this.viewReference.addEventListener('accept-send-proposal', (event) => {
+      this.viewReference.removeChild(this.viewReference.modalWindow);
+    });
+
+    this.viewReference.addEventListener('response-chat-proposal', (event) => {
+      this.viewReference.appendChild(this.viewReference.modalWindow);
+    });
+
+    this.viewReference.addEventListener('accept-chat-proposal', (event) => {
+      this.viewReference.removeChild(this.viewReference.modalWindow);
+      this.__
+    });
+    
+    this.viewReference.addEventListener('decline-chat-proposal', (event) => {
+      this.viewReference.removeChild(this.viewReference.modalWindow);
+    });
+    
   }
   
   __userClicked(nickname, idTargetUser) {
     this.viewReference.modalWindow = new ModalWindow();
-    this.viewReference.dispatchEvent(
-      new CustomEvent('user-chat-clicked', {
-        detail: {
-          'targetNickname': nickname,
-          'idTargetUser': idTargetUser,
-        }
-      })
-    );
-    this.viewReference.modalWindow.setModalTitle('Propose a chat!');
-    this.viewReference.modalWindow.setMessage(`Do you want to propose a chat with ${nickname}?`);
+
     this.clickedUserNickname = nickname;
     this.idTargetUser        = idTargetUser;
+
+    let childNodes = Array.from(this.viewReference.userList.children);
+    childNodes.forEach(element => {
+      if (element.value === idTargetUser) {
+        if (!element.classList.contains('revised')) {
+          this.viewReference.dispatchEvent(
+            new CustomEvent('user-chat-clicked', {
+              detail: {
+                'targetNickname': nickname,
+                'idTargetUser'  : idTargetUser,
+              }
+            })
+          );
+          this.viewReference.modalWindow.setModalTitle('Propose a chat!');
+          this.viewReference.modalWindow.setMessage(`Do you want to propose a chat with ${nickname}?`);
+          this.viewReference.modalWindow.setAcceptEventName('accept-send-proposal');
+          this.viewReference.modalWindow.setDeclineEventName('declined-modal-window-event');
+
+        } else {
+          this.viewReference.dispatchEvent(
+            new CustomEvent('response-chat-proposal', {
+              detail: {
+                'idchat': `${localStorage.getItem('iduser')}-${idTargetUser}`,
+              }
+            })
+          );
+          this.viewReference.modalWindow.setModalTitle('Accept chat Proposal!');
+          this.viewReference.modalWindow.setMessage(`Do you want to accept the chat proposal with ${nickname}?`);
+          this.viewReference.modalWindow.setAcceptEventName('accept-chat-proposal');
+          this.viewReference.modalWindow.setDeclineEventName('decline-chat-proposal');
+        }
+      } 
+    });
   }
 
-  __chatProposed() {
+  __displayModalResponseChatProposal() {
+    this.viewReference.parentElement.addEventListener('response-chat-proposal', (event) => {
+      this.viewReference.parentElement.appendChild(this.viewReference.modalWindow);
+    });
+  }
+
+  __displayChatPanel() {
     this.viewReference.appendChild(this.viewReference.chatPanel);
+  }
+
+  __confirmChatProposal() {
+    this.modelReference.confirmChatProposal();
   }
 
   __sendMessage() {
@@ -119,29 +185,39 @@ class ChatController {
 
   async __onLoad() {
     let userList = await this.modelReference.getUserList();
-    if (userList !== undefined) {
-      console.log(userList);
-      userList.forEach(element => {
-        let user      = createElement('li',   { class: 'user' });
-        let ledState  = createElement('div',  { class: `led-state` });
-        let userName  = createElement('p',    { class: 'user-name-panel'});
-  
-        if (element.status === 'active') {
-          ledState.style.backgroundColor = 'green';
-        } else {
-          ledState.style.backgroundColor = 'red';
+    
+    userList.forEach(element => {
+      let user      = createElement('li',   { class: `user iduser-${element.iduser}` });
+      let ledState  = createElement('div',  { class: 'led-state' });
+      let userName  = createElement('p',    { class: 'user-name-panel'});
+
+      if (element.status === 'active') {
+        ledState.style.backgroundColor = 'green';
+      } else {
+        ledState.style.backgroundColor = 'red';
+      }
+
+      userName.textContent = element.nickname; 
+      user.value           = element.iduser;
+
+      user.addEventListener('click', () => {
+        if (user.classList.contains('notification-proposal-chat-added')) {
+          document.dispatchEvent(new CustomEvent('response-proposal-chat', {
+            detail: {
+              'originId': localStorage.iduser,
+              'targetId': element.iduser,
+            }
+          }));
+          user.classList.remove('notification-proposal-chat-added');
+          user.classList.add('revised');   
         }
-  
-        userName.textContent = element.nickname; 
-        user.value           = element.iduser;
-  
-        user.addEventListener('click', () => { this.__userClicked(element.nickname, element.iduser) });
-        user.appendChild(ledState);
-        user.appendChild(userName);
-        
-        this.viewReference.userList.appendChild(user);
+        this.__userClicked(element.nickname, element.iduser) 
       });
-    }
+      user.appendChild(ledState);
+      user.appendChild(userName);
+      
+      this.viewReference.userList.appendChild(user);
+    });
   }
 }
 
