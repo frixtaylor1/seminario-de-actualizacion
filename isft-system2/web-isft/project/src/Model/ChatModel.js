@@ -97,7 +97,7 @@ class ChatModel {
     }
   }
 
-  async confirmProposal(proposalId) {
+  async confirmProposal(proposalId, callback = null) {
     let data = {
       'proposalId': proposalId,
     };

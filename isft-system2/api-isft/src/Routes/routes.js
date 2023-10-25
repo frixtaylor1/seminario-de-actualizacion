@@ -46,6 +46,11 @@ module.exports = function routes(api) {
    * @APIDOC `/askForProposal` 
   */
   api.post('/askForProposal', chatHandler.askForProposal);
+  
+  /**
+   * @APIDOC `/confirmProposal` 
+  */
+  api.post('/confirmProposal', chatHandler.confirmProposal);
 
   /**
    * @APIDOC `/sendMessage` 

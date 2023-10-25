@@ -2,10 +2,12 @@ const { dataBaseHandler } = require('../DataBaseHandler/DataBaseHandler.js');
 const { proposalHandler } = require('./ProposaHandler.js');
 const { Sanitizer }       = require('../Common/Sanitizer.js');
 const { chatStorage }     = require('./ChatStorage.js');
+const crypto              = require("crypto");
 
 class ChatHandler {
   constructor(dbHandler = dataBaseHandler) {
     this.dbHandler = dbHandler;
+    this.messagesHandler = new Map();
   }
 
   /**
@@ -23,9 +25,11 @@ class ChatHandler {
     const userOriginId = requestData.originUserId;
     const userTargetId = requestData.targetUserId;
 
-    proposalHandler.addAProposal(userOriginId, userTargetId);
+    const uuid = crypto.randomUUID();
 
-    responseCallback(200, { message: 'Proposal Sended!' });
+    const proposal = proposalHandler.addAProposal(userOriginId, userTargetId, uuid);
+
+    responseCallback(200, { message: 'Proposal Sended!', proposalData: proposal });
   }
 
   /**
@@ -47,7 +51,7 @@ class ChatHandler {
 
     let idx = 0;
     proposalHandler.listOfProposal.forEach(proposal => {
-      if (proposal['targetIdUser'] == userOriginId) {
+      if (proposal && proposal['targetIdUser'] == userOriginId) {
         proposals.push({
           'idProposal'  : idx,
           'idOriginUser': proposal['originIdUser'],
@@ -76,12 +80,12 @@ class ChatHandler {
 
     try {
       let messageData = {
-        'chatid'  : requestData.chatid,
+        'chatId'  : requestData.chatId,
         'originId': requestData.originId,
         'targetId': requestData.targetId,
         'body'    : requestData.body,
         'state'   : requestData.state,
-      }
+      };
 
       chatStorage.storeChatMessages(requestData.chatid, messageData);
 
@@ -117,21 +121,21 @@ class ChatHandler {
   }
 
   /**
-   * @APIDOC `/confirmChat`
+   * @APIDOC `/confirmProposal`
    * 
    * @brief Pregunta por proposiciones de chat para un usuario...
    *
    * @method HTTP:POST
    * 
-   * @param {JSON} requestData | contains { userOriginId }
+   * @param {JSON} requestData | contains { userOriginId, idProposal }
    * @param {Callable} responseCallback
    * 
    * @return void
    */
-  async confirmChat(requestData, responseCallback) {
-    let proposalData = {
-      'idProposal': Sanitizer.sanitizeInput(requestData.idProposal),
-    };
+  async confirmProposal(requestData, responseCallback) {
+    proposalHandler.removeProposal(requestData.proposalId);
+
+    responseCallback(200, { message: 'proposalData removed!' });
   }
 
   /**

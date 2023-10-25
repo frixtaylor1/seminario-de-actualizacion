@@ -6,10 +6,12 @@ class ModalWindow extends HTMLElement {
     super();
     this.classList.add('modal-window');
 
-    this.modalTitle       = createElement('h2', { class: 'modal-window-title' });
-    this.message          = createElement('p',  { class: 'modal-window-message' });
-    this.declinedButton   = new Button('Decline', 'modal-decline-bttn'); 
-    this.acceptedButton   = new Button('Accept',  'modal-accept-bttn');
+    this.modalTitle         = createElement('h2', { class: 'modal-window-title' });
+    this.message            = createElement('p',  { class: 'modal-window-message' });
+    this.declinedButton     = new Button('Decline', 'modal-decline-bttn'); 
+    this.acceptedButton     = new Button('Accept',  'modal-accept-bttn');
+    this.detailAcceptBody   = undefined;
+    this.detailDeclineBody  = undefined;
 
     this.setAcceptEventName(acceptEventName);
     this.setDeclineEventName(declineEventName);
@@ -31,6 +33,14 @@ class ModalWindow extends HTMLElement {
     this.declineEventName = declineEventName;
   }
 
+  setDetailAcceptBody(detail) {
+    this.detailAcceptBody = detail;
+  }
+
+  setDetailDeclineBody(detail) {
+    this.detailDeclineBody = detail;
+  }
+
   connectedCallback() {
     this.render();
     this.__setCallbacks();
@@ -41,11 +51,11 @@ class ModalWindow extends HTMLElement {
   }
 
   __acceptedCallback() {
-    this.parentElement.dispatchEvent(new CustomEvent(this.acceptEventName));
+    this.parentElement.dispatchEvent(new CustomEvent(this.acceptEventName, { detail: this.detailAcceptBody }));
   }
 
   __declinedCallback() {
-    this.parentElement.dispatchEvent(new CustomEvent(this.declineEventName));
+    this.parentElement.dispatchEvent(new CustomEvent(this.declineEventName, { detail: this.detailDeclineBody }));
   }
 
   __setCallbacks() {

@@ -3,14 +3,22 @@ class ProposalHandler {
     this.listOfProposal = [];
   }
 
-  addAProposal(originIdUser, targetIdUser, status = 'waitToResponse') {
+  addAProposal(originIdUser, targetIdUser, charUUID, status = 'waitToResponse') {
+    let proposal = {
+      originIdUser: originIdUser,
+      targetIdUser: targetIdUser,
+      chatId      : charUUID,
+      status      : status,
+    };
+
     if (this.__validateProposal(originIdUser, targetIdUser)) {
-      this.listOfProposal.push({
-        originIdUser: originIdUser,
-        targetIdUser: targetIdUser,
-        status: status,
-      });
+      this.listOfProposal.push(proposal);
     }
+    return proposal;
+  }
+
+  removeProposal(proposalId) {
+    this.listOfProposal[proposalId] = undefined;
   }
 
   __validateProposal(originIdUser, targetIdUser) {

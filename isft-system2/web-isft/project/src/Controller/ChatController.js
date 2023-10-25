@@ -9,44 +9,46 @@ class ChatController {
     this.modelReference       = modelReference;
     this.idTargetUser         = undefined;
 
+    this.arrayOfProposals     = new Array();
+
     this.__setCallbacks();
   }
 
   async __propose(targetUserId) {
-    let results = await this.modelReference.propose(targetUserId);
-    console.log(results.data);
+    let result = await this.modelReference.propose(targetUserId);
+    localStorage.setItem(targetUserId, JSON.stringify(result.data.proposalData));
   }
+  
   async __askForProposal() {
-    try {
-      const results = await this.modelReference.getProposals();
-      const userList = this.viewReference.userList;
-      const proposals = results.data.proposals;
-  
-      for (const proposal of proposals) {
-        const idOriginUser = proposal.idOriginUser;
-  
-        for (const userChat of userList.children) {
-          if (idOriginUser === userChat.value) {
-            const event = new CustomEvent('new-proposal-chat', {
-              detail: {
-                idOriginUser: idOriginUser,
-                idProposal  : proposal.idProposal,
-              },
-            });
-            document.dispatchEvent(event);
-          }
+    const results   = await this.modelReference.getProposals();
+    const userList  = this.viewReference.userList;
+    const proposals = results.data.proposals;
+
+    if (proposals.length === 0) {
+      return;
+    }
+
+    for (const proposal of proposals) {
+
+      const idOriginUser = proposal.idOriginUser;
+
+      for (const userChat of userList.children) {
+        if (idOriginUser === userChat.value && idOriginUser !== localStorage.getItem('iduser')) {
+          const event = new CustomEvent('new-proposal-chat', {
+            detail: {
+              idOriginUser: idOriginUser,
+              idProposal: proposal.idProposal,
+            },
+          });
+          this.arrayOfProposals.push({ 'idProposal': proposal.idProposal, 'idOrigin': idOriginUser });
+          document.dispatchEvent(event);
         }
       }
-  
-      console.log(results.data);
-    } catch (error) {
-      console.error("Error fetching proposals:", error);
     }
   }
 
   __settingNotificationOfProposal() {
     document.addEventListener('new-proposal-chat', (event) => {
-      console.log('IDORIGIN USER>', event.detail.idOriginUser)
       let classElement = `iduser-${event.detail.idOriginUser}`;
       let userChatLi = document.getElementsByClassName(classElement)[0];
       if (!userChatLi.classList.contains('revised')) {
@@ -83,10 +85,6 @@ class ChatController {
     this.__sendMessage();
 
     this.__settingNotificationOfProposal();
-
-    document.addEventListener('response-proposal-chat', (event) => {
-      console.log('RESPONSE-PROPOSAL-CHAT', event.detail);
-    })
   }
   __reloadChat() {
     let childNodes = Array.from(this.viewReference.userList.children);
@@ -94,24 +92,25 @@ class ChatController {
       this.viewReference.userList.removeChild(element);
     });
 
-    this.viewReference.addEventListener('user-chat-clicked', (event) => { 
+    this.viewReference.addEventListener('user-chat-clicked',          (event) => { 
       this.viewReference.appendChild(this.viewReference.modalWindow);
     });
     
-    this.viewReference.addEventListener('accept-send-proposal', (event) => {
+    this.viewReference.addEventListener('accept-send-proposal',       (event) => {
       this.viewReference.removeChild(this.viewReference.modalWindow);
     });
 
-    this.viewReference.addEventListener('response-chat-proposal', (event) => {
+    this.viewReference.addEventListener('response-chat-proposal',     (event) => {
       this.viewReference.appendChild(this.viewReference.modalWindow);
     });
 
-    this.viewReference.addEventListener('accept-chat-proposal', (event) => {
+    this.viewReference.addEventListener('accept-chat-proposal',       (event) => {
       this.viewReference.removeChild(this.viewReference.modalWindow);
-      this.__
+      this.viewReference.appendChild(this.viewReference.chatPanel);
+      this.__confirmProposal(event.detail.idProposal);
     });
     
-    this.viewReference.addEventListener('decline-chat-proposal', (event) => {
+    this.viewReference.addEventListener('decline-chat-proposal',      (event) => {
       this.viewReference.removeChild(this.viewReference.modalWindow);
     });
     
@@ -148,6 +147,10 @@ class ChatController {
               }
             })
           );
+          const foundProposal = this.arrayOfProposals.find(item => item.idOrigin === idTargetUser);
+          if (foundProposal) {
+            this.viewReference.modalWindow.setDetailAcceptBody({ 'idProposal': foundProposal.idProposal });
+          }
           this.viewReference.modalWindow.setModalTitle('Accept chat Proposal!');
           this.viewReference.modalWindow.setMessage(`Do you want to accept the chat proposal with ${nickname}?`);
           this.viewReference.modalWindow.setAcceptEventName('accept-chat-proposal');
@@ -167,17 +170,29 @@ class ChatController {
     this.viewReference.appendChild(this.viewReference.chatPanel);
   }
 
-  __confirmChatProposal() {
-    this.modelReference.confirmChatProposal();
+  async __confirmProposal(idProposal) {
+    let result = await this.modelReference.confirmProposal(idProposal);
+    if (result) {
+      this.arrayOfProposals.find(item => item.idProposal === idProposal ? () => { item = undefined } : item );
+    }
   }
 
   __sendMessage() {
+    const actualDate = new Date();
+    const formatedDate = actualDate.toLocaleString('es-ES', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit' });
+    
+    console.log("Timestamp formateado:", formatedDate);
+    
     this.viewReference.button.addEventListener('click', () => {
       let messageData = {
+        'chatId'  : localStorage.getItem(this.idTargetUser),
         'originId': localStorage.getItem('iduser'),
         'targetId': this.idTargetUser,
         'body'    : this.viewReference.input.value,
-        'state'   : 'sendend',
+        'state'   : {
+          'name': 'sendend',
+          'time': formatedDate
+        },
       }
       this.modelReference.sendMessage(messageData);
     });
