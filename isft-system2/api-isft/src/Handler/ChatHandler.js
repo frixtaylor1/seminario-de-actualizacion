@@ -52,11 +52,7 @@ class ChatHandler {
     let idx = 0;
     proposalHandler.listOfProposal.forEach(proposal => {
       if (proposal && proposal['targetIdUser'] == userOriginId) {
-        proposals.push({
-          'idProposal'  : idx,
-          'idOriginUser': proposal['originIdUser'],
-          'status'      : proposal['status'], 
-        });
+        proposals.push(proposal);
       }
       idx++;
     });

@@ -11,6 +11,7 @@ class ChatController {
 
     this.arrayOfProposals     = new Array();
 
+    this.__onLoad();
     this.__setCallbacks();
   }
 
@@ -24,23 +25,23 @@ class ChatController {
     const userList  = this.viewReference.userList;
     const proposals = results.data.proposals;
 
+
     if (proposals.length === 0) {
       return;
     }
 
     for (const proposal of proposals) {
-
-      const idOriginUser = proposal.idOriginUser;
+      const originIdUser = proposal.originIdUser;
 
       for (const userChat of userList.children) {
-        if (idOriginUser === userChat.value && idOriginUser !== localStorage.getItem('iduser')) {
+        if (originIdUser === userChat.value && originIdUser !== localStorage.getItem('iduser')) {
           const event = new CustomEvent('new-proposal-chat', {
             detail: {
-              idOriginUser: idOriginUser,
+              originIdUser: originIdUser,
               idProposal: proposal.idProposal,
             },
           });
-          this.arrayOfProposals.push({ 'idProposal': proposal.idProposal, 'idOrigin': idOriginUser });
+          this.arrayOfProposals.push({ 'idProposal': proposal.idProposal, 'idOrigin': originIdUser });
           document.dispatchEvent(event);
         }
       }
@@ -49,8 +50,10 @@ class ChatController {
 
   __settingNotificationOfProposal() {
     document.addEventListener('new-proposal-chat', (event) => {
-      let classElement = `iduser-${event.detail.idOriginUser}`;
+      let classElement = `iduser-${event.detail.originIdUser}`;
+      
       let userChatLi = document.getElementsByClassName(classElement)[0];
+
       if (!userChatLi.classList.contains('revised')) {
         userChatLi.classList.add('notification-proposal-chat-added');
       }
@@ -81,8 +84,6 @@ class ChatController {
       this.__reloadChat();
       this.__onLoad();
     });
-    
-    this.__sendMessage();
 
     this.__settingNotificationOfProposal();
   }
@@ -179,10 +180,11 @@ class ChatController {
 
   __sendMessage() {
     const actualDate = new Date();
-    const formatedDate = actualDate.toLocaleString('es-ES', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit' });
-    
-    console.log("Timestamp formateado:", formatedDate);
-    
+    const formatedDate = actualDate.toLocaleString('es-ES', { 
+      year: 'numeric', month  : '2-digit', day    : '2-digit', 
+      hour: '2-digit', minute : '2-digit', second : '2-digit' 
+    });
+       
     this.viewReference.button.addEventListener('click', () => {
       let messageData = {
         'chatId'  : localStorage.getItem(this.idTargetUser),
