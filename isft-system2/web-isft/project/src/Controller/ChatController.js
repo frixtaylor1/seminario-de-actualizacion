@@ -86,6 +86,8 @@ class ChatController {
     });
 
     this.__settingNotificationOfProposal();
+
+    this.__sendMessage();
   }
   __reloadChat() {
     let childNodes = Array.from(this.viewReference.userList.children);
@@ -152,6 +154,7 @@ class ChatController {
           if (foundProposal) {
             this.viewReference.modalWindow.setDetailAcceptBody({ 'idProposal': foundProposal.idProposal });
           }
+
           this.viewReference.modalWindow.setModalTitle('Accept chat Proposal!');
           this.viewReference.modalWindow.setMessage(`Do you want to accept the chat proposal with ${nickname}?`);
           this.viewReference.modalWindow.setAcceptEventName('accept-chat-proposal');
@@ -186,8 +189,9 @@ class ChatController {
     });
        
     this.viewReference.button.addEventListener('click', () => {
+      let chatId = JSON.parse(localStorage.getItem(this.idTargetUser))['chatId'];
       let messageData = {
-        'chatId'  : localStorage.getItem(this.idTargetUser),
+        'chatId'  : chatId,
         'originId': localStorage.getItem('iduser'),
         'targetId': this.idTargetUser,
         'body'    : this.viewReference.input.value,
@@ -197,10 +201,20 @@ class ChatController {
         },
       }
       this.modelReference.sendMessage(messageData);
+      this.viewReference.input.value = "";
     });
   }
 
   async __onLoad() {
+    this.__getUserList();
+    setTimeout(() => { this.__getMessages(); }, 500);
+  }
+
+  async __getMessages() {
+    this.modelReference.getMessages();
+  }
+
+  async __getUserList() {
     let userList = await this.modelReference.getUserList();
     
     userList.forEach(element => {

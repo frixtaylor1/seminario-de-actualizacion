@@ -7,7 +7,6 @@ const crypto              = require("crypto");
 class ChatHandler {
   constructor(dbHandler = dataBaseHandler) {
     this.dbHandler = dbHandler;
-    this.messagesHandler = new Map();
   }
 
   /**
@@ -76,7 +75,6 @@ class ChatHandler {
 
     try {
       let messageData = {
-        'chatId'  : requestData.chatId,
         'originId': requestData.originId,
         'targetId': requestData.targetId,
         'body'    : requestData.body,
@@ -90,6 +88,8 @@ class ChatHandler {
         messageState: 'sended',
         messageData
       });
+
+      console.log('RESULT>>> ', storeChatMessages);
 
     } catch (error) {
       console.error(error);
@@ -113,7 +113,7 @@ class ChatHandler {
     
     let chatMessages = chatStorage.getChatMessages(chatid);
 
-    responseCallback(200, { chatMessages });
+    responseCallback(200, chatMessages);
   }
 
   /**

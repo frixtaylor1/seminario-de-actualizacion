@@ -58,6 +58,11 @@ module.exports = function routes(api) {
   api.post('/sendMessage', chatHandler.sendMessage);
   
   /**
+   * @APIDOC `/getMessages` 
+  */
+  api.post('/getMessages', chatHandler.getMessages);
+  
+  /**
    * @APIDOC `/greet` 
   */
   api.get('/greet', greet);

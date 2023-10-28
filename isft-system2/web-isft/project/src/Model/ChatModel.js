@@ -55,6 +55,28 @@ class ChatModel {
     }
   }
   
+  async getMessages(chatId, callback = null) {
+    let data = {
+      chatId: chatId,
+    };
+
+    try {
+      const result = await this.apiController.callApi('/getMessages', 'POST', data);
+
+      if (callback) {
+        callback(null, result);
+      }
+
+      return result;
+    } catch (error) {
+      console.error(error);
+      if (callback) {
+        callback(error, null);
+      }
+      throw error;
+    }
+  }
+
   async getProposals(callback = null) {
     let data = {
       originUserId: localStorage.getItem('iduser'),
