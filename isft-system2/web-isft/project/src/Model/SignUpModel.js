@@ -9,7 +9,7 @@ class SignUpModel {
       if (callback) {
         callback(null, result);
       }
-      return result;
+      return result[0];
     } catch (error) {
       console.error(error);
       if (callback) {

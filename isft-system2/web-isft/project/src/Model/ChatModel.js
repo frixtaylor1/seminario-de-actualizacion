@@ -13,8 +13,8 @@ class ChatModel {
         callback(null, result);
       }
 
-      if (result.data) {
-        return result.data[0];
+      if (result) {
+        return result[0];
       }
 
     } catch (error) {
@@ -31,7 +31,7 @@ class ChatModel {
 
     let result = await this.apiController.callApi('/sendMessage', 'POST', messageData);
 
-    console.log(result);
+    console.log(result[0]);
   }
 
   async propose(targetUserId, callback = null) {
@@ -67,7 +67,7 @@ class ChatModel {
         callback(null, result);
       }
 
-      return result;
+      return result[0];
     } catch (error) {
       console.error(error);
       if (callback) {
@@ -99,9 +99,10 @@ class ChatModel {
     }
   }
 
-  async askForMessage(chatId) {
+  async askForMessage(chatId, callback = null) {
     let data = {
       'chatId': chatId,
+      'iduser': localStorage.getItem('iduser'),
     };
 
     try {
@@ -109,6 +110,8 @@ class ChatModel {
       if (callback) {
         callback(null, result);
       }
+
+      console.log(result);
       return result;
     } catch (error) {
       console.error(error);
@@ -129,7 +132,7 @@ class ChatModel {
       if (callback) {
         callback(null, result);
       }
-      return result;
+      return result[0];
     } catch (error) {
       console.error(error);
       if (callback) {
@@ -149,7 +152,7 @@ class ChatModel {
       if (callback) {
         callback(null, result);
       }
-      return result;
+      return result[0];
     } catch (error) {
       console.error(error);
       if (callback) {

@@ -22,9 +22,10 @@ class Chat extends HTMLElement {
       placeholder : 'Escribe un mensaje...' 
     }); 
 
-    this.button       = createElement('button', { class:'bttn-message' });
+    this.button           = createElement('button', { class:'bttn-message' });
     this.button.innerText = 'send';
 
+    this.bottomChatPanel  = createElement('div', { class: 'bottom-chat-panel' });
 
     this.controller = new ChatController(
       this, 
@@ -45,8 +46,9 @@ class Chat extends HTMLElement {
   render() {
     this.userPanel.appendChild(this.userList);
     this.chatPanel.appendChild(this.chat);
-    this.chatPanel.appendChild(this.input);
-    this.chatPanel.appendChild(this.button);
+    this.bottomChatPanel.appendChild(this.input);
+    this.bottomChatPanel.appendChild(this.button);
+    this.chatPanel.appendChild(this.bottomChatPanel);
     this.appendChild(this.userPanel);
   
     let style = createElement('style');

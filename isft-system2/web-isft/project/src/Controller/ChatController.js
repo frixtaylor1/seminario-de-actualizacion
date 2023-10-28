@@ -17,13 +17,14 @@ class ChatController {
 
   async __propose(targetUserId) {
     let result = await this.modelReference.propose(targetUserId);
-    localStorage.setItem(targetUserId, JSON.stringify(result.data.proposalData));
+    console.log('PROPOSE>>', result);
+    localStorage.setItem(targetUserId, JSON.stringify(result.proposalData));
   }
   
   async __askForProposal() {
     const results   = await this.modelReference.getProposals();
     const userList  = this.viewReference.userList;
-    const proposals = results.data.proposals;
+    const proposals = results.proposals;
 
 
     if (proposals.length === 0) {
@@ -60,8 +61,21 @@ class ChatController {
     });
   }
   
-  __askForMessages() {
-    this.modelReference.askForMessage();
+  async __askForMessage() {
+    let result = await this.modelReference.askForMessage();
+    if (result.idOrigin !== localStorage.getItem('iduser')) {
+      document.dispatchEvent(new CustomEvent('new-message', { 
+        detail: result
+      }));
+    }
+  }
+
+  __onNewMessage() {
+    document.addEventListener('new-message', (event) => {
+      let message = createElement('div', { class: 'message receiver' });
+      message.textContent = event.detail.body;
+      this.viewReference.chat.appendChild(message);
+    });
   }
 
   __setCallbacks() {
@@ -74,10 +88,24 @@ class ChatController {
 
     setInterval(() => {
       this.__askForProposal();
-    }, 15000);
+    }, 7000);
+
+    setInterval(() => {
+      this.__askForMessage();
+    }, 6000);
 
     this.viewReference.addEventListener('accept-send-proposal', () => {
       this.__displayChatPanel();
+      let messages = this.__getMessages();
+
+      console.log(messages);
+      messages.forEach(message => {
+        if (message.targetId === localStorage.getItem('iduser')) {
+          let messageDiv = createElement('div', { class: 'message receiver' });
+          messageDiv.textContent = message.body;
+          this.viewReference.chat.appendChild(messageDiv);
+        }
+      });
     });
 
     document.addEventListener('chat-clicked', () => {
@@ -88,6 +116,8 @@ class ChatController {
     this.__settingNotificationOfProposal();
 
     this.__sendMessage();
+
+    this.__onNewMessage();
   }
   __reloadChat() {
     let childNodes = Array.from(this.viewReference.userList.children);
@@ -202,16 +232,22 @@ class ChatController {
       }
       this.modelReference.sendMessage(messageData);
       this.viewReference.input.value = "";
+    
+      let message = createElement('div', { class: 'message sender' });
+      message.textContent = messageData.body;
+      this.viewReference.chat.appendChild(message);
     });
   }
 
   async __onLoad() {
     this.__getUserList();
-    setTimeout(() => { this.__getMessages(); }, 500);
+    setTimeout(() => { 
+      this.__getMessages(); 
+    }, 500);
   }
 
   async __getMessages() {
-    this.modelReference.getMessages();
+    return await this.modelReference.getMessages();
   }
 
   async __getUserList() {

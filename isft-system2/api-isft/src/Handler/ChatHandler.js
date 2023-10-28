@@ -89,8 +89,6 @@ class ChatHandler {
         messageData
       });
 
-      console.log('RESULT>>> ', storeChatMessages);
-
     } catch (error) {
       console.error(error);
     }
@@ -135,7 +133,7 @@ class ChatHandler {
   }
 
   /**
-   * @APIDOC `/askForMessages`
+   * @APIDOC `/askForMessage`
    * 
    * @brief Pregunta por proposiciones de chat para un usuario...
    *
@@ -146,6 +144,31 @@ class ChatHandler {
    * 
    * @return void
    */
+  askForMessage(requestData, responseCallback) {
+    if (chatStorage.storage.get(requestData.chatId) === undefined) {
+      return ;
+    }
+
+    let lastMessage = (chatStorage.storage.get(requestData.chatId)).slice(-1)[0];
+  
+
+    if (lastMessage.originId === requestData.iduser || lastMessage.state.name === 'received') {
+      responseCallback(200, {});
+      return ;
+    } else {    
+      
+      const actualDate = new Date();
+      const formatedDate = actualDate.toLocaleString('es-ES', { 
+        year: 'numeric', month  : '2-digit', day    : '2-digit', 
+        hour: '2-digit', minute : '2-digit', second : '2-digit' 
+      });
+  
+      (chatStorage.storage.get(requestData.chatId)).slice(-1)[0].state.name = 'received';
+      (chatStorage.storage.get(requestData.chatId)).slice(-1)[0].state.time = formatedDate;
+  
+      responseCallback(200, lastMessage);
+    }
+  }
 };
 
 module.exports = { ChatHandler };

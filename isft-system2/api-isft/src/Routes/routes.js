@@ -14,57 +14,62 @@ module.exports = function routes(api) {
 
   /**
    * @APIDOC `/signIn` 
-  */
+   */
   api.post('/signIn', sessionHandler.signIn);
 
   /**
    * @APIDOC `/signUp` 
-  */
+   */
   api.post('/signUp', sessionHandler.signUp);
   
   /**
    * @APIDOC `/logOut` 
-  */
+   */
   api.post('/logOut', sessionHandler.logOut);
 
   /**
    * @APIDOC `/getUserInfo` 
-  */
+   */
   api.post('/getUserInfo', userHandler.getUserInfo);
 
   /**
    * @APIDOC `/getUserList` 
-  */
+   */
   api.post('/getUserList', userHandler.getUserList);
 
   /**
    * @APIDOC `/propose` 
-  */
+   */
   api.post('/propose', chatHandler.propose);
 
   /**
    * @APIDOC `/askForProposal` 
-  */
+   */
   api.post('/askForProposal', chatHandler.askForProposal);
   
   /**
    * @APIDOC `/confirmProposal` 
-  */
+   */
   api.post('/confirmProposal', chatHandler.confirmProposal);
 
   /**
    * @APIDOC `/sendMessage` 
-  */
+   */
   api.post('/sendMessage', chatHandler.sendMessage);
   
   /**
    * @APIDOC `/getMessages` 
-  */
+   */
   api.post('/getMessages', chatHandler.getMessages);
   
   /**
+   * @APIDOC `/askForMessage` 
+   */
+  api.post('/askForMessage', chatHandler.askForMessage);
+  
+  /**
    * @APIDOC `/greet` 
-  */
+   */
   api.get('/greet', greet);
 
 };

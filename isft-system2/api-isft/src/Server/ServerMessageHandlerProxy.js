@@ -100,8 +100,8 @@ class ServerMessagesHandlerProxy {
         if (authorized) {
           /**
           * Genero un Nuevo Token...
-          **/ 
-          res.token = tokenHandler.generateToken(authorizationReqData.iduser);
+          **/ /* 
+          res.token = tokenHandler.generateToken(authorizationReqData.iduser); */
           this.serverMessageHandler.__handleCallable(req, res, handler);
         } else {
           this.serverMessageHandler.__sendResponse(res, 401, { error: 'Unauthorized error!' });

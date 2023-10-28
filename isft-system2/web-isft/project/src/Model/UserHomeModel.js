@@ -7,7 +7,7 @@ class UserHomeModel {
       try {
         const result = await this.apiController.callApi('/getUserInfo', 'POST', userData);
         
-        return result.data[0];
+        return result[0];
 
       } catch (error) {
         console.error(error);

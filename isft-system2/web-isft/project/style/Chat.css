@@ -72,10 +72,12 @@
 }
 
 .message {
+    position: relative;
     margin: 10px;
     padding: 10px;
     border-radius: 5px;
     max-width: 70%;
+    align-self: flex-end;
 }
 
 .message.sender {
@@ -140,3 +142,7 @@
       color: #ffff;
     }
   }
+
+.bottom-chat-panel {
+    display: contents;
+}
